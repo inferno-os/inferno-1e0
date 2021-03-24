@@ -1,0 +1,142 @@
+<html><head><title>Inferno<br>Devices</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices6.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845813">
+<center><h1> ip - <a TCP network protocols over IP; UDP network protocols over IP; protocols:TCP over IP; protocols:UDP over IP; network:protocols:TCP over IP; network:protocols:UDP over IP;>TCP, UDP network protocols over IP</h1></center>
+</a><pre><tt>bind -a '#I' /net
+
+/net/tcp/clone
+/net/tcp/&lt;<em>n&gt;
+</em>/net/tcp/&lt;<em>n&gt;</em>/data
+/net/tcp/<em>&lt;n&gt;</em>/ctl
+/net/tcp/<em>&lt;n&gt;</em>/local
+/net/tcp/<em>&lt;n&gt;</em>/remote
+/net/tcp/&lt;<em>n&gt;</em>/status
+/net/tcp/&lt;<em>n&gt;</em>/listen
+...
+</tt></pre></p><a name="844680">
+<h2> Description</h2>
+</a><a name="844681">
+The IP device provides the interface for protocols that run over IP. TCP and UDP provide the standard internet protocols for reliable stream and unreliable datagram communication.<p>
+</a><a name="844682">
+Each of the protocols is served by the IP device, which represents each connection by a set of device files. The top level directory of each protocol contains a <em>clone</em> file and subdirectories numbered from 0 to the number of connections configured for this protocol. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844685">
+clone<p>
+</a><td><a name="844687">
+Opening the <em>clone</em> file reserves a connection. The file descriptor returned from the <em>open</em> call points to the control file, <em>ctl</em>, of the newly allocated connection.<p>
+</a>
+<tr><td><a name="844692">
+ctl<p>
+</a><td><a name="844694">
+Reading the <em>ctl</em> file returns a text string representing the number of the connection. Connections may be used either to listen for incoming calls or to initiate calls to other machines.<p>
+</a><a name="844695">
+A connection is controlled by writing text strings to the associated <em>ctl</em> file.<p>
+</a>
+<tr><td><a name="844697">
+data<p>
+</a><td><a name="844699">
+After a connection has been established data may be read from and written to the <em>data</em> file. For the datagram service UDP, a <em>read</em> of less than the length of a datagram causes the entire datagram to be consumed. Each write to the data file sends a single datagram on the network. The TCP protocol provides a stream connection that does not preserve read/write boundaries.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844701">
+Prior to sending data, remote and local addresses must be set for the connection. For outgoing calls the local port number will be allocated randomly if none is set. Addresses are set by writing control messages to the <em>ctl</em> file of the connection. The connection is not established until the <em>data</em> file is opened. For TCP, the process will block until the remote host has acknowledged the connection. UDP opens always succeed.<p>
+</a><a name="848052">
+<h3> Control messages</h3>
+</a><a name="844702">
+The following control messages are supported:<p>
+</a><a name="847907">
+<h4> connect</h4>
+</a><kbd>connect </kbd><kbd>ipaddress! port</kbd><kbd> [!r]
+</kbd>
+<a name="844704">
+Set the remote IP address and port number for the connection. If the<em> r</em> flag is supplied and no local address has been specified the system allocates a restricted port number (less than 1024) for the connection to allow communication with Unix machines' <em>login</em> and <em>exec</em> services.<p>
+</a><a name="847910">
+<h4> announce</h4>
+</a>announce X
+
+<a name="844711">
+<em>X</em> is a decimal port number or *. Set the local port number to<em> X</em> and accept calls to <em>X</em>. If <em>X</em> is *, accept calls for any port that no process has explicitly announced. The local IP address cannot be set. The announce attempt fails if the connection is already announced or connected.<p>
+</a><a name="847911">
+<h4> bind</h4>
+</a>bind X
+
+<a name="844713">
+<em>X</em> is a decimal port number or *. Set the local port number to <em>X</em>. This exists to support emulation of BSD sockets and is not used otherwise.<p>
+</a><a name="844715">
+<h4> header (UDP only)</h4>
+</a>header
+
+<a name="844716">
+Skip headers on reads and writes.<p>
+</a><a name="848060">
+<h2> Notes</h2>
+</a><a name="844717">
+Port numbers must be in the range 1 to 32767. If a local port has not been announced prior to a <em>connect</em> a local port number is automatically allocated. Local ports are numbers greater than or equal to 5000.<p>
+</a><a name="844735">
+Several files report the status of a connection. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844720">
+remote<p>
+</a><td><a name="844722">
+The <em>remote</em> file provides the IP address and port number for the remote side of the connection.<p>
+</a>
+<tr><td><a name="844724">
+local<p>
+</a><td><a name="844726">
+The <em>local</em> files contain the IP address and port number for the local side of the connection.<p>
+</a>
+<tr><td><a name="844728">
+status<p>
+</a><td><a name="844730">
+The <em>status</em> file contains protocol-dependent information to help debug network connections.<p>
+</a>
+<tr><td><a name="844732">
+listen<p>
+</a><td><a name="844734">
+A process may accept incoming connections by opening the <em>listen</em> file. The <em>open</em> will block until a new connection request arrives. Then <em>open</em> will return an open file descriptor that points to the control file of the newly accepted connection. This procedure accepts all calls for the given protocol.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844736">
+The <em>dial</em>, <em>announce</em>, and <em>listen</em> functions in the <em>Sys</em> module provide an alternate method to perform the necessary I/O to establish and manipulate network connections.<p>
+</a><a name="844737">
+<h2> See Also</h2>
+</a><a name="844741">
+<a href="md_sys4.htm#844663"><em>dial, announce, export, listen - make network connections</em> in Chapter &#32;8</a> <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices6.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:54:10 -->
+
+</body>
+</html>

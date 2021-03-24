@@ -1,0 +1,160 @@
+<html><head><title>Inferno<br>Communications Protocol, Styx</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto9a.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="847231">
+<center><h1> stat, wstat - <a inquiring about file attributes; changing:file attributes; file operations: changing: file attributes; file operations: inquiring about file attributes; changing: file attributes>inquire or change file attributes</h1></center>
+</a><pre><tt>Tstat  <em>tag</em> [2] <em>fid</em> [2]
+Rstat <em> tag</em> [2] <em>fid</em> [2] <em>stat</em> [116]
+Twstat <em>tag</em> [2] <em>fid</em> [2] <em>stat</em> [116]
+Rwstat <em>tag</em> [2] <em>fid</em> [2]
+</tt></pre></p><a name="847239">
+<h2> Description</h2>
+</a><a name="847240">
+<h3> The stat Transaction</h3>
+</a><a name="847241">
+The <em>stat</em> transaction inquires about the file identified by <em>fid</em>. The reply includes (in the <em>stat</em> argument) a <em>directory entry</em> containing the file's attributes.<p>
+</a><a name="847242">
+The <em>stat</em> request requires no special permissions other than those needed to acquire <em>fid</em>.<p>
+</a><a name="847243">
+<h3> Directory Entry Layout</h3>
+</a><a name="847244">
+Both the <em>stat</em> and <em>wstat</em> messages transmit file attributes in a machine-independent representation called a <em>directory entry</em>.<p>
+</a><a name="849266">
+A directory entry is 116-bytes long. See <em>DIRLEN</em> in <em>&lt;lib9.h&gt;</em>. Integers in this encoding are in little-endian order (least significant byte first). The <em>convM2D</em> and <em>convD2M</em> routines (see <a href="proto10.htm#848726"></a>) convert between directory entries and C language structures.<p>
+</a><a name="847249">
+This encoding may be turned into a machine dependent <em>Dir</em> structure using routines defined in <em>styx</em>.(see <em>lib9.h</em>)<p>
+</a><a name="847312">
+A <em>directory entry</em> is laid out as follows: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="847252">
+name [28]<p>
+</a><td><a name="847254">
+File name. If the file is the root directory of the server the name must be <em>/</em>.<p>
+</a>
+<tr><td><a name="847256">
+uid [28]<p>
+</a><td><a name="847258">
+Owner name<p>
+</a>
+<tr><td><a name="847260">
+gid [28]<p>
+</a><td><a name="847262">
+Group name<p>
+</a>
+<tr><td><a name="847264">
+qid.path [4]<p>
+</a><td><a name="847268">
+File server's identification for the file. See <a href="proto.htm#846658"><em>Inferno Communications Protocol, Styx</em></a>.<p>
+</a>
+<tr><td><a name="847271">
+qid.vers [4]<p>
+</a><td><a name="847275">
+Version number for given path. See <a href="proto.htm#846658"><em>Inferno Communications Protocol, Styx</em></a>.<p>
+</a>
+<tr><td><a name="847278">
+mode [4]<p>
+</a><td><a name="847280">
+Permissions and flags. The <em>mode</em> contains permission bits as described in <a href="devices.htm#"><em>Inferno Devices</em> in Chapter 2</a> and 16r80000000 if this file is a directory.<p>
+</a>
+<tr><td><a name="847285">
+atime [4]<p>
+</a><td><a name="847287">
+The last access time. The <em>atime</em> field records the last read of the contents; it is also set whenever <em>mtime </em>is set. <p>
+</a><a name="847288">
+For a directory, <em>atime</em> is set by an <em>attach</em>, <em>walk</em>, or <em>create</em>, all whether successful or not.<p>
+</a><a name="847289">
+The value is measured in seconds since the epoch (Jan &#32;1 &#32;00:00 &#32;1970 &#32;GMT).<p>
+</a>
+<tr><td><a name="847291">
+mtime [4]<p>
+</a><td><a name="847293">
+The last modification time. The <em>mtime </em>field reflects the time of the last change of content.<p>
+</a><a name="847294">
+For a plain file, <em>mtime </em>is the time of the most recent <em>create</em>, open with truncation, or <em>write</em>; for a directory it is the time of the most recent <em>remove</em>, <em>create,</em> or <em>wstat </em>of a file in the directory. <p>
+</a><a name="847295">
+The value is measured in seconds since the epoch<p>
+</a><a name="847296">
+(Jan 1 00:00 1970 GMT).<p>
+</a>
+<tr><td><a name="847298">
+length [8]<p>
+</a><td><a name="847300">
+Length of file in bytes. Directories and most files representing devices have, by convention, a length of 0.<p>
+</a>
+<tr><td><a name="847302">
+type [2]<p>
+</a><td><a name="847304">
+The <em>device type</em> for the file, a single character representing the root of a file tree implemented by a particular kernel device driver.<p>
+</a>
+<tr><td><a name="847306">
+dev [2]<p>
+</a><td><a name="847311">
+See discussion of <em>dev</em> in <a href="proto.htm#846658"><em>Inferno Communications Protocol, Styx</em></a>.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="847313">
+A <em>read</em> of a directory yields an integral number of directory entries in the machine independent encoding given above (see <a href="proto7.htm#847164"><em>read, write - transfer data from and to a file</em></a>).<p>
+</a><a name="847317">
+<h3> The wstat Transaction</h3>
+</a><a name="847336">
+The <em>wstat</em> request can change certain file attributes. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="847320">
+name<p>
+</a><td><a name="847322">
+The <em>name</em> can be changed by anyone with write permission in the parent directory. It is an error to change the name of a file to that of an existing file.<p>
+</a>
+<tr><td><a name="847324">
+mode and mtime<p>
+</a><td><a name="847327">
+The <em>mode</em> and <em>mtime</em> can be changed by the owner of the file. The directory bit cannot be changed by a <em>wstat</em>. All the other defined permission and mode bits can be change.<p>
+</a>
+<tr><td><a name="847329">
+gid<p>
+</a><td><a name="847334">
+The <em>gid</em> can be changed: by the owner if also a member of the new group. (See <a href="proto.htm#846658"><em>Inferno Communications Protocol, Styx</em></a> for more information about permissions and <em>users</em> for users and groups).<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="847337">
+None of the other attributes can be altered by a <em>wstat</em>. In particular, there is no way to change the owner of a file.<p>
+</a><a name="847338">
+<h2> Entry Points</h2>
+</a><a name="847339">
+Type <em>stat</em> messages are generated by the <strong>fstat</strong> and <strong>stat</strong> calls (see <a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter 8</a>).<p>
+</a><a name="847343">
+<h2> See Also</h2>
+
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto9a.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:07 -->
+
+</body>
+</html>

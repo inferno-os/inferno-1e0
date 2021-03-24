@@ -1,0 +1,92 @@
+<html><head><title>Limbo<br>System Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844542">
+<center><h1> bi</a>nd, mount, unmount - <a changing:file name space; name space: changing; file operations: changing: name space>change file name space</h1></center>
+</a><pre><tt>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+bind: fn (source, target: string, flag: int): int;
+mount:fn (fd: ref FD; target: string, flag: int,
+                       aname: string): int;
+unmount: fn(source, target: string): int;
+</tt></pre></p><a name="844552">
+<h2> Description</h2>
+</a><a name="844553">
+The <em></a>bind</em>, <em>mount,</em> and<em> unmount </em>commands modify the file name space of the current process and its name space group. For both calls, <em>target</em> is the name of an existing file or directory in the current name space where the modification is to be made. The name <em>target</em> is evaluated as described in <a href="cmd27.htm#845662"><em>File Name Expansion</em> in Chapter &#32;5</a>, except that no translation of the final path element is done.<p>
+</a><a name="844560">
+<h3> bind (source, target, flag)</h3>
+</a><a name="844561">
+For <em>bind</em>, <em>source</em> is the name of an existing file or directory in the current name space. After a successful <em>bind</em> call, the file name <em>target</em> is an alias for the object originally named by <em>source</em>. If the modification doesn't hide the original, <em>source</em> will still refer to the original file. The evaluation of <em>source</em> happens at the time of the <em>bind</em>, not when the binding is used.<p>
+</a><a name="844562">
+<h3> mount (fd, target, flag, aname)</h3>
+</a><a name="844563">
+The <em>fd</em> argument to <em>mount</em> is a file descriptor of an open pipe or network connection to a file server ready to receive Styx messages. The target <em>file</em> must be a directory. After a successful <em>mount</em> the file tree served by <em>fd</em> will be visible with its root directory having name <em>target</em>. <p>
+</a><a name="844564">
+With <em>mount</em>, the file descriptor <em>fd</em> must be open for reading and writing and connected to a file server. (See <a href="md_sys4.htm#844663"><em>dial, announce, export, listen - make network connections</em></a>.)<p>
+</a><a name="844565">
+After the <em>mount</em>, the file tree starting at <em>target</em> is served by a kernel <em>mnt </em>device. That device will turn operations in the tree into messages on <em>fd</em>. <p>
+</a><a name="844566">
+The string <em>aname</em> is currently unused.<p>
+</a><a name="850129">
+<h2> Options for bind and mount</h2>
+</a><a name="850130">
+For both <em>bind</em> and <em>mount</em>, the <em>flag</em> controls details of the modification made to the name space. In the following descriptions, <em>source</em> refers to the file as defined by <em>name</em> or the root directory served by <em>fd</em>. Both <em>target</em> and <em>source</em> files must be directories, or both must non-directories. The <em>flag</em> parameter can be one of the following:<p>
+</a><a name="851156">
+<h4> MREPL</h4>
+</a><a name="851157">
+Replace the target file by the source. An evaluation of <em>target</em> will be translated to the source file. If they are directories <em>target</em> becomes a <em>union</em> directory consisting of one directory, the source file.<p>
+</a><a name="844570">
+<h4> MBEFORE</h4>
+</a><a name="844571">
+Both <em>target</em> and <em>source</em> must be directories. Add the files of the <em>source</em> directory to the union directory at <em>target</em> so its contents appear first in the union. After a <em>bind </em>or <em>mount </em>with this option, the source directory will be searched first when evaluating file names in the union directory.<p>
+</a><a name="844572">
+<h4> MAFTER</h4>
+</a><a name="844573">
+Like <em>MBEFORE</em> but the source directory goes at the end of the union.<p>
+</a><a name="844574">
+<h4> MCREATE</h4>
+</a><a name="850141">
+The <em>MCREATE</em> flag can be OR'ed with any of the flags previously described above. When a <em>create</em> call attempts to create in a union directory, and the file does not exist, the elements of the union are searched in order until one is found with <em>MCREATE</em> set. The file is created in that directory; if that attempt fails, the <em>create</em> fails. (see <a href="md_sys9.htm#844990"><em>open, create - open/create a file for reading or writing</em></a>) <p>
+</a><a name="844578">
+<h3> unmount (name, target)</h3>
+</a><a name="844579">
+The effects of <em>bind </em>and <em>mount</em> can be undone by <em>unmount</em>. If <em>name</em> is <em>nil</em>, everything bound to or mounted on <em>target</em> is unbound or unmounted. If <em>name</em> is not <em>nil</em>, it is evaluated as described above for <em>bind</em>, and the effect of binding or mounting that particular result on <em>target</em> is undone.<p>
+</a><a name="844585">
+<h2> Diagnostics</h2>
+</a><a name="844586">
+The return value is a positive integer (a unique sequence number) for success, -1 for failure.<p>
+</a><a name="844587">
+<h2> Caveat</h2>
+</a><a name="844588">
+The <em>mount</em> command will not return until it has successfully attached to the file server, so the thread doing a <em>mount</em> cannot be the one serving.<p>
+</a><a name="851174">
+<h2> Examples</h2>
+</a><a name="851175">
+See <a href="cmd1.htm#853699"><em>Examples</em> in Chapter &#32;5</a><p>
+</a><a name="849695">
+<h2> See Also</h2>
+</a><a name="848880">
+<a href="md_sys.htm#847453"><em>Limbo System Module</em></a>, <em>bind, mount, unmount - change name space</em> in Chapter &#32;5</a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:35 -->
+
+</body>
+</html>

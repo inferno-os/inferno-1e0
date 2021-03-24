@@ -1,0 +1,227 @@
+<html><head><title>Limbo System Module</title></head>
+<body bgcolor=white>
+ 
+</a><a name="847453">
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="847451">
+<p>
+
+<h1>Limbo System Module</h1>
+</a>
+<hr><p><a name="846283">
+The Limbo system modules are as follows: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="850411">
+<a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em></a><p>
+</a>
+<tr><td><a name="850417">
+<a href="md_sys2.htm#844593"><em>byte2char, char2byte - convert between bytes and characters</em></a><p>
+</a>
+<tr><td><a name="850422">
+<a href="md_sys3.htm#844637"><em>chdir - change working directory</em></a><p>
+</a>
+<tr><td><a name="850428">
+<a href="md_sys4.htm#844663"><em>dial, announce, export, listen - make network connections</em></a><p>
+</a>
+<tr><td><a name="850433">
+<a href="md_sys5.htm#844780"><em>dirread - read directory</em></a><p>
+</a>
+<tr><td><a name="850438">
+<a href="md_sys6.htm#844821"><em>dup - duplicate an open file descriptor</em></a><p>
+</a>
+<tr><td><a name="850443">
+<a href="md_sys7.htm#844846"><em>file2chan - create file connected to Limbo channel</em></a><p>
+</a>
+<tr><td><a name="850448">
+<a href="md_sys8.htm#844967"><em>millisec - millisecond timer</em></a><p>
+</a>
+<tr><td><a name="850454">
+<a href="md_sys9.htm#844990"><em>open, create - open/create a file for reading or writing</em></a><p>
+</a>
+<tr><td><a name="850459">
+<a href="md_sys10.htm#845070"><em>pctl - process control</em></a><p>
+</a>
+<tr><td><a name="850465">
+<a href="md_sys11.htm#845119"><em>print, fprint, sprint - print formatted output</em></a><p>
+</a>
+<tr><td><a name="850471">
+<a href="md_sys12.htm#845197"><em>read, write, stream - read, write, or stream file</em></a><p>
+</a>
+<tr><td><a name="850476">
+<a href="md_sys13.htm#845234"><em>remove - remove a file</em></a><p>
+</a>
+<tr><td><a name="850481">
+<a href="md_sys14.htm#845254"><em>seek - change file offset</em></a><p>
+</a>
+<tr><td><a name="850486">
+<a href="md_sys15.htm#850724"><em>sleep - delay execution</em></a><p>
+</a>
+<tr><td><a name="850492">
+<a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em></a><p>
+</a>
+<tr><td><a name="850497">
+<a href="md_sys17.htm#845462"><em>tokenize - split string into words</em></a><p>
+</a>
+<tr><td><a name="850502">
+<a href="md_sys18.htm#845483"><em>utfbytes - compute the Unicode length of a UTF byte sequence</em></a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="846284">
+<h2> Synopsis</h2>
+</a><pre><tt>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+</tt></pre></p><a name="844415">
+<h2> Description</h2>
+</a><a name="844416">
+Inferno system calls are provided by the system module interface file, <em>sys.m. </em>The system module provides access to system calls for basic string and file manipulation, primitive printing functions and network functions.<p>
+</a><a name="844443">
+<h3> File Name Space</h3>
+</a><a name="850925">
+Files are collected into a hierarchical organization called a <em>file</em> <em>tree</em> starting in a <em>directory</em> called the <em>root.</em> <em>Filenames</em>, also called <em>pathnames</em>, consist of a number of <em>path</em> elements separated by slashes (/) the slashes which correspond to directories. A path element must contain only printable characters (those outside ASCII and Latin-1 control space). A path element cannot contain a space, slash, or #. The path element <kbd>'..'</kbd> refers to the parent directory of the directory containing that element.<p>
+</a><a name="847457">
+When a process presents a file name to Inferno, it is <em>evaluated</em> by the following algorithm:<p>
+</a><ol>
+<a name="847459">
+<li>Start with a directory that depends on the first character of the path: 
+</a><a name="844451">
+<kbd>/</kbd> means the root of the main hierarchy<p>
+</a><a name="844452">
+<kbd>#</kbd> means the separate root of a kernel device's file tree (see &#32;Section &#32;3)<p>
+</a><a name="847469">
+anything else means the current working directory of the process.<p>
+</a><a name="844455">
+<li>For each path element, look up the element in the directory, advance to that directory, do a possible translation.
+</a><a name="844461">
+<li>Repeat. The last step may yield a directory or regular file.
+</a><a name="850586">
+The collection of files that can be reached from the root is called the <em>name space</em> of a process.<p>
+</a><a name="850589">
+A program can use <em>bind</em> or <em>mount</em> so that whenever a specified file is reached during an evaluation, that evaluation continues instead from some other specified file. These calls create <em>union directories</em>, which are concatenations of ordinary directories that are searched sequentially until the desired element is found.<p>
+</a><a name="851314">
+Using <em>bind</em> and <em>mount</em> to do name space adjustment affects only the current name space group.<p>
+</a></ol>
+<a name="851317">
+<h3> File Manipulation Functions</h3>
+</a><a name="844478">
+<h4> File Descriptor (FD)</h4>
+</a><a name="850144">
+The Limbo programming language and its libraries manage I/O via references to instances of an abstract data type, <em>FD</em>, called a <em>file</em> <em>descriptor</em>. This type holds an integer-valued file descriptor, the form used by the operating system, in a structure that can be reference counted and garbage collected. There are occasions when a program must access the underlying integer file descriptor, such as arranging I/O re-direction for the standard input and output for a new process.<p>
+</a><a name="849015">
+Files are opened for input, output or input/output by <em>open</em> or <em>create. </em>These calls return reference to an abstract data type (adt) of type <em>FD</em> (file descriptor) that identifies the file to subsequent I/O calls, such as <em>read</em> and <em>write</em>. <p>
+</a><a name="849055">
+Files are normally read or written in sequential order. The I/O position in the file is called the <em>file</em> <em>offset</em> and may be set arbitrarily using the <em>seek </em>system call.<p>
+</a><a name="850963">
+File descriptors are garbage-collected as soon as they are no longer referenced. There is no <em>close</em> function.<p>
+</a><a name="849026">
+<h4> Integer File Descriptor</h4>
+</a><a name="850325">
+The <em>FD</em> abstract data type includes a number that is an<em> integer file descriptor</em>. Values for this number range from 0 to <em>n,</em> where the upper bound depends on the underlying operating system. The system allocates the numbers by selecting the lowest unused value. They may be reassigned with <em>dup</em> and used to initialize <em>FD </em>adts using <em>fides.</em> <em>Integer file descriptor</em> values are indices into a kernel-resident <em>file descriptor table</em>. <p>
+</a><a name="849048">
+By convention, the first three integer values are used by application programs as follows: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="849116">
+0 <p>
+</a><td><a name="849118">
+standard input, <p>
+</a>
+<tr><td><a name="849120">
+1<p>
+</a><td><a name="849122">
+standard output, <p>
+</a>
+<tr><td><a name="849124">
+2 <p>
+</a><td><a name="849126">
+standard error output.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="849110">
+Since this is only a convention, it is possible to close file descriptor 0, or even to replace it by a file open only for writing. However, programs must agree upon convention.<p>
+</a><a name="849033">
+<h4> File Descriptor Group</h4>
+</a><a name="849034">
+By default, a Limbo process shares its file descriptor table with the creator process.<p>
+</a><a name="849146">
+The set of processes that shares that table is called a <em>file descriptor group</em>. Files opened by one process in the group may be read from and written to other processes in the group. (See <a href="md_sys10.htm#845070"><em>pctl - process control</em></a>).<p>
+</a><a name="849074">
+Directories and files<p>
+</a><a name="844497">
+Directories may be opened and read much like regular files (see <a href="md_sys5.htm#844780"><em>dirread - read directory</em></a>). They contain an integral number of records, called <em>directory</em> <em>entries</em>. Each entry is a machine-independent representation of the information about an existing file in the directory including the name, ownership, permission, access dates, and similar information.<p>
+</a><a name="844498">
+The entry corresponding to an arbitrary file can be retrieved by <em>stat</em> or <em>fstat</em>; <em>wstat</em> and <em>fwstat</em> write back entries, thus changing the properties of a file.<p>
+</a><a name="849100">
+New files are made with <em>create</em> and deleted with <em>remove</em> (see <a href="md_sys9.htm#844990"><em>open, create - open/create a file for reading or writing</em></a> and <a href="md_sys13.htm#845234"><em>remove - remove a file</em></a>). As with regular files, attributes of directories can be manipulated by <em>wstat</em>, and <em>fwstat. </em>Directories may not be written directly.<p>
+</a><a name="849179">
+<h4> Concurrent File Operations</h4>
+</a><a name="849186">
+If several processes access a file concurrently, Inferno does not guarantee consistency.<p>
+</a><a name="849182">
+Guaranteed synchronous writes are not available.<p>
+</a><a name="849191">
+File locking from underlying file systems is not supported by Inferno. Processes can coordinate their file operations by other mechanisms.<p>
+</a><a name="849013">
+Atomicity of I/O is guaranteed for I/O with byte counts smaller than the Styx message size; see <a href="proto7.htm#847164"><em>read, write - transfer data from and to a file</em> in Chapter &#32;3</a>.<p>
+</a><a name="844515">
+<h3> Process execution and control</h3>
+</a><a name="844516">
+A Limbo <em>process</em>, called a <em>thread</em>, is the basic unit of computation for Limbo application programming in the Inferno system.<p>
+</a><a name="844517">
+A newly spawned thread shares the same <em>program</em> <em>name</em> <em>space</em> as that of its creator thread. The set of global variables that is in scope to one thread is in scope to the other. Also, change made by one can be detected by the other. Since they are scheduled independently, a creator and a spawned thread should synchronize their actions to share data meaningfully.<p>
+</a><a name="849213">
+Processes are also organized into <em>process</em> <em>groups</em> that represent the set of threads that a single kill request terminates (see <a href="devices.htm#"><em>prog - interface to running programs</em> in Chapter &#32;2</a>).<p>
+</a><a name="849207">
+A newly spawned thread inherits the following attributes:<p>
+</a><ul><a name="849082">
+<li>program name space<p>
+</a><a name="849083">
+<li>file descriptor group membership<p>
+</a><a name="849084">
+<li>file name space (this includes current directory)<p>
+</a><a name="849085">
+<li>process group<p>
+</a><a name="849201">
+The<em> pctl</em> system call can be used by a thread to change its <em>file name space</em>, its <em>file descriptor group</em>, and its <em>process group</em>. A thread can change its program name space by transferring execution to another module.<p>
+</a></ul><a name="844527">
+<h3> User/Group Identity</h3>
+</a><a name="844528">
+Inferno maintains user identifier (<em>uid</em>) and group identifier (<em>gid</em>) strings for each process. These values are also attributes of files and directories. A comparison of process and file identities take place when a process attempts to open or create a file. (See <a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em></a> and <a href="proto9.htm#847231"><em>stat, wstat - inquire or change file attributes</em> in Chapter &#32;3</a>.)<p>
+</a><a name="844535">
+When a pathname crosses from one server to another, the process identities are mapped by each server receiving a file request.<p>
+</a><a name="844536">
+The <em>uid</em> and <em>gid</em> strings are assigned to the thread that is created when a user logs into Inferno and cannot be changed.<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:35 -->
+
+</body>
+</html>

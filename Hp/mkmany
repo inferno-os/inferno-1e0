@@ -1,0 +1,79 @@
+PROGS=${TARG:%=$O.%}
+libs=${LIBS:%=-l%}
+bintargs=${TARG:%=$ROOT_DEVEL/$OBJDIR/bin/%}
+pkgtargs=${TARG:%=$PREFIX_PKG/$OBJDIR/bin/%}
+
+all:V:		$PROGS
+
+$O.%:	%.$O $OFILES
+	$LD $LDFLAGS -o $target $prereq $libs $LDSYSLIBS
+
+%.$O:	$HFILES		# don't combine with following %.$O rules
+
+%.$O:	%.c
+	$CC $CFLAGS -o $target $stem.c
+
+(.*)\.[vk8]'$':R:	\1.l
+	$ALEF $CFLAGS $stem1.l
+
+(.*)\.[2z]'$':RQ:	\1.l
+	;
+
+%.$O:	%.s
+	$AS $AFLAGS -o $target $stem.s
+
+y.tab.h y.tab.c:	$YFILES
+	$YACC $YFLAGS $prereq
+
+%.install:V:	$ROOT_DEVEL/$OBJDIR/bin/%
+
+$ROOT_DEVEL/$OBJDIR/bin/%:	$O.%
+	$RM $ROOT_DEVEL/$OBJDIR/bin/$stem
+	$CP $O.$stem $ROOT_DEVEL/$OBJDIR/bin/$stem
+
+%.installall:V:
+	for (objtype in $CPUS)
+		mk $stem.install
+
+install:V:	install-std
+
+install-std:V:	all\
+		$ROOT_DEVEL/$OBJDIR/bin
+	$RM $bintargs
+	$CP $TARG $ROOT_DEVEL/$OBJDIR/bin
+
+uninstall:V:	uninstall-std
+
+uninstall-std:V:
+	$RM $bintargs
+
+package:V:	package-std
+
+package-std:V:	all\
+		$PREFIX_PKG/$SYSTARG\
+		$PREFIX_PKG/$SYSTARG/$OBJTYPE\
+		$PREFIX_PKG/$SYSTARG/$OBJTYPE/bin
+	$RM $pkgtargs
+	for file in $TARG
+	do
+		$CP $O.$file $PREFIX_PKG/$SYSTARG/$OBJTYPE/bin/$file
+	done
+
+installall:V:
+	for(objtype in $CPUS)
+		mk $MKFLAGS install
+
+nuke:V:	nuke-std
+
+nuke-std:EV:
+	$RM *.[$OS] y.tab.? y.debug y.output [$OS].$TARG $TARG
+
+clean:V:	clean-std
+
+clean-std:V:
+	$RM *.[$OS] y.tab.? y.debug y.output [$OS].$TARG $TARG
+
+$PREFIX_PKG/$SYSTARG \
+$PREFIX_PKG/$SYSTARG/$OBJTYPE \
+$PREFIX_PKG/$SYSTARG/$OBJTYPE/bin :
+	$MKDIR $target

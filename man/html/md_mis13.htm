@@ -1,0 +1,56 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis12.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis14.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844974">
+<center><h1> srv - <a host operating system: services>miscellaneous services from the host operating system</h1></center>
+</a><pre><tt>include "srv.m"
+srv:= load Srv Srv-&gt;PATH;
+Srv: module
+{
+  PATH:  con "$Srv";
+  reads:  fn(str: string, off, nbytes: int): 
+                               (array of byte, string);
+  iph2a: fn(host: string)                : list of string;
+  ipn2p: fn(net, service: string)        : string;
+};
+</tt></pre></p><a name="844989">
+<h2> Description</h2>
+</a><a name="844990">
+<h3> reads (string, off, nbytes)</h3>
+</a><a name="844991">
+The <em>reads</em> function converts a substring of the given string <em>str</em> into a returned <em>array of byte</em>. The substring is defined by arguments <em>off</em> (offset) and <em>nbytes</em> (length). <p>
+</a><a name="844994">
+<h3> iph2a (host)	</h3>
+</a><a name="844995">
+The <em>iph2a</em> function calls the host's <em>gethostbyname</em> function for the argument <em>host</em>. The matching addresses are returned as a list of strings.<p>
+</a><a name="844997">
+<h3> ipn2p (net, service)</h3>
+</a><a name="844998">
+The <em>ipn2p</em> function calls the host's <em>getservbyname</em> function for the specified network (<em>net</em>) and service name (<em>service</em>). The port number is returned as a string.<p>
+</a><a name="845000">
+<h2> See Also</h2>
+</a><a name="845004">
+<a href="cmd7.htm#853204"><em>cs - start connection server daemon</em> in Chapter &#32;5</a> <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis12.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis14.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

@@ -1,0 +1,150 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845966">
+<center><h1> bufio - <a buffered input/output module; module:type:buffered input/output>buffered input/output module</h1></center>
+</a><pre><tt>include "sys.m"; # for Sys-&gt;OREAD, etc.
+include "bufio.m";
+Iobuf: import Bufio;
+bufio:= load Bufio Bufio-&gt;PATH;
+OREAD:  con Sys-&gt;OREAD;
+OWRITE: con Sys-&gt;OWRITE;
+ORDWR:  con Sys-&gt;ORDWR;
+EOF:    con -1;
+ERROR:  con -2;
+Iobuf: adt {
+ seek:  fn(b: self ref Iobuf, n, where: int)           :int;
+ read:  fn(b: self ref Iobuf, a: array of byte, n: int):int;
+ write: fn(b: self ref Iobuf, a: array of byte, n: int):int;
+ getb:  fn(b: self ref Iobuf)                          :int;
+ ungetb:fn(b: self ref Iobuf)                          :int;
+ getc:  fn(b: self ref Iobuf)                          :int;
+ ungetc:fn(b: self ref Iobuf)                          :int;
+ gets:  fn(b: self ref Iobuf, sep: int)             :string;
+ gett:  fn(b: self ref Iobuf, sep: string)          :string;
+ putb:  fn(b: self ref Iobuf, b: byte)                 :int;
+ putc:  fn(b: self ref Iobuf, c: int)                  :int;
+ puts:  fn(b: self ref Iobuf, s: string)               :int;
+ flush: fn(b: self ref Iobuf): int;
+ close: fn(b: self ref Iobuf);
+};
+open:   fn(name: string,  mode: int)           : ref Iobuf;
+create: fn(name: string,  mode, perm: int)     : ref Iobuf;
+fopen:  fn(fd: ref Sys-&gt;FD, mode: int)         : ref Iobuf;
+flush:  fn();
+</tt></pre></p><a name="844380">
+<h2> Description</h2>
+</a><a name="844381">
+The <em>Bufio</em> module provides an interface for buffered I/O. A buffer is an adt which is created with <em>open</em>, <em>fopen</em>, or <em>create</em>.<p>
+</a><a name="844382">
+<h3> open (filename, mode)</h3>
+</a><a name="844383">
+The <kbd>open</kbd> function takes two parameters, a <em>filename</em> and a <em>mode</em>. The <em>mode</em> must be one of <em>OREAD</em>, <em>OWRITE</em>, or <em>ORDWR</em> (defined to match the corresponding values in the <kbd>Sys</kbd> module). Both <kbd>open</kbd> and <kbd>fopen</kbd> return a<em> ref Iobuf </em>to be used in subsequent calls. <p>
+</a><a name="847609">
+<h3> create (filename, mode, perm)</h3>
+</a><a name="848284">
+The create <em>function</em> creates a new file <em>or</em> prepares to rewrite an existing <em>file</em>, opens it according to <em>mode</em> (as described for <em>open</em>). It returns an associated file descriptor, and a<em> ref Iobuf </em>to be used in subsequent calls.<p>
+</a><a name="844384">
+<h3> fopen (fd, mode)</h3>
+</a><a name="844385">
+Buffered I/O on an already open file is made possible using<em> fopen</em>, which takes a file descriptor, <em>fd</em>, as its first argument and an open <em>mode</em> as its second argument. The <em>mode</em> of the file descriptor must be compatible with the mode passed to <em>fopen</em>.<p>
+</a><a name="844386">
+The <em>Bufio</em> module keeps an internal reference to files opened for writing so that they can be flushed before being garbage collected. Flushing all dirty files is done with an explicit call to <em>flush()</em>, usually just before exiting the program.<p>
+</a><a name="844387">
+<h3> seek (n, where), read (a, n), and write (a, n) </h3>
+</a><a name="844391">
+Each function has parameters analogous to its complement in the <em>Sys</em> module (see <a href="md_sys14.htm#845254"><em>seek - change file offset</em></a> and <a href="md_sys12.htm#845197"><em>read, write, stream - read, write, or stream file</em> in Chapter &#32;8</a>).<p>
+</a><a name="844395">
+<h3> getb ( )</h3>
+</a><a name="844396">
+Read a single byte from the buffered stream and return its value as an <em>int</em>.<p>
+</a><a name="847622">
+<h3> ungetb ( )</h3>
+</a><a name="847623">
+Put the single byte back into the buffered stream, so that a subsequent <em>getb</em> will read it.<p>
+</a><a name="844397">
+<h3> getc ( )</h3>
+</a><a name="844401">
+Read a single Unicode character, encoded in UTF, and return its value as an <em>int</em>. (See <a href="formats5.htm#844478"><em>UTF, Unicode, ASCII - character set and format</em> in Appendix &#32;A</a>.)<p>
+</a><a name="847632">
+<h3> ungetc ( )</h3>
+</a><a name="847636">
+Put the single Unicode character, encoded in UTF, back into the buffered stream so that a subsequent<em> getc </em>will read it.<p>
+</a><a name="844402">
+<h3> gets (sepchar)</h3>
+</a><a name="844403">
+Read a line up to and including a character specified by <em>sepchar</em>, typically a newline. If none is found, read to the end of the file. The returned string includes the terminating character.<p>
+</a><a name="844404">
+<h3> gett (sepstr)</h3>
+</a><a name="844405">
+Read characters until one of the characters in <em>sepstr</em>. The returned string includes the separator. If none of the separator characters is found, read to the end of the file.<p>
+</a><a name="844406">
+<h3> putb (b), putc (c), and puts (s)</h3>
+</a><a name="844407">
+Each function writes its respective argument: a byte (<em>b</em>), a character (<em>c</em>), or a string (<em>s</em>). Text is encoded in UTF.<p>
+</a><a name="844408">
+<h3> flush ( )</h3>
+</a><a name="844409">
+Write contents of the write buffer to the file. Meaningful only for files opened for writing; has no effect on files opened for reading. <p>
+</a><a name="844410">
+<h3> close ( )</h3>
+</a><a name="844411">
+Flush remaining data in the buffer; if necessary, close the associated file, and discard buffers associated with the file. After close, no further function calls are allowed on the <em>iobuf</em> adt.<p>
+</a><a name="844412">
+<h2> Diagnostics</h2>
+</a><a name="844413">
+Calls that return a <kbd>ref</kbd> type (<em>open</em>, <em>fopen</em>, <em>gets</em>, and <em>gett</em>) return <em>nil</em> when encountering end of file or errors. When an error occurs, the error string, printable with the <em>%r</em> format, will usually be set as a consequence of an error in the underlying <em>Sys</em> module. The other functions return<em> EOF </em>upon encountering end of file, and<em> ERROR </em>when encountering other errors.<p>
+</a><a name="844414">
+<h2> Example</h2>
+</a><a name="844415">
+The following code fragment opens the file <em>/net/tcp/0/local</em> and reads a line (including the terminating newline character) from this file to initialize the string variable <em>addr</em>. The file is closed implicitly by discarding (assigning <em>nil</em> to) the only reference to its <em>Iobuf</em>.<p>
+</a><pre><tt>lc:= bufio-&gt;open("/net/tcp/0/local", bufio-&gt;OREAD);     
+addr:= lc.gets('\n');     
+lc = nil; 
+</tt></pre></p>
+<a name="848723">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="848729">
+<a href="i_modu.htm#840761"><em>Introduction to Limbo Modules</em> in Chapter &#32;7</a><p>
+</a>
+<tr><td><a name="848734">
+<a href="md_sys9.htm#844990"><em>open, create - open/create a file for reading or writing</em> in Chapter &#32;8</a><p>
+</a>
+<tr><td><a name="848739">
+<a href="md_sys12.htm#845197"><em>read, write, stream - read, write, or stream file</em> in Chapter &#32;8</a><p>
+</a>
+<tr><td><a name="848744">
+<a href="md_sys14.htm#845254"><em>seek - change file offset</em> in Chapter &#32;8</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

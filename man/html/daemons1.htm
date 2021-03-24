@@ -1,0 +1,166 @@
+<html><head><title>Inferno <br>Daemons</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="daemons2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844312">
+<center><h1> cs - <a connection server daemon; daemon:connection server>connection server daemon</h1></center>
+</a><kbd>cs
+</kbd><a name="844315">
+<h2> Description</h2>
+</a><a name="844316">
+The connection server daemon, <em>cs</em>, is started by the<em> cs</em> command. The daemon monitors requests for interpretation of host names written by application programs to<em> /net/cs</em>, the interface file. After writing the request, the application reads that same file to obtain the response from the <em>cs</em> daemon.<p>
+</a><a name="844317">
+The current implementation uses the hosting system's facilities for name-to-address and other conversions.<p>
+</a><a name="844318">
+<h3> Request Format</h3>
+</a><a name="844319">
+Requests must be strings in the form:<p>
+</a><pre><tt><a name="844321">
+<em>	net!machine!service</em><p>
+</a></tt></pre></p><a name="844380">
+Each component of the request is required.<p>
+</a><a name="846303">
+<h4> net</h4>
+</a><a name="846304">
+The <em>net</em> component defines the network to be used (for example, <em>tcp</em>, <em>udp</em>). The special value <em>net</em> can be supplied to request the most expedient network. <p>
+</a><a name="846305">
+<hr>
+<strong>NOTE:</strong><p>
+<em>Currently, net is synonymous with tcp. 
+</em>
+<hr></a><a name="846210">
+<h4> machine</h4>
+</a><a name="846224">
+The machine component can be any of the following 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846213">
+numeric internet address<p>
+</a><td><a name="846215">
+Used verbatim.<p>
+</a>
+<tr><td><a name="846217">
+hostname<p>
+</a><td><a name="846219">
+Converted to network address.<p>
+</a>
+<tr><td><a name="846221">
+symbolic server name of the form $server<p>
+</a><td><a name="846223">
+Converted to hostname by reference to the connection server database file<kbd> </kbd><em>/services/cs/db</em>. The hostname returned is then converted to an network address. No machine name is converted. Other conversions (for example, <em>net</em> and named services) are still done.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="846225">
+<h4> service</h4>
+</a><a name="846247">
+A service name or port number. The default is Styx  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846240">
+numeric port value<p>
+</a><td><a name="846242">
+Used verbatim.<p>
+</a>
+<tr><td><a name="846244">
+Service name<p>
+</a><td><a name="846246">
+Converted to a port number.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="846266">
+<h3> Response Format</h3>
+</a><a name="844382">
+The application can obtain the converted address by reading the <em>/net/cs</em> interface file. The response will consist of two fields of the form:<p>
+</a><pre><tt><a name="844384">
+<em>	/net/net/clone			ipaddr!portno</em><p>
+</a></tt></pre></p><a name="844386">
+The first field is the name of the file to open to reserve a connection on Inferno's IP device. The second field can be used to construct a <em>connect</em> message for the<em> ctl </em>file returned by the open of <em>clone</em>.<p>
+</a><a name="844387">
+<h2> Note</h2>
+</a><a name="844388">
+The service name to port number conversion is controlled by a <em>&lt;services</em>&gt; file. The location of that file is platform dependent: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844391">
+/etc/services<p>
+</a><td><a name="844393">
+Unix-hosted systems.<p>
+</a>
+<tr><td><a name="844395">
+Windows\services<p>
+</a><td><a name="844397">
+Windows-hosted systems<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844398">
+<h2> Caveats</h2>
+</a><a name="844399">
+Applications that use a single file descriptor for both reading and writing should take care to reset the file offset to 0 between writing the request and reading the response. Otherwise, a truncated response will be read. Applications using buffered I/O should flush after resetting the offset.<p>
+</a><a name="844400">
+Sometimes a hostname will resolve into several network addresses. The connection server provides all. Each read of<em> /net/cs </em>delivers one. The connection server caches this information until read; consequently, the application is obliged to read<em> /net/cs </em>in a loop until the end-of-file condition is reached. That means that all available addresses have been obtained and the daemon's cache for this request is empty.<p>
+</a><a name="844437">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846169">
+<a href="cmd7.htm#853204"><em>cs - start connection server daemon</em> in Chapter &#32;5</a><p>
+</a>
+<tr><td><a name="846174">
+<a href="md_sys14.htm#845254"><em>seek - change file offset</em> in Chapter &#32;8</a><p>
+</a>
+<tr><td><a name="846180">
+<a href="md_mis13.htm#844974"><em>srv - miscellaneous services from the host operating system</em> in Chapter &#32;15</a><p>
+</a>
+<tr><td><a name="846185">
+<a href="devices.htm#"><em>ip - TCP, UDP network protocols over IP</em> in Chapter &#32;2</a><p>
+</a>
+<tr><td><a name="846189">
+<a href="formats.htm#840761"><em>Inferno Format Specifications</em> in Appendix &#32;A</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="daemons2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:31 -->
+
+</body>
+</html>

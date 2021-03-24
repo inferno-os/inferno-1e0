@@ -1,0 +1,70 @@
+-name-George Carter
+-display-.f.t insert end 'Team:            Greenies
+-display-.f.t insert end 'position:        PG
+-display-.f.t insert end 'games played:    25
+-display-.f.t insert end 'minutes played:  475
+-display-.f.t insert end 'field goals:     77
+-end-
+-name-William Lincoln
+-display-.f.t insert end 'Team:            Greenies
+-display-.f.t insert end 'position:        SG
+-display-.f.t insert end 'games played:    20
+-display-.f.t insert end 'minutes played:  731
+-display-.f.t insert end 'field goals:     63
+-end-
+-name-Sampson LaParo
+-display-.f.t insert end 'Team:            Greenies
+-display-.f.t insert end 'position:        SF
+-display-.f.t insert end 'games played:    11
+-display-.f.t insert end 'minutes played:  643
+-display-.f.t insert end 'field goals:     27
+-end-
+-name-Ben Krushchev
+-display-.f.t insert end 'Team:            Greenies
+-display-.f.t insert end 'position:        PF
+-display-.f.t insert end 'games played:    25
+-display-.f.t insert end 'minutes played:  206
+-display-.f.t insert end 'field goals:     66
+-end-
+-name-David Montalban
+-display-.f.t insert end 'Team:            Greenies
+-display-.f.t insert end 'position:        C
+-display-.f.t insert end 'games played:    23
+-display-.f.t insert end 'minutes played:  947
+-display-.f.t insert end 'field goals:     40
+-end-
+-name-David Washington
+-display-.f.t insert end 'Team:            Blue Birds
+-display-.f.t insert end 'position:        PG
+-display-.f.t insert end 'games played:    8
+-display-.f.t insert end 'minutes played:  737
+-display-.f.t insert end 'field goals:     18
+-end-
+-name-Sam Reagan
+-display-.f.t insert end 'Team:            Blue Birds
+-display-.f.t insert end 'position:        SG
+-display-.f.t insert end 'games played:    18
+-display-.f.t insert end 'minutes played:  659
+-display-.f.t insert end 'field goals:     35
+-end-
+-name-Juan Watters
+-display-.f.t insert end 'Team:            Blue Birds
+-display-.f.t insert end 'position:        SF
+-display-.f.t insert end 'games played:    4
+-display-.f.t insert end 'minutes played:  614
+-display-.f.t insert end 'field goals:     23
+-end-
+-name-Juan Neal
+-display-.f.t insert end 'Team:            Blue Birds
+-display-.f.t insert end 'position:        PF
+-display-.f.t insert end 'games played:    2
+-display-.f.t insert end 'minutes played:  49
+-display-.f.t insert end 'field goals:     16
+-end-
+-name-George Wu
+-display-.f.t insert end 'Team:            Blue Birds
+-display-.f.t insert end 'position:        C
+-display-.f.t insert end 'games played:    26
+-display-.f.t insert end 'minutes played:  897
+-display-.f.t insert end 'field goals:     23
+-end-

@@ -1,0 +1,58 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd18.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd20.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845363">
+<center><h1> netstat - <a summarizing network connections; network: connections: summarizing>summarize network connections</h1></center>
+</a><pre><tt>bind '#I' /net
+netstat
+</tt></pre></p><a name="845369">
+<h2> Description</h2>
+</a><a name="845370">
+The <em></a>netstat</em> command prints information about TCP and UDP network connections. The information is obtained from the <em>status</em> file of each entry under the corresponding network directories, <em>/dev/net/tcp</em> and <em>/dev/net/udp</em>. The <em>clone</em> files are omitted from this report.<p>
+</a><a name="851121">
+The following items are presented for each connection:<p>
+</a><ul><a name="851122">
+<li>connection name<p>
+</a><a name="851123">
+<li>user name<p>
+</a><a name="851124">
+<li>IP number of each end of the connection<p>
+</a><a name="851125">
+<li>status of the connection<p>
+</a></ul><a name="845384">
+<h2> Files</h2>
+</a><a name="854718">
+/net/tcp/*<p>
+</a><a name="854719">
+/net/udp/*<p>
+</a><a name="854720">
+<h2> Caveat</h2>
+</a><a name="845386">
+This command requires a populated <em>/net</em> directory; therefore, there must be a prior binding of the system's <em>#I </em>driver to that directory.<p>
+</a><a name="849005">
+<h2> See Also</h2>
+</a><a name="851949">
+<a href="devices.htm#"><em>ip - TCP, UDP network protocols over IP</em> in Chapter &#32;2</a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd18.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd20.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

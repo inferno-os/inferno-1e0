@@ -1,0 +1,229 @@
+<html><head><title>Limbo<br>System Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844663">
+<center><h1> d</a>ial, ann</a>ounce, ex</a>port, lis</a>ten - <a making network connections; network:connections:making>make network connections</h1></center>
+</a><pre><tt>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+Connection: adt
+{
+  dfd: ref FD; # data file
+  cfd: ref FD; # control file
+  dir: string; # pathname of line directory
+};
+announce: fn(addr: string):          (int, Connection);
+dial:     fn(addr, local: string):   (int, Connection);
+listen:   fn(c: Connection):         (int, Connection);
+export:   fn(fd: ref FD, flag: int):  int;
+</tt></pre></p><a name="844679">
+<h2> Description</h2>
+</a><a name="849456">
+These routines establish network connections.<p>
+</a><a name="849457">
+<h3> dial (addr, local)</h3>
+</a><a name="849458">
+The <em>dial</em> function establishes a connection to destination <em>addr.</em><p>
+</a><a name="849459">
+<h4> The addr Argument</h4>
+</a><a name="849460">
+The address must be of the form:<p>
+</a><a name="850901">
+<kbd>network</kbd><kbd>!</kbd><kbd>destination</kbd><kbd>!</kbd><kbd>serviceport</kbd><p>
+</a><a name="851198">
+For more information about the structure of this address, see <a href="daemons1.htm#844318"><em>Request Format</em> in Chapter &#32;6</a><p>
+</a><a name="849461">
+<h4> The Connection Server</h4>
+</a><a name="849462">
+If the connection server is running, the <em>dial </em>function will pass <em>addr</em> to that daemon for the translation of host names, symbolic service names, and so on, to addresses of the designated network (the first component). See <a href="daemons1.htm#844312"><em>cs - connection server daemon</em></a> for description of the supported conversion.<p>
+</a><a name="850911">
+If the connection server daemon is not running, the <em>dial</em> function silently skips the translation stage and attempts to open a network connection with addr as received.<p>
+</a><a name="851219">
+The <em>cs</em> daemon is accessed by an interface file also called <em>cs</em>. The <em>dial</em> function looks for this file in the following directories in the OR'ed listed:<p>
+</a><ol>
+<a name="851220">
+<li>A directory named in an optional prefix to the <em>addr</em> argument. The format in such cases is: <em>/dir/network!destination!serviceport </em>
+</a><a name="849466">
+<li>The <em>/net</em> directory
+</a><a name="849467">
+<li>The <em>/net.alt</em> directory.
+</a><a name="849468">
+If the connection server returns several network addresses for the named destination, the <em>dial</em> function tries each in the order received until a connection is made.<p>
+</a></ol>
+<a name="849469">
+<h4> The local Argument</h4>
+</a><a name="849470">
+If the network allows the local address to be set, and <em>local</em> is non-empty, the local address will be set to <em>local</em>. For IP, local addresses correspond to the port number.<p>
+</a><a name="850154">
+At the completion of <em>dial</em>, <em>local</em> can be read from the <em>local</em> file of the network interface.<p>
+</a><a name="849471">
+<h4> The Return Values</h4>
+</a><a name="849472">
+The dial function returns a tuple consisting of an integer and a <em>Connection</em> adt.<p>
+</a><a name="849917">
+On failure, the <em>dial</em> function returns -1 in the integer portion of the tuple.<p>
+</a><a name="849937">
+On success, the members of the returned <em>Connection </em>adt have been initialized to the following values: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="849477">
+dir<p>
+</a><td><a name="849479">
+The pathname to the directory containing the network interface files for the connection. For example, <em>/net/tcp/5</em>.<p>
+</a>
+<tr><td><a name="849481">
+dfd<p>
+</a><td><a name="849483">
+A file descriptor to the <em>data </em>file of the connection. This is used to read and write data to the destination.<p>
+</a>
+<tr><td><a name="849485">
+cfd<p>
+</a><td><a name="849487">
+A file descriptor for the <em>ctl</em> file of the connection. Commands can be sent to this file to control the connection.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="849488">
+See the appropriate Network device pages (for example, <a href="devices.htm#"><em>ip - TCP, UDP network protocols over IP</em> in Chapter &#32;2</a>) for further details of using this interface. <p>
+</a><a name="849489">
+<h3> announce (addr)</h3>
+</a><a name="849490">
+The <em>announce</em> function and the <em>listen</em> function described in this section are the complements of the <em>dial</em> function. Their actions allow completion of connection requests from clients using the <em>dial</em> function.<p>
+</a><a name="849491">
+<h4> The Argument, addr</h4>
+</a><a name="849492">
+ The <em>announce </em>function establishes a network name (service port) to which incoming calls can be made. The format of the addr, the single argument is:<p>
+</a><a name="849493">
+<em>network!localname!serviceport</em><p>
+</a><a name="849920">
+The <em>localname</em> component is translated (if possible) by the connection server. The result is stored in the <em>local</em> file of the network interface. That file can be used for display purposes. The<em> localname </em>value is not used by the underlying network. The setting of local file is skipped if <em>localname</em> is<kbd>'</kbd><em>*</em><kbd>'</kbd>.<p>
+</a><a name="849495">
+<h4> The Connection Server</h4>
+</a><a name="849496">
+The <em>announce</em> function uses the connection server to translate any symbolic components of the argument to values acceptable to the network. See the <em>cs</em> daemon for a description of the supported translations.<p>
+</a><a name="849497">
+ The <em>cs</em> daemon is accessed by an interface file also called <em>cs</em>. The <em>announce</em> function looks for that file in two directories in the following order:<p>
+</a><ol>
+<a name="849498">
+<li>A directory named in an optional prefix to the <em>addr</em> argument. The format in such cases is: /<em>dir</em>/<em>network</em>!<em>*</em>!<em>serviceport</em> 
+</a><a name="849499">
+<li>The <em>/net</em> directory
+</a></ol>
+<a name="849500">
+<h4> The Return Value</h4>
+</a><a name="849501">
+The return value of the <em>announce</em> function follows the same conventions as used by the <em>dial</em> function. If the call succeeds, the returned    <em>Connection</em> adt can be used as an argument to the <em>listen</em> function.<p>
+</a><a name="849502">
+<h3> listen(c)</h3>
+</a><a name="849503">
+The <em>listen</em> function allows the completion of a connection to a process calling the <em>dial</em> function.<p>
+</a><a name="849504">
+<h4> Argument</h4>
+</a><a name="849505">
+The <em>listen</em> function takes as its only argument the <em>Connection </em>adt of a successful call to <em>announce</em>.<p>
+</a><a name="849506">
+<h4> Return Values</h4>
+</a><a name="849507">
+The return values from the <em>listen</em> function have the same form as those returned from the <em>dial</em> function.<p>
+</a><a name="849508">
+When a call is received, <em>listen</em> includes an open <em>Connection</em> adt that leads to a network interface file. The <em>data</em> file of that interface is cross connected (read-to-write and write-to-read) to the <em>data</em> file associated with the <em>Connection</em> adt returned by the <em>dial</em> function to the client process.<p>
+</a><a name="849509">
+<h3> export (fd, flag)</h3>
+</a><a name="849510">
+The <em>export</em> function responds to client requests for file operations on the server's file name space. This is the server end of a client's <em>mount</em> call. <p>
+</a><a name="849511">
+<hr>
+<strong>NOTE:</strong><p>
+<em>Requests for pathname resolution occur relative to the current 
+root directory of the process calling export. That process can 
+control the set of files available for mounts requests by clients by 
+defining the root directory of its name space using the operations 
+described on the bind page.
+</em>
+<hr></a><a name="849512">
+<h4> Arguments</h4>
+</a><a name="849513">
+The <em>export</em> functions first argument is the <em>dfd</em> member of a <em>Connection</em> returned from <em>listen </em>on service port <em>stags</em>.<p>
+</a><a name="849523">
+The <em>export</em> function can take two mutually exclusive flags 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="849516">
+EXPWAIT<p>
+</a><td><a name="849518">
+The <em>export</em> function blocks until all client requests are complete.<p>
+</a>
+<tr><td><a name="849520">
+EXPASYNC<p>
+</a><td><a name="849522">
+Client requests are handled by a background thread, while <em>export</em> returns immediately<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+:<p>
+</a><a name="849524">
+<h4> Return Values</h4>
+</a><a name="849525">
+The <em>export</em> function returns 0 on success and -1 on failure.<p>
+</a><a name="849526">
+<h2> Examples</h2>
+</a><a name="849527">
+Make a call and return an open file descriptor to use for communications:<p>
+</a><pre><tt>callkremvax( ): (int, Connection)
+{
+    return sys-&gt;dial("tcp!kremvax!mpeg", nil);
+}
+</tt></pre></p><a name="849534">
+Call the local authentication server:<p>
+</a>dialauth(service: string): (int, Connection)
+{
+    return sys-&gt;dial("net!$SIGNER!inflogin", nil);
+}
+</tt></pre></p><a name="849552">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="850656">
+<a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em></a><p>
+</a>
+<tr><td><a name="850658">
+<a href="daemons1.htm#844312"><em>cs - connection server daemon</em> in Chapter &#32;6</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:35 -->
+
+</body>
+</html>

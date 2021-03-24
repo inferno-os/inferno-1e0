@@ -1,0 +1,19 @@
+# ROOT_DEVEL	The standard development root, holding the "official"
+#		copy of the source
+#
+# ROOT_PROD	The default root of the product.   This path needs to
+#		follow UNIX path name convention of forward slash.
+#
+# PREFIX_PKG	A staging area for collecting package files.
+#		This is not intended to be used for execution.
+
+SYSHOST=Nt
+SYSTARG=Nt
+OBJTYPE=386
+
+ROOT_DEVEL=	\users\inferno
+ROOT_PROD=	/users/inferno
+OBJDIR=		$(SYSTARG)\$(OBJTYPE)
+PREFIX_PKG=	$(ROOT_LOCAL)\package
+
+

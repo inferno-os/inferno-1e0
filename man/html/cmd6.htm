@@ -1,0 +1,88 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853192">
+<center><h1> c</a>p - <a copying files; file operations:copying files>copy files</h1></center>
+</a><pre><tt>cp  	<em>fromfile</em> <em>tofile
+</em>cp  	<em>fromfile...</em> <em>todir
+</em>cp -r 	<em>fromdir...</em> <em>todir
+</em></tt></pre></p><a name="844816">
+<h2> Description</h2>
+</a><a name="844817">
+In the first form, <em>fromfile</em> is any name and <em>tofile</em> is any name except an existing directory.<p>
+</a><a name="851464">
+In the second form, the commands copy one or more <em>fromfiles</em> into a <em>todir</em> under their original file names, as if by a sequence of commands in the first form. For example:<p>
+</a><pre><tt></tt></pre></p>
+
+<pre><tt><a name="851474">
+ <p>
+</a>   cp f1 dir/f1;  cp f2 dir/f2
+
+</tt></pre></p><a name="844826">
+When the <em>cp</em> command copies the contents of plain (non-directory) files <em>fromfile</em> to <em>tofile</em>, the mode and owner of <em>tofile</em> are preserved if it already exists; otherwise the mode of <em>fromfile</em> is used.<p>
+</a><a name="844832">
+<h2> Options 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844829">
+-r<p>
+</a><td><a name="844831">
+The<em> -r </em>option directs cp to recursively copy the named directories (<em>fromdir</em>'s) to the target direction (<em>todir</em>), the last entry on the command line.<p>
+</a><a name="851479">
+<hr>
+<strong>NOTE:</strong><p>
+<em>This option should not be used on file systems with 
+<em>cycles</em> in the namespace.
+</em>
+<hr></a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="844841">
+<h2> Diagnostics</h2>
+</a><a name="844842">
+The <em>cp</em> command refuses to copy files onto themselves.<p>
+</a><a name="850900">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854262">
+<a href="cmd2.htm#852894"><em>cat - concatenate files</em></a> <p>
+</a>
+<tr><td><a name="854264">
+<a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter &#32;8</a> <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

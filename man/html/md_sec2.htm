@@ -1,0 +1,36 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="850299">
+<center><h1> Security at the Application Layer</h1></center>
+</a><a name="850870">
+An application can make use of the algorithms and protocols described previously by using only a few library routines such as: <em>login</em>, <em>auth</em>, and <em>connect</em>. The <em>login</em> function enables an application, which shares a password with the server acting as the CA, to obtain a certificate. After obtaining certificates, two applications establish a mutually authenticated connection by calling <em>auth</em>. The <em>auth</em> function performs the entire STS protocol. The <em>connect</em> function connects each application to an SSL (security sockets layer) device. Each application can create message digests or encrypt messages by writing to this device. Messages are received and decrypted by reading from the SSL device.<p>
+</a><a name="850301">
+While Inferno provides these routines to make it easy to establish secure communications, an application is not restricted to their use. Lower-level routines used by <em>login</em> and <em>auth</em> are also available to an application. These routines enable an application to create alternate methods for establishing security, or to perform specialized functions like signing files.<p>
+</a><a name="850302">
+Inferno also provides security routines tailored for set-top boxes. For example, a set-top-box can use the <em>register</em> routine instead of <em>login</em>. The register routine obtains a certificate without requiring a user to enter a password. The register routine is demonstrated in the sample application called Mux, described in <em>The</em> <em>Inferno User's Guide</em>.<p>
+</a><a name="850303">
+There are also commands described in this section to establish a server as a Certifying Authority or 'signer'. For example, a CA needs a key and password to create a certificate. These can be created on the server using the commands <em>changelogin</em> and <em>createsignerkey</em><kbd>.</kbd><p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

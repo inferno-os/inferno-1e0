@@ -1,0 +1,53 @@
+<html><head><title>Inferno Format Specifications</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="formats4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="tm01fr10.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844478">
+<center><h1> UTF, Unicode, ASCII - <a character set; character format>character set and format</h1></center>
+</a><a name="844483">
+<h2> Description</h2>
+</a><a name="844484">
+The Inferno character set and representation are based on the Unicode Standard and on the ISO multibyte UTF-8 encoding (Universal Character Set Transformation Format, 8 bits wide). The Unicode Standard represents its characters in 16 bits; UTF-8 represents such values in an 8-bit byte stream.<p>
+</a><a name="844485">
+Internally, programs store individual Unicode characters as 16-bit values. However, any external manifestation of textual information, in files or at the interface between programs, uses the machine-independent, byte-stream encoding called UTF.<p>
+</a><a name="844486">
+UTF is designed so the 7-bit ASCII set (values hexadecimal 00 to 7F), appear only as themselves in the encoding. Characters with values above 7F appear as sequences of two or more bytes with values only from 80 to FF.<p>
+</a><a name="844487">
+The UTF encoding of the Unicode Standard is backward compatible with ASCII. Inferno programs handle ASCII text, as well as uninterpreted byte streams, without special arrangement. However, programs that perform semantic processing on characters must convert from UTF to Unicode in order to work properly with non-ASCII input. Normally, all necessary conversions are done by the Limbo compiler and execution environment, but sometimes more is necessary, such as when a program receives UTF input one byte at a time. See <a href="md_sys2.htm#844593"><em>byte2char, char2byte - convert between bytes and characters</em> in Chapter 8</a> for routines to handle such processing.<p>
+</a><a name="844491">
+A Unicode character <em>x</em> (in binary format) is converted to a multibyte UTF sequence as follows:<p>
+</a><pre><tt>  <em>01</em>. <em>x</em> in [00000000.0bbbbbbb] \(-&gt; 0bbbbbbb
+  <em>10</em>. <em>x</em> in [00000bbb.bbbbbbbb] \(-&gt; 110bbbbb, 10bbbbbb
+  <em>11</em>. <em>x</em> in [bbbbbbbb.bbbbbbbb] \(-&gt; 1110bbbb, 10bbbbbb, 
+10bbbbbb
+
+</tt></pre></p><a name="844497">
+Conversion <em>01</em> provides a one-byte sequence that spans the ASCII character set in a compatible way. Conversions <em>10</em> and <em>11</em> represent higher-valued characters as sequences of two or three bytes with the high bit set. Inferno does not support the 4-, 5-, and 6-byte sequences proposed by X-Open. When there are multiple ways to encode a value, for example rune 0, the shortest encoding is used.<p>
+</a><a name="844498">
+In the inverse mapping, any sequence except those described above is incorrect and is converted to the Unicode value of hexadecimal 0080.<p>
+</a><a name="844499">
+<h2> See Also</h2>
+</a><a name="844503">
+<a href="md_sys2.htm#844593"><em>byte2char, char2byte - convert between bytes and characters</em> in Chapter 8</a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="formats4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="tm01fr10.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:26 -->
+
+</body>
+</html>

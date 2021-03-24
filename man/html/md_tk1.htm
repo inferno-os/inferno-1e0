@@ -1,0 +1,479 @@
+<html><head><title>Limbo/Tk - Graphic Interface Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_tk.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_tk2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844724">
+<center><h1> Introduction to Tk</h1></center>
+</a><a name="845096">
+Tk is concise, powerful, easy to use, well known, and can be run everywhere using Inferno.<p>
+</a><a name="844998">
+All the features of Tk are not included in Inferno. This section provides information about the differences between the Limbo/Tk implementation and Tk 4.0.<p>
+</a><a name="844726">
+Programmers need only deal with the <em>toplevel</em>, <em>namechan</em>, and <em>cmd</em> functions. The <em>mouse</em> and <em>keyboard</em> functions are used by the window manager to deliver mouse and keyboard events into applications. <p>
+</a><a name="844727">
+<h2> The Toplevel Function</h2>
+</a><a name="844728">
+The<em> toplevel </em>command takes a screen argument and a string containing further options, and it returns a handle that represents a top-level Tk widget. The handle is used as the first argument to the <em>namechan</em> and <em>cmd</em> functions described in this section. The options argument contains Tk option/value pairs, specified in the same manner as options to all Tk widgets. As well as the generic options, <em>toplevel</em> accepts the <em>-x int</em>, <em>-y int</em> and <em>-debug bool</em> options. The <em>-x </em><em>int</em> and <em>-y</em> <em>int</em> options specify the upper left corner of the toplevel widget, where (0,0) is the top left corner of the screen. The  <em>-debug</em> <em>bool</em> option causes a trace of all Tk commands to be printed when the boolean value is true. A typical call to <em>toplevel</em> looks like:<p>
+</a>    top := tk-&gt;toplevel(ctxt.screen, tkargs);
+ 
+<a name="844730">
+<h2> The Cmd Function</h2>
+</a><a name="844731">
+After a toplevel widget has been built, the <em>cmd</em> function is used to issue Tk commands. The first argument is the toplevel reference and the second argument is a string which looks a lot like a string that could be given to a Tcl command interpreter. However, the language accepted is not Tcl. <p>
+</a><a name="844732">
+A typical call of the cmd function is:<p>
+</a>    range := tk-&gt;cmd(ed, ".b.t tag nextrange sel 1.0");
+
+<a name="844734">
+<h3> Command String Syntax</h3>
+</a><a name="845275">
+The command string may contain one or more single commands, separated by semicolons. A semicolon is a single-command separator if it is at 0-nesting level with respect to braces ( { } ) and brackets ( [ ] ), and it is not escaped by a backslash (\). There is also a superquote convention: at any point in the command string a single quote mark means that the entire rest of the string should be treated as one <em>word</em>. <p>
+</a><a name="844736">
+A single command is divided into a number of <em>words</em>. Words are separated by one or more blanks and tabs. <p>
+</a><a name="844737">
+A word beginning with an opening brace ( { ) continues until the balancing closing brace ( } ) is reached. The outer brace characters are stripped. A backslash can be used to escape a brace in this context.<p>
+</a><a name="844738">
+A word beginning with an opening bracket ( [ ) continues until the balancing closing bracket ( ] ) is reached. The enclosed string is then evaluated as if it were a command string, and the resulting value is used as the contents of the word. <p>
+</a><a name="844739">
+Single commands are executed in order until they are all done or an error is encountered. By convention, an error is signaled by a return value starting with an exclamation mark. The return value from <em>cmd</em> is the return value of the first error-producing command or else the return value of the final single command. <p>
+</a><a name="844740">
+To execute a single command, the first word is examined. It can be one of the following:<p>
+</a><ul><a name="844741">
+<li>One of the following widget creating commands:<p>
+</a></ul>       frame 
+        label 
+        button 
+        checkbutton 
+        radiobutton 
+        menubutton 
+        menu 
+        listbox 
+        scrollbar 
+        text 
+        canvas 
+        entry 
+        scale 
+
+<dl>
+<a name="844755">
+<dt><dd> The second word of each of these commands is the name of the widget to be created. The remaining words are option/value pairs. 
+</a></dl>
+<ul><a name="844756">
+<li>A widget name (beginning with a period `.') that corresponds to an existing widget. The second word gives the name of a particular widget subcommand and the remaining words are arguments for the subcommand.<p>
+</a><a name="844757">
+<li>A <em>pack</em>, <em>bind</em>, <em>focus</em>, <em>grab</em>, <em>puts</em>, <em>destroy</em>, <em>image</em>, or <em>update</em> command. These are non-widget creating commands. Most are the same as documented for Tk 4.0. The <em>bind</em> command has some differences, and the <em>image</em> command is somewhat more limited.<p>
+</a><a name="844758">
+<li>The<em> send </em>command. This command is used to send a string from Tk along a Limbo channel to a Limbo process. The second word is the name of a Limbo channel (registered with <em>namechan</em>), and the rest of the words are to be sent along that channel. <p>
+</a><a name="844759">
+<li>The <em>variable</em> command. Limbo/Tk does not have general variables the way Tcl does; radio buttons are an exception. The <em>variable</em> command takes the name of a variable defined in a radio button as the second word, and the value of the variable is the result of the command. Also, there is one predefined variable whose value can be retrieved this way: the <em>lasterror</em> variable is set every time a Tk command returns an error. The value is the offending command (possibly truncated) followed by the error return value. The <em>lasterror</em> variable is cleared whenever it is retrieved using the variable command. This allows for a number of Tk commands to be executed without checking error returns each time. A call to the <em>variable</em> command with <em>lasterror</em> at strategic points can make sure that an unexpected error has not occurred.<p>
+</a><a name="844760">
+<li>The <em>cursor</em> command. This command takes a number of option/value pairs to control the appearance and placement of the cursor. Available options are: <em>-x </em><em>int</em> and <em>-y</em> <em>int</em>, to change the cursor position to align its hotpoint at the given point (in screen coordinates); <em>-bitmap filename</em> or <em>-image</em> <em>imagename</em> to change the appearance of the cursor; and <em>-default 1</em> to change back to the default appearance of the cursor. <p>
+</a></ul><a name="844761">
+<h2> The Namechan Function</h2>
+</a><a name="844762">
+The <em>namechan</em> function of the Tk module is used to set up communication between the Tk widgets and Limbo programs. The <em>send</em> command in the Tk world results in a string being sent along a Limbo channel. The <em>namechan</em> function is used to associate a Limbo chan of string with a name that can be used inside Tk. A typical call looks like: <p>
+</a>    c := chan of string;
+        tk-&gt;namechan(top, c, "c");
+<a name="844765">
+The main use of named channels and the send command that uses them is to allow Limbo programs to be notified when Tk events happen. For example, <p>
+</a>    tk-&gt;cmd(top, ".m.file.menu add command -label 
+Open..." +
+                                " -command {send c open}");
+
+<a name="844768">
+might be used to add an entry to a menu. Whenever the 'Open...' entry is selected, the string 'open' will be sent along the channel associated with name 'c'. The Limbo program should be waiting for such events, with code like: <p>
+</a>    s := &lt;-c =&gt;
+                case s {
+                "open" =&gt;
+                        do_open();
+                ...
+                }
+
+<a name="844775">
+Because the language accepted by the <em>cmd</em> function has no user-defined functions, no control flow and very few variables, almost all applications need to have some of their logic in Limbo programs.  <p>
+</a><a name="844776">
+<h2> Interacting with the Window Manager</h2>
+</a><a name="844777">
+To make an application that runs well under the Limbo window manager, the programmer must do four things:<p>
+</a><ol>
+<a name="844778">
+<li>Load and initialize a <em>Wmlib</em> module
+</a><a name="844779">
+<li>Call that module's <em>titlebar</em> function
+</a><a name="844780">
+<li>Pack a widget called <em>.Wm_t</em> in the application
+</a><a name="844781">
+<li>Listen on the channel returned by <em>titlebar</em> for window manager commands (such as <em>exit</em>), and either act on them or reflect them back to the <em>Wmlib</em> module using its <em>titlectl</em> function. 
+</a></ol>
+<a name="844782">
+<h2> Widget Options</h2>
+</a><a name="844783">
+In Limbo/Tk, all widget creation commands and all of the <em>cget</em> widget commands accept a common set of generic options in addition to widget-specific options. Except as noted otherwise, the meanings are the same as  the options for Tk 4.0. The allowable forms of things like <em>color</em>, <em>dist</em>, and <em>font</em> are a little different in Limbo/Tk. The generic options are as follows:<p>
+</a><pre><tt>-activebackground <em>color
+</em>-activeforeground <em>color
+</em>-actwidth <em>dist
+</em>-actheight <em>dist
+</em></pre></tt>
+<a name="844788">
+<hr>
+<strong>NOTE:</strong><p>
+<em>The -actwidth and -actheight variables are overridden by the 
+packer, but are useful as arguments to cget to retrieve the actual 
+width and height (inside the border) of a widget after packing.
+</em>
+<hr></a><pre><tt>-background <em>color</em> or -bg <em>color
+</em>-borderwidth <em>dist</em> or -bd <em>dist</em> 
+-font <em>font</em> 
+-foreground <em>color</em> or -fg <em>color</em> 
+-height <em>dist</em> (Requested height.)
+-padx <em>dist
+</em>-pady <em>dist
+</em>-relief <em>relief
+</em>-state normal or -state active or -state disabled
+</pre></tt>
+<a name="844798">
+<hr>
+<strong>NOTE:</strong><p>
+<em>The -state variable is only relevant for some widgets (for example, 
+entry widgets).
+</em>
+<hr></a><pre><tt>-selectbackground <em>color
+</em>-selectborderwidth <em>dist
+</em>-selectcolor <em>color</em> </pre></tt>
+<a name="844802">
+<hr>
+<strong>NOTE:</strong><p>
+<em>The -selectcolor variable is the color of the box in selection menu 
+items.
+</em>
+<hr></a>-selectforeground <em>color
+</em>-width <em>dist</em> (Requested width)
+
+<a name="844805">
+The <em>dist</em> parameters are lengths, expressed as: optional minus sign, then one or more decimal digits (with possible embedded decimal point), then an optional units specifier. The unit specifiers are those of Tk 4.0 (<em>c</em> for centimeters, <em>m</em> for millimeters,<em> i</em> for inches and <em>p</em> for points) plus two additional ones: <em>h</em> for the height of widget's font, and <em>w</em> for the width of the zero in the widget's font.<p>
+</a><a name="844806">
+In Tcl/Tk 4.0, the widgets do not uniformly take <em>-width</em> and <em>-height</em> options; rather, each widget may take either or both options, and if they do, the meaning of bare number (without a unit specifier) varies from widget to widget. For example, in Tk 4.0 <em>-width 25</em> means 25 characters to an entry widget, but 25 pixels to a canvas widget. In Limbo/Tk, all widgets may have height and width specified, and bare numbers always mean screen pixels. <p>
+</a><a name="844807">
+The <em>color</em> parameters can be color names or RGB values. Only a small set of names are known currently:  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844810">
+<kbd>black</kbd><p>
+</a><td><a name="844812">
+<kbd>blue</kbd><p>
+</a><td><a name="844814">
+<kbd>darkblue</kbd><p>
+</a><td><a name="844816">
+<kbd>red</kbd><p>
+</a>
+<tr><td><a name="844818">
+<kbd>yellow</kbd><p>
+</a><td><a name="844820">
+<kbd>green</kbd><p>
+</a><td><a name="844822">
+<kbd>white</kbd><p>
+</a><td><a name="844824">
+<kbd>orange</kbd><p>
+</a>
+<tr><td><a name="844826">
+<kbd>aqua</kbd><p>
+</a><td><a name="844828">
+<kbd>fuchia</kbd><p>
+</a><td><a name="844830">
+<kbd>gray</kbd><p>
+</a><td><a name="844832">
+<kbd>lime</kbd><p>
+</a>
+<tr><td><a name="844834">
+<kbd>maroon</kbd><p>
+</a><td><a name="844836">
+<kbd>navy</kbd><p>
+</a><td><a name="844838">
+<kbd>olive</kbd><p>
+</a><td><a name="844840">
+<kbd>purple</kbd><p>
+</a>
+<tr><td><a name="844842">
+<kbd>teal</kbd><p>
+</a><td><a name="844844">
+<kbd></kbd><p>
+</a><td><a name="844846">
+<kbd></kbd><p>
+</a><td><a name="844848">
+<kbd></kbd><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844849">
+For RGB values, one of the two syntaxes<em> #RGB </em>or <em>#RRGGBB</em> must be used. <p>
+</a><a name="844850">
+The <em>font</em> parameter should be the complete pathname to an Inferno font file, for example, <em>/fonts/pelm/unicode.9.font</em>. Another parameter type like this (not used in any of the generic options) is <em>bitmap</em>. Unlike Tcl/Tk 4.0, bitmap specifications in Limbo/Tk do not give just a 1-bit deep bitmap to be colored with foreground and background. Instead, they give a full-color image (<em>pixmap</em>, in X11 terminology) to be used as is. If <em>bitmap</em> begins with an @, the remaining characters should be a filename of an Inferno image file. If <em>bitmap</em> begins with a &lt;, the remaining characters should be a decimal integer giving a file descriptor number of an open file from which the bitmap can be loaded. Otherwise, bitmap should be the name of a bitmap file in the <em>/icons/tk</em> directory.<p>
+</a><a name="844852">
+<h3> Options Not Supported in Limbo Tk</h3>
+</a><a name="844853">
+The following options, listed in as Tk 4.0 Options, are not implemented by any Limbo/Tk widget: <p>
+</a><pre><tt>-cursor 
+-disabledforeground 
+-exportselection
+-geometry 
+-highlightbackground 
+-highlightcolor 
+-highlightthickness 
+-insertbackground 
+-insertborderwidth 
+-insertofftime 
+-insertontime
+-insertwidth 
+-repeatdelay
+-repeatinterval 
+-setgrid 
+-takefocus 
+-textvariable
+-troughcolor </pre></tt>
+<a name="844872">
+<h2> Tk Commands</h2>
+</a><a name="844873">
+This section lists all of the commands documented in the Tk 4.0 man pages, giving the differences between the behavior specified in those man pages and the behavior implemented in Limbo/Tk.<p>
+</a><a name="844874">
+<hr>
+<strong>NOTE:</strong><p>
+<em>Many of the Tk 4.0 widgets take 'Standard Options' such as <br>
+-insertontime that are not implemented in Limbo/Tk. See <a href="md_tk1.htm#844852"><em>Options 
+Not Supported in Limbo Tk</em></a>.
+</em>
+<hr></a><a name="844878">
+<h3> after </h3>
+</a><a name="845006">
+Not implemented.<p>
+</a><a name="844879">
+<h3> bell</h3>
+</a><a name="845007">
+Not implemented.<p>
+</a><a name="844880">
+<h3> bind</h3>
+</a><a name="845008">
+The bind command is perhaps the command that differs the most from Tk 4.0. Mostly, it is a subset of functionality that is implemented. One difference is that the tag that can be bound to can be one of only two things: the name of an existing widget, or the name <em>all</em>, which causes bindings for all of the widgets under the <em>toplevel</em> implicit in the command). The idea of a widget class is completely absent in Limbo/Tk. Event sequence specifications are also somewhat restricted. A sequence is either a single character (rune), meaning a <em>KeyPress</em> of that character, or a sequence of <em>seqitems</em> in angle brackets. <em>Seqitems</em> are separated by blanks or minus signs. <p>
+</a><a name="844881">
+The following seqitems are accepted:<p>
+</a><a name="844882">
+<strong>Key or KeyPress.</strong> This represents the press of the character in the following <em>seqitem</em>. If there is no following seqitem, this represents the press of any key.<p>
+</a><a name="844883">
+<hr>
+<strong>NOTE:</strong><p>
+<em>The characters cannot be specified using X11 names (for 
+example, Return). 
+</em>
+<hr></a><a name="844884">
+<strong>Control</strong>. This represents the press of the character in the following <em>seqitem</em> with the <strong>Control</strong> key pressed.<p>
+</a><a name="844885">
+<strong>ButtonPress</strong> or <strong>Button</strong>. This represents the pressed state of the mouse button given by the following <em>seqitem</em>, which should be 1, 2, or 3. If there is no following <em>seqitem</em>, this represents the press of any button.<p>
+</a><a name="844886">
+<hr>
+<strong>NOTE:</strong><p>
+<em>Unlike Tk 4.0, if the mouse is moved with a button pressed, the 
+Button event is delivered in combination with a Motion event as 
+long as the button remains pressed.
+</em>
+<hr></a><a name="844887">
+<strong>ButtonRelease</strong>. Like <em>ButtonPress</em>, but representing the release of a button. <p>
+</a><a name="844888">
+<strong>Motion</strong>. This represents possible motion of the mouse.<p>
+</a><a name="844889">
+<strong>Double</strong>. This means that any <em>seqitems</em> in the sequence representing button presses must be double-clicked for the sequence to match. <p>
+</a><a name="844890">
+<strong>Map</strong>. This represents the event of the widget being drawn on the screen, either for the first time or after being de-iconified.<p>
+</a><a name="844891">
+<strong>Unmap</strong>. This represents the event of the widget being de-iconified.<p>
+</a><a name="844892">
+<strong>Enter</strong>. This represents the event of the mouse entering the widget from outside. <p>
+</a><a name="844893">
+<strong>Leave</strong>. This represents the event of the mouse going outside the boundaries of the widget.<p>
+</a><a name="844894">
+<strong>FocusIn</strong>. This represents the event of the widget getting the keyboard focus.<p>
+</a><a name="844895">
+<strong>FocusOut</strong>. This represents the event of the widget losing the keyboard focus. <p>
+</a><a name="844896">
+The event sequence can contain any combination of the above seqitems. They are treated as independent events, and if any of the events occur, the sequence matches. You cannot combine <em>Key Presses</em> of more than one key. As for delivery: events will not be combined, except that <em>Motion</em> events may be combined with button presses (possibly doubled). <p>
+</a><a name="845878">
+The binding script argument has <em>%</em> substitution, as specified in Tk 4.0. However, only the following are implemented: <em>%%</em>, <em>%b</em>, <em>%h</em>, <em>%s</em>, <em>%w</em>, <em>%x</em>, <em>%y</em>, <em>%A</em>, <em>%K</em>, <em>%W</em>, <em>%X</em>, and <em>%Y</em>. The <em>%s</em> substitution gives the logical OR of the mouse buttons for mouse events, and the decimal value of the pressed character for key events. The <em>%K</em> substitution gives the pressed character in the form of four hexadecimal digits (not a textual string, as in Tk 4.0). The <em>%A</em> substitution will escape a {, }, or a \, so that it won't confuse the command string parser when used in a bind script. <p>
+</a><a name="844898">
+<h3> bindtags</h3>
+</a><a name="845009">
+Not implemented. <p>
+</a><a name="844899">
+<h3> bitmap</h3>
+</a><a name="845010">
+As mentioned above, Limbo/Tk bitmaps are in fact full color images. If a maskfile is given, it may also have a depth greater than 1 bit; the meaning is that if a pixel is non-zero then the image corresponding pixel of the maskdata image should be drawn. <p>
+</a><a name="845883">
+<h3> button</h3>
+</a><a name="845884">
+As in Tk 4.0 (but note difference in units for <em>-height</em> and <em>-width</em>). <p>
+</a><a name="845885">
+<h3> canvas</h3>
+</a><a name="845012">
+The postscript subcommand is not implemented. <p>
+</a><a name="844902">
+<h3> checkbutton</h3>
+</a><a name="845013">
+Un-implemented options: <em>-indicatoron</em>, <em>-offvalue</em>, <em>-onvalue</em>, and -<em>-selectimage</em>. The flash and toggle subcommands are not implemented. <p>
+</a><a name="844903">
+<h3> clipboard</h3>
+</a><a name="845014">
+Not implemented. <p>
+</a><a name="844904">
+<h3> destroy</h3>
+</a><a name="845015">
+As in Tk 4.0. <p>
+</a><a name="844905">
+<h3> entry</h3>
+</a><a name="845016">
+The scan subcommand is not implemented. Many of the key bindings are not implemented because there is currently no way to type those keys to Inferno (for example, <strong>Home</strong>). Note difference in units for <em>-height</em> and <em>-width</em>.<p>
+</a><a name="844906">
+<h3> exit</h3>
+</a><a name="845065">
+Not implemented. <p>
+</a><a name="845066">
+<h3> fileevent </h3>
+</a><a name="845067">
+Not implemented.<p>
+</a><a name="844908">
+<h3> focus</h3>
+</a><a name="845027">
+The focus model in Inferno is different. Only one widget has the keyboard focus at any one time. Limbo/Tk does not maintain a private keyboard focus for each toplevel tree and automatically move the focus there whenever the tree is entered. (But canvas and text widgets do maintain a private keyboard focus.) The <em>focus</em> <em>window</em> command moves the keyboard focus to the given window. By default, the first press of the primary button in an <em>entry</em>, <em>listbox</em> or <em>text</em> widget causes the focus to be moved to that widget. Just entering a menu widget gives it the focus.<p>
+</a><a name="844909">
+The <em>-displayof</em>, <em>-force</em>, and <em>-lastfor</em> options are not implemented.<p>
+</a><a name="844910">
+<h3> frame</h3>
+</a><a name="845028">
+Un-implemented options: <em>class</em>, <em>colormap</em>, and <em>visual</em>.<p>
+</a><a name="844911">
+<h3> grab</h3>
+</a><a name="845033">
+Limbo/Tk implements only global grabs, so the <em>-global</em> option is not recognized. The <em>grab current</em> command is not implemented. The <em>grab</em> command is not recognized as a synonym for <em>grab </em>set.<p>
+</a><a name="844912">
+<h3> grid</h3>
+</a><a name="845034">
+Not implemented.<p>
+</a><a name="844913">
+<h3> image</h3>
+</a><a name="845035">
+Only bitmap image types are implemented, but, as documented under <em>bitmap</em>, Inferno bitmaps are not just 1-bit deep. Thus, Inferno bitmaps are an implementation of both bitmap and photo types. However, Limbo/Tk does not recognized the wide variety of graphics formats that Tk 4.0 does. External programs are provided to convert from other formats, such as JPEG, into the Inferno bitmap format. The file descriptor syntax for specifying bitmaps is useful when an external program writes the bitmap to a file descriptor.<p>
+</a><a name="844914">
+<h3> label</h3>
+</a><a name="845036">
+Un-implemented options: <em>-justify</em> and <em>-wraplength</em>. Note difference in units for <em>-height</em> and <em>-width</em>.<p>
+</a><a name="844915">
+<h3> listbox</h3>
+</a><a name="845037">
+The <em>bbox</em> and <em>scan</em> subcommands are not implemented. Note difference in units for <em>-height</em> and <em>-width</em>.<p>
+</a><a name="844916">
+<h3> lower</h3>
+</a><a name="845038">
+The <em>belowThis</em> optional parameter is not recognized.<p>
+</a><a name="844917">
+<h3> menu</h3>
+</a><a name="845039">
+Un-implemented options: <em>-postcommand</em>, <em>-tearoff</em>, <em>-tearoff</em> command, and <em>-transient</em>. In the add subcommand, the <em>-accelerator</em>, <em>-indicatoron</em>, and <em>-selectimage</em> options are not implemented. In the <em>index</em> subcommand, the <em>last</em> and <em>pattern</em> index forms are not implemented. The <em>configure</em> and <em>entrycget</em> subcommands are not implemented.<p>
+</a><a name="844918">
+<h3> menubutton</h3>
+</a><a name="845040">
+Un-implemented options: <em>-indicatoron</em>, <em>-justify</em>, and <em>-wraplength</em>.<p>
+</a><a name="844919">
+<h3> message</h3>
+</a><a name="845041">
+Not implemented (subsumed by <em>label</em>).<p>
+</a><a name="844920">
+<h3> option</h3>
+</a><a name="845042">
+Not implemented. There is no option database in Limbo/Tk.<p>
+</a><a name="844921">
+<h3> pack</h3>
+</a><a name="845043">
+The <em>info</em> subcommand is not implemented.<p>
+</a><a name="844922">
+<h3> photo</h3>
+</a><a name="845044">
+Not implemented.<p>
+</a><a name="844923">
+<h3> place</h3>
+</a><a name="845045">
+Not implemented.<p>
+</a><a name="844924">
+<h3> radiobutton</h3>
+</a><a name="845046">
+Unimplemented options: <em>-indicatoron</em>, <em>-justify</em>, <em>-selectimage</em>, and -wraplength. The <em>flash</em> subcommand is not implemented.<p>
+</a><a name="844925">
+<h3> raise</h3>
+</a><a name="845047">
+The <em>aboveThis</em> optional parameter is not recognized.<p>
+</a><a name="844926">
+<h3> scale</h3>
+</a><a name="845048">
+Unimplemented options:<kbd> </kbd><em>-digits </em>and <em>-variable</em>.<p>
+</a><a name="844927">
+<h3> scrollbar</h3>
+</a><a name="845070">
+The old syntax of <em>set</em> and <em>get</em> is not supported.<p>
+</a><a name="845071">
+<h3> selection</h3>
+</a><a name="845072">
+Not implemented.<p>
+</a><a name="844929">
+<h3> send</h3>
+</a><a name="845051">
+Rather than sending things to a different application, the <em>send</em> <em>channame</em> <em>string</em> command sends a string along a given named Limbo channel, as described above.<p>
+</a><a name="844930">
+<h3> text</h3>
+</a><a name="845056">
+The <em>dump</em> subcommand is not implemented. The <em>-regexp</em> mode of the <em>search</em> subcommand is not implemented.<p>
+</a><a name="844931">
+<h3> tkerror</h3>
+</a><a name="845057">
+Not implemented.<p>
+</a><a name="844932">
+<h3> tkwait</h3>
+</a><a name="845058">
+Not implemented.<p>
+</a><a name="844933">
+<h3> toplevel</h3>
+</a><a name="845075">
+There is no <em>toplevel</em> command implemented by the <em>cmd</em> function; instead, the Tk module entry point <em>toplevel</em> is used to make toplevel widgets.<p>
+</a><a name="845076">
+<h3> update </h3>
+</a><a name="845077">
+The optional <em>idletasks</em> argument is not recognized.<p>
+</a><a name="844935">
+<h3> winfo</h3>
+</a><a name="845061">
+Not implemented. Much of the information that <em>winfo</em> could return can be gotten via <em>cget</em> for each widget.<p>
+</a><a name="844936">
+<h3> wm</h3>
+</a><a name="845062">
+Not implemented.<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_tk.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_tk2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:08 -->
+
+</body>
+</html>

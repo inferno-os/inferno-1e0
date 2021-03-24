@@ -1,0 +1,164 @@
+<html><head><title>Limbo<br>Prefab Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_pref.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_pref2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844323">
+<center><h1> compound - <a windows for ITV toolkit; ITV (Interactive Television) toolkit:for windows>windows for ITV toolkit</h1></center>
+</a><pre><tt>include "draw.m";
+include "prefab.m";
+prefab:= load Prefab Prefab-&gt;PATH;
+Compound: adt
+{
+  image:   ref Draw-&gt;Image;
+  environ: ref Environ;
+  r:       Draw-&gt;Rect;
+  title:   ref Element;
+  contents:ref Element;
+ 
+  iconbox:  fn(env: ref Environ,
+               p: Draw-&gt;Point, title: string, icon,
+               mask: ref Draw-&gt;Image) :ref Compound;
+  textbox:  fn(env: ref Environ,
+               r: Draw-&gt;Rect, title, text: string):
+                      ref Compound;
+  layoutbox: fn(env: ref Environ,
+               r: Draw-&gt;Rect, title: string, lay: 
+                    list of Layout) :ref Compound;
+  box:    fn(env: ref Environ, p: Draw-&gt;Point, title, elist:
+                    ref Element):ref Compound;
+  draw:   fn(comp: self ref Compound);
+  redraw: fn(comp: self ref Compound, r: Draw-&gt;Rect);
+  scroll: fn(comp: self ref Compound, elem: ref Element, 
+                       d: Draw-&gt;Point);
+  show: fn(comp: self ref Compound, elem: ref Element): int;
+  select:  fn(comp: self ref Compound,
+             elem: ref Element, i: int, c: chan of int):
+             (int, int, ref Element);
+  tagselect: fn(comp: self ref Compound,
+             elem: ref Element, i: int, c: chan of int):
+            (int, int, ref Element);
+  highlight: fn(comp: self ref Compound,
+       elem: ref Element, on: int);
+};
+</tt></pre></p><a name="844360">
+<h2> Description</h2>
+</a><a name="844361">
+<em>Compound</em> is the abstract data type that defines boxes drawn on the screen. Each appears in a new window, <em>Compound.image</em>, and holds a (possibly <em>nil</em>) <em>title</em> and <em>contents. Element</em>. It occupies the space on the screen defined by <em>Compound.r</em>. Allocating a <em>Compound</em> creates a window but does not draw it; after the <em>Compound</em> is built, <em>Compound.draw </em>must be called to make it visible. Compounds have a border around them, drawn in <em>Style.edgecolor</em> and contain, from top-to-bottom, the title (if any), a horizontal line (if there is a title), and the contents.<p>
+</a><a name="844362">
+<h3> Compound.iconbox (env, p, title, icon, mask) </h3>
+</a><a name="844363">
+Creates a <em>Compound</em> whose contents are made by calling <em>Element.icon</em> (see <a href="md_math1.htm#844309"><em>elem - elementary functions of applied mathematics</em> in Chapter 14</a>) using the <em>icon</em> and <em>mask</em>. The <em>Compound</em> 's upper left corner is at <em>p</em>. Its size is determined by the size of the <em>icon</em> and <em>mask</em>.<p>
+</a><a name="844367">
+<h3> Compound.textbox (env, r, title, text)</h3>
+</a><a name="844368">
+Creates a <em>Compound</em> whose contents are made by calling <em>Element.text</em> using the supplied <em>text</em>. As with <em>Element.text</em>, the resulting contents <em>Element</em> will be actually a list of text <em>Elements</em> if the text occupies multiple lines on the screen. The rectangle behaves as in <em>Element.text</em>.<p>
+</a><a name="844369">
+<h3> Compound.layoutbox (env, r, title, layoutlist)</h3>
+</a><a name="844370">
+Like <em>Compound.textbox</em>, but based on <em>Element.layout</em> rather than <em>Element.text</em>.<p>
+</a><a name="844371">
+<h3> Compound.box (env, p, title, element)</h3>
+</a><a name="844372">
+Creates a <em>Compound</em> whose contents are made from an existing <em>Element</em>. To build complex structures, use the <em>Element </em>-building functions, size the Element appropriately, and use <em>Compound.box</em>. The result is positioned with its upper left corner at <em>p</em>, and with size determined by that of the <em>Element</em>. However a <em>Compound</em> is built, its size computation makes allowance for the border and title. Moreover, if the requested size and placement makes part appear offscreen, the result may be moved to display it better.<p>
+</a><a name="844373">
+<h3> Compound.draw ( ) </h3>
+</a><a name="844374">
+This function uses the description of the title and contents to paint the on-screen image. It takes no arguments. All the information is included in the description.<p>
+</a><a name="844375">
+<h3> Compound.redraw (r)</h3>
+</a><a name="844376">
+Like <em>Compound.draw</em>, but restricts the drawing to the specified <em>Rect </em><em>r</em>.<p>
+</a><a name="844377">
+<h3> Compound.select (element, index, c): (int, int, Element)</h3>
+</a><a name="844394">
+The parameters to the <em>select</em> function are: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844380">
+element<p>
+</a><td><a name="844382">
+The <em>element</em> is contained in the <em>Compound</em>, and may be at any level of its structure. It is most usefully a list, but may be a singleton, in which case it behaves like a list of one element.<p>
+</a>
+<tr><td><a name="844384">
+index<p>
+</a><td><a name="844386">
+The number of the element on the list<p>
+</a>
+<tr><td><a name="844388">
+c<p>
+</a><td><a name="844390">
+The channel, <em>c</em>, is a <em>chan of int</em> connected to an IR remote control interface, typically acquired through the program's <em>Context</em> (see <a href="md_draw1.htm#844416"><em>context - graphics environment</em> in Chapter 11</a>).<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844395">
+The arrow keys on the remote control scroll through the members of the list, using the <em>Style.highlightcolor</em><kbd> </kbd>associated with each member element to indicate selection. A <em>Select</em> key on the remote control triggers <em>select</em> to return a tuple (<em>key</em>,<em> index</em>,<em> elem</em>), where: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844398">
+key<p>
+</a><td><a name="844400">
+The <em>key</em> member is the key code of the action (here <em>Select</em>).<p>
+</a>
+<tr><td><a name="844402">
+index<p>
+</a><td><a name="844404">
+The <em>index</em> member is the number of the element in the list (ignoring separators).<p>
+</a>
+<tr><td><a name="844406">
+elem<p>
+</a><td><a name="844408">
+The <em>elem</em> member is the list member highlighted when the key was hit.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844409">
+Any other key returns the same tuple with<em> index </em><kbd>-1</kbd> and the value of the key. The <em>elem</em> returned is always the most recently highlighted, even if the result was not a selection. When <em>select</em> returns, it always restores the default appearance of the list.<p>
+</a><a name="844410">
+<h3> Compound.tagselect (element, index, c): (int, int, Element)</h3>
+</a><a name="844411">
+Like <em>Compound.select</em>, but rather than selecting among all the elements of a list, it selects among only those elements with defined tags in the structure contained within the specified <em>element</em>.<p>
+</a><a name="844412">
+<h3> Compound.highlight (element, on)</h3>
+</a><a name="844413">
+Set the highlighting to be 'on' or 'off' for the <em>element</em> within the compound. <p>
+</a><a name="844415">
+<h3> Compound.scroll (element, d)</h3>
+</a><a name="844416">
+Scroll the <em>element</em> within the compound. The updated image is redrawn after the scrolling.<p>
+</a><a name="844418">
+<h3> Compound.show (elementtag, d)</h3>
+</a><a name="844419">
+Make sure the <em>element</em> is visible within the rectangle of the top-level <em>Element</em> of the <em>Compound</em> by calling <em>Element.show</em> (<em>Compound.contents</em>, <em>element</em>). <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_pref.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_pref2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:04 -->
+
+</body>
+</html>

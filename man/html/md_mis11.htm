@@ -1,0 +1,162 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis10.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis12.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844848">
+<center><h1> regex - <a regular expression recognizer>regular expression recognizer</h1></center>
+</a><pre><tt>include "regex.m";
+regex:= load Regex "/dis/regex.dis";
+compile: fn(e: string)       : Re;
+execute: fn(x: Re; s: string): (int,int);
+</tt></pre></p><a name="844858">
+<h2> Description</h2>
+</a><a name="844859">
+The <em>compile</em> function returns a compiled form of the regular expression given in string <em>e,</em> or <em>nil</em> if <em>e</em> is not a valid regular expression.<p>
+</a><a name="844860">
+The <em>execute</em> function matches the compiled regular expression <em>x</em> against string <em>s.</em> It returns indexes of the first character of the longest leftmost match and of the next character beyond the match, or <em>(-1,-1)</em> if no match exists.<p>
+</a><a name="844896">
+The primitives in regular expressions are: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844863">
+.<p>
+</a><td><a name="844865">
+matches any character other than newline <p>
+</a>
+<tr><td><a name="844867">
+\<em>c</em><p>
+</a><td><a name="844869">
+matches character <em>c</em>, except <kbd>\n</kbd> matches newline<p>
+</a>
+<tr><td><a name="844871">
+c<p>
+</a><td><a name="844873">
+matches character <em>c</em> other than one of:<p>
+</a><a name="844874">
+\ . ^ $ ( ) [ ] ? *  +<p>
+</a>
+<tr><td><a name="844876">
+(<em>e</em>)<p>
+</a><td><a name="844878">
+matches what regular expression <em>e</em> matches<p>
+</a>
+<tr><td><a name="844880">
+()<p>
+</a><td><a name="844882">
+matches an empty substring<p>
+</a>
+<tr><td><a name="844884">
+^<p>
+</a><td><a name="844886">
+matches an empty substring at the beginning of a string<p>
+</a>
+<tr><td><a name="844888">
+$<p>
+</a><td><a name="844890">
+matches an empty substring at the end of a string<p>
+</a>
+<tr><td><a name="844892">
+[<em>set</em>]<p>
+</a><a name="844893">
+[^<em>set</em>]<p>
+</a><td><a name="844895">
+matches any character in a <em>set</em> (or its complement), given as a sequence of zero or more items - characters and ranges. An item consists at least of a literal character, not <kbd>\</kbd> or ], or of a character escaped with \. If this is followed by a literal <kbd>-</kbd>, it is the lower limit of an inclusive range of Unicode characters. The upper limit is a similarly expressed character after the -.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844914">
+Repetitions are built from primitives, <em>p,</em> in the following ways. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844899">
+p<p>
+</a><td><a name="844901">
+one match to <em>p</em><p>
+</a>
+<tr><td><a name="844903">
+<em>p</em>?<p>
+</a><td><a name="844905">
+zero or one matches to <em>p</em><p>
+</a>
+<tr><td><a name="844907">
+<em>p</em>*<p>
+</a><td><a name="844909">
+zero or more matches to <em>p</em><p>
+</a>
+<tr><td><a name="844911">
+<em>p</em>+<p>
+</a><td><a name="844913">
+one or more matches to <em>p</em><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844915">
+<em>Regular</em> expressions are built from repetitions, <em>r,</em> and other regular expressions, <em>e1,</em> <em>e2,</em> in the following ways. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844918">
+<em>r</em><p>
+</a><td><a name="844920">
+<em>a</em> repetition<p>
+</a>
+<tr><td><a name="844922">
+<em>re1</em><p>
+</a><td><a name="844924">
+concatenation<em>:</em> a match to <em>r </em>followed by a match to <em>e1</em><p>
+</a>
+<tr><td><a name="844926">
+<em>e1</em><kbd>|</kbd><em>e2</em><p>
+</a><td><a name="844928">
+alternation: a match to either <em>e1</em> or <em>e2</em>; concatenation takes precedence over alternation <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="847714">
+<h2> Examples</h2>
+</a><pre><tt>
+regex:Regex;
+(beg, end):=
+regex-&gt;execute(regex-&gt;compile("[ABCb-z]+"), s:="aAbBcCdD");
+#s[beg:end] == "AbBcCd"
+(beg, end):= 
+regex-&gt;execute(regex-&gt;compile("a*b*"), "bbaabb");
+#(beg, end) == (0,2)
+re:= regex-&gt;compile("(thick)*
+                   (chocolate|raspberry)?(topp|fill)ing");
+
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis10.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis12.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

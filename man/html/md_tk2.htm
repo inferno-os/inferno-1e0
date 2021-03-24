@@ -1,0 +1,99 @@
+<html><head><title>Limbo/Tk - Graphic Interface Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_tk1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_tk3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844291">
+<center><h1> Tk -<a graphics: toolkit>graphics toolkit</h1></center>
+</a><pre><tt>include "tk.m";
+tk:= load Tk Tk-&gt;PATH;
+Toplevel: adt
+{
+    id:    int;
+    image: ref Draw-&gt;Image;
+};
+toplevel: fn(screen: ref Draw-&gt;Screen, arg: string): 
+                    ref Toplevel;
+namechan: fn(t: ref Toplevel, c: chan of string, n: string):
+                          string;
+cmd:      fn(t: ref Toplevel, arg: string): string;
+mouse:    fn(x, y, button: int);
+keyboard: fn(key: int);
+</tt></pre></p><a name="844307">
+<h2> Description</h2>
+</a><a name="844308">
+The <em>Tk </em>module provides primitives for building user interfaces, based on Ousterhout's Tcl/Tk. The interface to the toolkit itself is primarily the passing of strings to and from the elements of the toolkit using the cmd function.<p>
+</a><a name="844309">
+<h3> toplevel (screen, arg)</h3>
+</a><a name="844310">
+The <em>toplevel</em> function, given an existing <em>Screen</em> (usually one inherited from the graphics <em>Context</em>; see <a href="md_draw1.htm#844416"><em>context - graphics environment</em> in Chapter 11</a>), creates a new window, called a Toplevel, under the control of the Tk toolkit. The <em>Toplevel</em> is passed to the <em>cmd</em> and <em>namechan</em> functions to drive the widgets in the window. The <em>arg</em> parameter is a string containing creation options (such as <em>-borderwidth 2</em>) that are applied when creating the <em>toplevel</em> window.<p>
+</a><a name="844314">
+<h3> cmd (t, arg)</h3>
+</a><a name="844315">
+The <kbd>cmd</kbd> function passes command strings to the widgets in the Toplevel <em>t</em> and returns the string resulting from their execution. For example, given a canvas .c in the <em>Toplevel t</em>,   <p>
+</a><pre><tt>	x:= int tk-&gt;cmd (t, ".c cget -actx"); 
+
+</tt></pre></p><a name="844319">
+returns the integer <em>x</em> coordinate of the canvas.<p>
+</a><a name="844320">
+<h3> namechan (t, c, n)</h3>
+</a><a name="844321">
+Bindings can be created in a <em>Toplevel</em> that trigger strings to be sent on Limbo channels. Such channels must be declared to the <em>Tk</em> module using <em>namechan</em>. The following example creates a button that sends the word <em>Ouch</em> when it is pressed:<p>
+</a><pre><tt>hitchannel:= chan of string;
+tk-&gt;namechan(t, hitchannel, "channel");
+tk-&gt;cmd(t, "button.b.Hit -text Hit -command {send channel
+        Ouch}");
+expl:= &lt;-hitchannel; # will see "Ouch" when button pressed
+
+</tt></pre></p><a name="844584">
+<h3> mouse ( ) and keyboard ( )</h3>
+</a><a name="844585">
+The <em>mouse</em> and <em>keyboard</em> functions deliver mouse and keyboard events to Tk for delivery to widgets. They are usually called only by the Window Manager.<p>
+</a><a name="844343">
+<h2> Caveat</h2>
+</a><a name="844344">
+Because <em>Tk</em> input is handled globally, there can be only one instance of a Tk implementation on a given machine or a given emulator.<p>
+</a><a name="844708">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845717">
+<a href="md_draw1.htm#844416"><em>context - graphics environment</em> in Chapter 11</a><p>
+</a>
+<tr><td><a name="845719">
+<a href="md_tk3.htm#844348"><em>tklib: tkquote, is_err, tkcmds, dialog, getstring, notice, mktabs, tabsctl - Tk user interface functions</em></a><p>
+</a>
+<tr><td><a name="845721">
+<a href="md_mis16.htm#845071"><em>wmlib - window manager toolkit</em> in Chapter 15</a><p>
+</a>
+<tr><td><a name="845723">
+John K. Ousterhout, <em>Tcl and the Tk Toolkit</em>, Addison-Wesley Publishing Company, Reading, Massachusetts, 1994.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_tk1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_tk3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:08 -->
+
+</body>
+</html>

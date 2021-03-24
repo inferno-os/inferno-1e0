@@ -1,0 +1,68 @@
+<html><head><title>Inferno Format Specifications</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="formats1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="formats3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844345">
+<center><h1> font, subfont - <a external format:for character fonts; external format:for character subfonts>external format for character fonts and subfonts</h1></center>
+</a><a name="844349">
+<h2> Description</h2>
+</a><a name="844351">
+Fonts are constructed as a list defining a range of Unicode characters and a subfont containing the character images for that range. Subfonts are not directly accessible from Limbo.<p>
+</a><a name="844352">
+<h3> Font Format </h3>
+</a><a name="844353">
+External fonts are described by a plain text file that can be read using the <em>Font.open</em> function. The <em>Font.build</em> function reads the same format from a string rather than a file. (See <a href="md_draw4.htm#844718"><em>font - character images for Unicode text</em> in Chapter 11</a>).<p>
+</a><a name="844357">
+The format is a header followed by any number of subfont range specifications. The header contains two numbers: the <em>height</em> and the <em>ascent</em>, both in pixels. The <em>height</em> is the inter-line spacing and the <em>ascent</em> is the distance from the top of the line to the baseline. These numbers should be chosen to consistently display all the subfonts of the font.<p>
+</a><a name="844358">
+A subfont range specification contains two or three numbers and a file name. Each field must be followed by some white space. Each numeric field may be decimal, octal, or hexadecimal in the C language format. The numbers are the inclusive range of characters covered by the subfont with an optional starting position within the subfont. <p>
+</a><a name="845045">
+The file name specifies an external file holding the subfont data. The minimum number of a covered range is mapped to the specified starting position (default zero) of the corresponding subfont. If the subfont file name does not begin with a slash, it is taken relative to the directory containing the font file. <p>
+</a><a name="844361">
+<h3> Subfont Format </h3>
+</a><a name="844362">
+External subfonts are represented in a more rigid format. The components must appear in the following order:<p>
+</a><a name="844363">
+<h4> An image containing character images</h4>
+</a><a name="844367">
+The image has the format for external image files described in <a href="formats3.htm#844382"><em>image - external format for images</em></a>.<p>
+</a><a name="844368">
+<h4> A subfont header</h4>
+</a><a name="844369">
+The subfont header has 3 decimal strings: <em>n</em>, <em>height</em>, and <em>ascent</em>. Each number is right-justified and blank padded in 11 characters, followed by a blank.<p>
+</a><a name="844370">
+<h4> Character information </h4>
+</a><a name="844371">
+The character <em>info </em>consists of <em>n+1 </em>entries, each 6-bytes and giving values called <em>x </em>(2 bytes, low order byte first), <em>top</em>, <em>bottom</em>, <em>left</em>, and <em>width </em>for the successive characters from left to right (in increasing Unicode order) in the subfont.<p>
+</a><a name="844372">
+The rectangle holding the character is <em>(x, top, xn, bottom)</em>, where <em>xn </em>is the <em>x </em>field of the next character.<p>
+</a><a name="844373">
+When the character is to be drawn in an image at point <em>p</em>, the rectangle is placed at <em>(p.x+left, p.y) </em>and the next character to be drawn is placed at <em>(p.x+width, p.y)</em>.<p>
+</a><a name="844374">
+The <em>x </em>field of the last entry is used to calculate the image width of the previous character. The other fields in the last entry can be ignored.<p>
+</a><a name="844375">
+<h2> Note</h2>
+</a><a name="844377">
+There is a convention of using the character with value zero (<em>nul</em>) to represent characters of zero width. This means that fonts should have, as their zero-th character, a character with non-zero width. See the description of the <em>Image.text </em>function in <a href="md_draw5.htm#844772"><em>Image - pictures and drawing</em></a><em>.</em><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="formats1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="formats3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:26 -->
+
+</body>
+</html>

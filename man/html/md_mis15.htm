@@ -1,0 +1,76 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis14.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis16.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="848255">
+<center><h1> volume - <a volume control, for infrared interface; infrared:interface:volume control; interface: infrared, volume control for>volume control for an infrared interface</h1></center>
+</a><pre><tt>Volumectl: module
+{
+PATH:      con "/dis/lib/volume.dis";
+volumectl: fn(ctxt: ref Draw-&gt;Context, ch: chan of int, 
+device: string);
+};
+</tt></pre></p><a name="845017">
+<h2> Description</h2>
+</a><a name="845018">
+The <em>volumectl</em> module should be spawned as a separate process from any process that desires volume control via an infrared interface.<p>
+</a><a name="845062">
+The parameters are:<p>
+</a><a name="845021">
+<h3> ctxt </h3>
+</a><a name="845023">
+A <em>Context</em> that provides <em>volumectl</em> with access to the display. It is used to display a slider widget. The slider automatically disappears after several seconds of inactivity.<p>
+</a><a name="845027">
+<h3> ch </h3>
+</a><a name="845029">
+A <em>chan of int</em> through which <em>volumectl</em> receives input from the infrared controller. The values recognized are:<p>
+</a><a name="845035">
+<h4> VolUP</h4>
+</a><a name="845037">
+increase volume<p>
+</a><a name="845041">
+<h4> VolDN</h4>
+</a><a name="845043">
+decrease volume<p>
+</a><a name="845047">
+<h4> Enter</h4>
+</a><a name="845049">
+exit<p>
+</a><a name="845053">
+<h4> Other values</h4>
+</a><a name="845055">
+are ignored<p>
+</a><a name="845057">
+<h3> device </h3>
+</a><a name="845059">
+This argument is a string that is used as a prefix to commands to the device, for example, <em>audio out</em>.<p>
+</a><a name="845063">
+<h2> Files</h2>
+</a><a name="845064">
+<kbd>/dev/volume</kbd><p>
+</a><a name="845065">
+<h2> See Also</h2>
+</a><a name="845069">
+<a href="md_misc6.htm#844527"><em>ir - infrared remote control</em></a> <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis14.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis16.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

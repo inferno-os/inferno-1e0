@@ -1,0 +1,45 @@
+OFILES=		$(OFILES_C) $(OFILES_S)
+
+all:		$(ROOT_DEVEL)\$(OBJDIR)\lib\$(LIB)\
+		config
+
+$(ROOT_DEVEL)\$(OBJDIR)\lib\$(LIB): \
+		$(ROOT_DEVEL)\$(OBJDIR)\
+	 	$(ROOT_DEVEL)\$(OBJDIR)\lib\
+		$(OFILES)		# force archive even when not needed
+	$(AR) $(ARFLAGS) -out:$@ $(OFILES)
+
+$(OFILES) \
+empty_c_guard:	$(HFILES)		# don't combine with following %.$O rules
+
+$(OFILES_C) \
+empty_c_guard:
+	$(CC) $(CFLAGS) -Fo$@ $(@F:.obj=.c)
+
+$(OFILES_S) \
+empty_s_guard:
+	$(AS) $(ASFLAGS) -Fo$@ $(@F:.obj=.s)
+
+install:	all
+
+uninstall:
+	-$(DEL) $(DELFLAGS) $(ROOT_DEVEL)\$(OBJDIR)\lib\$(LIB)
+
+config:	config-std
+
+config-std:	
+
+clean:	clean-std
+
+clean-std:
+	-@for %%i in ( $(OFILES) ) do $(DEL) $(DELFLAGS) %%i
+
+nuke:	nuke-std
+
+nuke-std:
+	-@for %%i in ( $(OFILES) ) do $(DEL) $(DELFLAGS) %%i
+
+$(PREFIX_PKG)\$(OBJDIR)\lib \
+$(ROOT_DEVEL)\$(OBJDIR) \
+$(ROOT_DEVEL)\$(OBJDIR)\lib:
+	mkdir $@

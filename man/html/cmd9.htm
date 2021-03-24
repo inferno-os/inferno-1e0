@@ -1,0 +1,119 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd10.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853248">
+<center><h1> diff - <a differential file comparator>differential file comparator</h1></center>
+</a><pre><tt>diff [-efbwr] <em>file1... file2
+</em></tt></pre></p><a name="844915">
+<h2> Description</h2>
+</a><a name="844916">
+The <em></a>diff</em> command tells what lines must be changed in two files to bring them into agreement.  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="851497">
+If one file is a directory<p>
+</a><td><a name="851499">
+then a file in that directory with a basename the same as that of the other file is used <p>
+</a>
+<tr><td><a name="851501">
+If both files are directories<p>
+</a><td><a name="851503">
+similarly named files in the two directories are compared by the method of <em>diff</em> for text files and cmp otherwise <p>
+</a>
+<tr><td><a name="851505">
+If more than two file names are given<p>
+</a><td><a name="851507">
+then each argument is compared to the last argument as above <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="851494">
+The normal output contains lines of these forms:<p>
+</a><ul><a name="844917">
+<li>n1 a n3, n4 <p>
+</a><a name="844918">
+<li>n1, n2 d n3 <p>
+</a><a name="844919">
+<li>n1, n2 c n3, n4<p>
+</a><a name="844920">
+These lines resemble commands of the Unix system editor<em> ed </em>to convert <em>file1</em> into <em>file2</em>. The numbers after the letters pertain to <em>file2</em>. In fact, by exchanging <em>'a'</em> for <em>'d'</em> and reading backward, it can be determined how to convert <em>file2</em> into <em>file1</em>. As in<em> ed</em>, identical pairs where <em>n1</em> = <em>n2</em> or <em>n3</em> = <em>n4</em> are abbreviated as a single number.<p>
+</a><a name="844921">
+Following each of these lines are the lines that are affected in the first file flagged by '&lt;', then all the lines that are affected in the second file flagged by '&gt;'.<p>
+</a><a name="844922">
+Except in rare circumstances, <em>diff</em> finds a smallest sufficient set of file differences.<p>
+</a></ul><a name="844944">
+<h2> Options 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844925">
+-e<p>
+</a><td><a name="844927">
+The <em>-e</em> option produces a script of <em>a</em><em>,</em> <em>c </em>and <em>d</em> <em>commands</em> for the Unix system editor <em>ed</em>, which will recreate <em>file2</em> from <em>file1</em>.<p>
+</a>
+<tr><td><a name="844929">
+-f<p>
+</a><td><a name="844931">
+The <em>-f</em> option produces a similar script, not useful with ed, in the opposite order. It may, however, be useful as input to a stream-oriented post-processor.<p>
+</a>
+<tr><td><a name="844933">
+-b<p>
+</a><td><a name="844935">
+The<em> -b</em> option causes trailing blanks (spaces and tabs) to be ignored and other strings of blanks to compare equal.<p>
+</a>
+<tr><td><a name="844937">
+-w<p>
+</a><td><a name="844939">
+The <em>-w</em> option causes all white space to be removed from input lines before applying the difference algorithm.<p>
+</a>
+<tr><td><a name="844941">
+-r<p>
+</a><td><a name="844943">
+The -r option causes <em>diff</em> to process similarly named subdirectories recursively.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="844945">
+<h2> Files</h2>
+</a><a name="844946">
+<em>/tmp/diff[12]</em><p>
+</a><a name="844952">
+<h2> Caveat</h2>
+</a><a name="844953">
+Editing scripts produced under the <em>-e</em> or <em>-f</em> option are naive about creating lines consisting of a single<em> '.'</em>. When running <em>diff</em> on directories, the notion of what is a text file is open to debate.<p>
+</a><a name="850916">
+<h2> See Also</h2>
+</a><a name="850920">
+<a href="cmd5.htm#853168"><em>cmp - compare files</em></a> <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd10.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

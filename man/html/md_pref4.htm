@@ -1,0 +1,110 @@
+<html><head><title>Limbo<br>Prefab Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_pref3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_tk.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844710">
+<center><h1>style - fonts and colors for ITV toolkit</h1></center>
+</a><pre><tt>include "draw.m";
+include "prefab.m";
+prefab:= load Prefab Prefab-&gt;PATH;
+Style: adt
+{
+  titlefont:      ref Draw-&gt;Font;
+  textfont:       ref Draw-&gt;Font;
+  elemcolor:      ref Draw-&gt;Image;
+  edgecolor:      ref Draw-&gt;Image;
+  titlecolor:     ref Draw-&gt;Image;
+  textcolor:      ref Draw-&gt;Image;
+  highlightcolor: ref Draw-&gt;Image;
+};
+</tt></pre></p><a name="844727">
+<h2> Description</h2>
+</a><a name="844728">
+The <em>Style</em> type collects the font and color information for an application or a set of items within an application. Except when using the <em>layout</em> routines (see <a href="md_pref1.htm#844323"><em>compound - windows for ITV toolkit</em></a> and <a href="md_pref2.htm#844423"><em>element - menu and display elements for ITV toolkit</em></a>), the members of a <em>Style</em> are the only way to control the appearance of <em>Prefab</em> items. Note that although the color members in practice often refer to a literal color (a single replicated pixel of color), they can be any image.<p>
+</a><a name="844735">
+<em>Styles</em> are allocated by regular Limbo definitions. There is no allocation function. All the members of a <em>Style</em> must be defined. Although it will not cause errors to modify the members of a <em>Style</em> after it has been created and passed to a <em>Prefab</em> routine, the results may be unpredictable. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844738">
+edgecolor<p>
+</a><td><a name="844740">
+This <em>Image</em> specifies how to draw the edges, or borders, of compounds.<p>
+</a>
+<tr><td><a name="844742">
+elemcolor<p>
+</a><td><a name="844744">
+This <em>Image</em> specifies how to draw the base, or background, of elements and compounds.<p>
+</a>
+<tr><td><a name="844746">
+highlightcolor<p>
+</a><td><a name="844748">
+This <em>Image</em> specifies the color to use to highlight a selected element.<p>
+</a>
+<tr><td><a name="844750">
+textcolor<p>
+</a><td><a name="844752">
+This <em>Image</em> specifies the color in which to draw an item's regular text.<p>
+</a>
+<tr><td><a name="844754">
+textfont<p>
+</a><td><a name="844756">
+This <em>Font</em> specifies the font in which to draw an item's regular text.<p>
+</a>
+<tr><td><a name="844758">
+titlecolor<p>
+</a><td><a name="844760">
+This <em>Image</em> specifies the color in which to draw an item's title text.<p>
+</a>
+<tr><td><a name="844762">
+titlefont<p>
+</a><td><a name="844764">
+This <em>Font</em> specifies the font in which to draw an item's title text.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844765">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845427">
+<em><a href="md_pref.htm#845277"></em><em>Limbo Prefab Module</em> in Chapter 12<em></a> </em><p>
+</a>
+<tr><td><a name="845429">
+ <a href="md_pref3.htm#844673"><em>environ - environment for ITV toolkit to provide a graphics framework for a item collections</em></a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="845424">
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_pref3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_tk.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:04 -->
+
+</body>
+</html>

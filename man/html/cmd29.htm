@@ -1,0 +1,60 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd28.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd30.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853648">
+<center><h1> time - <a time command execution>time command execution</h1></center>
+</a><pre><tt>time <em>cmd args...
+</em></tt></pre></p><a name="854994">
+<h2> Description</h2>
+</a><a name="854996">
+The <em></a>time</em> command is a front end to the execution of the <em>cmd</em> and arguments that appear on the command line. On completion of the subject program (<em>cmd</em>), <em>time</em> prints to standard error a line with the load, real time, and total times (in seconds) for the program.<p>
+</a><a name="845835">
+The <em>time</em> command follows the same rules as the shell for converting <em>cmd</em> to the pathname of an executable module. <p>
+</a><a name="845836">
+The load time displayed is just the value for <em>time</em> to load <em>cmd</em>. Any loads performed by <em>cmd</em> are included in the reported real time.<p>
+</a><a name="845837">
+The <em>time</em> command is designed to act on a single command, not a command pipeline. If statistics on a pipeline are needed, the pipeline should be encapsulated into a separate script for timing. For example,<p>
+</a><pre><tt><a name="845839">
+	<em>echo 'ls | grep sh' &gt; pipeline;  time sh pipeline</em><p>
+</a></tt></pre></p><a name="845841">
+In the example above , the load value returned by <em>time</em> is for the loading of <em>sh</em>, not the subsidiary commands of the pipeline.<p>
+</a><a name="851008">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854171">
+<a href="cmd27.htm#853536"><em>sh - command line interface to the Inferno system</em></a> <p>
+</a>
+<tr><td><a name="854177">
+<a href="md_sys8.htm#844967"><em>millisec - millisecond timer</em> in Chapter &#32;8</a> <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd28.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd30.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

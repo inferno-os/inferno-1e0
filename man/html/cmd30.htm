@@ -1,0 +1,116 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd29.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd31.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845864">
+<center><h1> unicode - <a interpreting Unicode characters; Unicode: interpreting characters>interpret Unicode characters</h1></center>
+</a><pre><tt>unicode [-nt] <em>hexmin</em> - <em>hexmax
+</em>unicode [-t] <em> hex </em>[...]
+unicode [-n] <em> characters
+</em></tt></pre></p><a name="845871">
+<h2> Description</h2>
+</a><a name="845872">
+The <em></a>unicode </em>command converts between UTF and character values from the Unicode Standard (see <a href="formats5.htm#844478"><em>UTF, Unicode, ASCII - character set and format</em> in Appendix &#32;A</a>).<p>
+</a><a name="845876">
+If given a range of hexadecimal numbers, <em>unicode </em>prints a table of the specified Unicode characters including their values and UTF representations. Otherwise, it translates from UTF to numeric value or numeric value to UTF, depending on the appearance of the supplied text.<p>
+</a><a name="854824">
+<h2> Options 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845879">
+-n<p>
+</a><td><a name="845881">
+The<em> -n </em>option forces numeric output to avoid ambiguity with numeric characters.<p>
+</a>
+<tr><td><a name="845883">
+-t<p>
+</a><td><a name="845885">
+If converting to UTF, the characters are printed one per line unless the <em>-t </em>flag is set, in which case the output is a single string containing only the specified characters.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="845886">
+The output of <em>unicode </em>may not be helpful if the characters printed are not available in the current font.<p>
+</a><a name="845887">
+The file<em> /lib/unicode </em>contains a table of characters and descriptions sorted in hexadecimal order.<p>
+</a><a name="845897">
+<h2> Examples 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845890">
+unicode p<p>
+</a><td><a name="845892">
+Print the hex value of <em>p</em>.<p>
+</a>
+<tr><td><a name="845894">
+unicode 2200-22f1<p>
+</a><td><a name="845896">
+Print a table of miscellaneous mathematical symbols.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="845903">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845900">
+<em>/lib/unicode</em><p>
+</a><td><a name="845902">
+Table of characters and descriptions.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="854854">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854848">
+<a href="formats5.htm#844478"><em>UTF, Unicode, ASCII - character set and format</em> in Appendix &#32;A</a><p>
+</a>
+<tr><td><a name="854852">
+<a href="formats2.htm#844345"><em>font, subfont - external format for character fonts and subfonts</em> in Appendix &#32;A</a> <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd29.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd31.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

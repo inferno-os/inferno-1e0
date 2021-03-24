@@ -1,0 +1,140 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="848766">
+<center><h1> Introduction to security</h1></center>
+</a><a name="848767">
+This is an introduction to some of the principals behind computer security as well as a description of how these principals are used in Inferno. More detailed descriptions of the methods and principals for ensuring secure communications on computers can be found in texts such as <em>Applied Cryptography</em> by Bruce Schneier (published 1996, J. Wiley &amp; Sons, Inc.).<p>
+</a><a name="848768">
+Inferno provides several levels of security:<p>
+</a><ul><a name="848769">
+<li>Mutual authentication means that two users or applications that want to communicate can establish that they are who they say they are. This is the most basic level of security provided by Inferno. It means, for example, that when a user signs on to a service provider that they can establish that they are a legitimate user. This could be someone accessing a service from a desktop computer or a set-top box.<p>
+</a><a name="848770">
+<li>Message digesting is a technique to ensure that an interloper cannot modify messages sent between users.<p>
+</a><a name="848771">
+<li>Encryption protects the confidentiality of messages so that only the party or parties for whom the messages are intended can decrypt and read them. <p>
+</a><a name="848772">
+Inferno makes it easy to enforce any one or all of these levels of security.<p>
+</a></ul><a name="848773">
+<h2> Mutual authentication</h2>
+</a><a name="848774">
+Authentication requires a combination of elements: a third party that each user can trust, an algorithm or mathematical method to secure messages between users, and a protocol for exchanging messages that ensures that a third party or intruder cannot pretend to be one of the users, or use some other method to undermine their communication.<p>
+</a><a name="848775">
+One important method for authenticating users in Inferno is the use of digital signatures. Like signing a letter a digital signature testifies to the identity of the sender. Fortunately, it is much more difficult to forge a digital signature. <p>
+</a><a name="848776">
+Even after users are authenticated to each other, it is possible for someone `listening' to their communication to read and possibly modify their messages without the users knowing it. So authentication solves one security requirement, but not all of them.<p>
+</a><a name="848777">
+<h2> Message digesting</h2>
+</a><a name="850257">
+Message digesting uses a mathematical hashing algorithm to take a message and digest it into an indecipherable string of fixed length. By appending the hashed value to a message, the authenticity of the message can be verified. The recipient takes the message, applies the same hashing algorithm used by the sender, and compares the value to the one sent. If the values are the same, then the message received must be the same as the one that was sent. This techniques assures that a message was not modified<p>
+</a><a name="850258">
+Inferno includes a counter in the message digest to ensure that messages are received in the correct order and that no messages are inserted by a third party listening in on the line.<p>
+</a><a name="850259">
+A message digest ensures that no one has tampered with a message. It does not prevent someone from reading it.<p>
+</a><a name="848781">
+<h2> Message encryption</h2>
+</a><a name="848782">
+The traditional notion of encryption is translating a message, called a plaintext in cryptography, into something unreadable, called a ciphertext. Its most obvious use is to provide confidentiality. Only someone able to decrypt the message, or translate it back to its original form, can interpret it.<p>
+</a><a name="848783">
+A mathematical algorithm is used to both encrypt and decrypt a message. Encryption algorithms depend on keys or bit strings of a specified length for encryption and decryption. The nature of an algorithm and the size of the key determine the degree of security.<p>
+</a><a name="848784">
+Two basic types of algorithms are used in cryptography: private key (or symmetric key) and public key algorithms. With symmetric algorithms the same key is used to encrypt and decrypt a message. This key must be a secret, known only to the users who want to communicate. It is often called a private or secret key. <p>
+</a><a name="848785">
+A public key algorithm may use a private or secret key to encrypt a message and a public key to decrypt it, or vice-versa. The private or secret key is known only to one user. The public key, however, does not have to be kept secret and may be distributed to anyone the user wishes to communicate with. <p>
+</a><a name="848786">
+Inferno uses a public key algorithm for digital signatures and symmetric key algorithms for encryption.<p>
+</a><a name="848787">
+A user can encrypt a message with or without appending a message digest.<p>
+</a><a name="850266">
+<h2> Algorithms Supplied With Inferno</h2>
+</a><a name="850267">
+Some of the tradeoffs related to choosing algorithms are speed, degree of security, and export restrictions (the government restricts which algorithms may be exported to other countries as well as the key size of certain algorithms). The algorithms used in Inferno are well known and rigorously tested. See the note at the beginning of this chapter for export restrictions.<p>
+</a><a name="850268">
+<h3> One-way hashing algorithms</h3>
+</a><a name="850269">
+SHA and MD5 are well known (in cryptographic circles) one-way hashing algorithms. MD5 is a high-speed, 128-bit hash. SHA is a somewhat slower (30%-50% slower) but more secure 160-bit hash.<p>
+</a><a name="850270">
+<h3> ElGamal public key signature algorithm</h3>
+</a><a name="850271">
+ElGamal is a public key system widely used for creating digital signatures. It uses a private key for signing a message and a public key for verifying it. The way keys are used in ElGamal will make it easier to adopt a different signature algorithm in Inferno as requirements change. Other systems that use equivalent keys, where either a private or public key can be used for encryption or decryption, are more difficult to change. With constant advances in the field of cryptography, one of the design goals of Inferno is to create a security component that will be easy to enhance as new algorithms are developed.<p>
+</a><a name="850272">
+<h3> Encryption algorithms</h3>
+</a><a name="850273">
+DES (the Data Encryption Standard) was adopted by the U.S. government in 1976 as a standard encryption/decryption system for unclassified data in the United States. It is widely used, especially by the financial services industry. Two types of DES are offered: DES-ECB and DES-CBC. ECB or Electronic Code Book and CBC or Chain Block Coding are part of the ANSI Banking Standard. CBC is more complex and less vulnerable than ECB. Both versions of DES provide 56-bit keys. Neither is exportable.<p>
+</a><a name="850274">
+RC4 is a symmetric or private key system that is about 10 times faster than DES and is exportable with a key size of 40 bits. In the U.S., RC4 permits keys of unlimited length. If you want to purchase a version of Inferno including DES and RC4 with unlimited key length, see the note at the beginning of this chapter. <p>
+</a><a name="850275">
+<h3> Diffie-Hellman key exchange algorithm</h3>
+</a><a name="850276">
+Diffie-Hellman is an algorithm for creating a secret key to be shared by users for encrypting messages (sometimes called a shared secret). It requires each user to exchange certain information with the other. This information can be exchanged in the open, that is, without encryption. Each user is able to create the same, secret key from this information. However, no one else listening to their exchange would be able to create or determine the secret key.<p>
+</a><a name="850277">
+<h2> Security Protocols</h2>
+</a><a name="850278">
+Cryptanalysis is the study of how to break cryptographic systems. Attempts to disrupt or listen to confidential communications are called attacks. Usually the objective of an attack is to figure out the secret key, decrypt a message, or add or modify messages in some way. <p>
+</a><a name="850279">
+There are many methods or strategies for attacking a confidential communication. One method is called a man-in-the-middle attack, where someone listening to a communication pretends to be one of the parties; another is a replay attack, where an interloper reuses messages that have already been exchanged in an attempt to discover a pattern. <p>
+</a><a name="850280">
+In order to thwart such attacks and establish some level of trust between communicating parties, it is necessary to employ certain protocols. Inferno uses two well established protocols, EKE and STS, to permit keys to be exchanged and the identities of communicating parties to be verified. The STS protocol is described in more detail later in the chapter. <p>
+</a><a name="850281">
+<h3> Using Digital Signatures</h3>
+</a><a name="850282">
+A signature is one way to guarantee that a message sent by a user is indeed from that user and not someone else. A signature does not require that a message be encrypted. It can be appended to a message in order to guarantee the identity of the sender. With ElGamal, creating a signature requires that the user have a secret or private key. Uniquely associated with the private key is another key that can be distributed publicly. This public key is used along with the private key to create a signature, and is used by others to verify the signature.<p>
+</a><a name="850283">
+To create a signature the ElGamal algorithm is applied to a combination of the private key, the public key, and the message to be signed. The output of the algorithm is the signature. <p>
+</a><a name="850284">
+To verify the signature the receiver applies the ElGamal algorithm to the public key and the signature. If the output is the same message that was sent with the signature, then the signature is valid. This method ensures that the user receiving a message is indeed communicating with someone who owns the public key. <p>
+</a><a name="850285">
+<h3> Obtaining a Certificate</h3>
+</a><a name="850286">
+The next step is to determine who the owner of the public key is, and to ensure that it belongs to the user that the receiver wants to communicate with. This is accomplished by having a third party create a certificate testifying to the identity of the owner of the public key. This third party is called a certifying authority (CA). If a user trusts the certifying authority, a copy of a certificate is sufficient to determine the ownership of a public key, and therefore, the signature and identity of the user sending a message.<p>
+</a><a name="850287">
+A certificate includes a variety of information: a user's public key, the identity of the user, Diffie-Hellman parameters, an expiration time for the certificate, and the signature of the CA. The CA's public key is sent to the user along with the certificate to verify the CA's signature.<p>
+</a><a name="850288">
+Inferno provides two different methods for obtaining a certificate depending on whether a user has access to a keyboard or not. For users with a keyboard, Inferno offers a variation of the Encrypted-Key-Exchange (EKE) protocol. This protocol depends on establishing trust between a user and a CA by transmitting a password out-of-band, for example, by letter or phone call. <p>
+</a><a name="850289">
+For an application or user on a set-top box, which normally does not have a keyboard, entering a password would be difficult. Therefore, Inferno provides a different method to establish trust. When the set-top box is turned on, it creates a private/public key pair and dials the service provider's CA to get a certificate. The CA returns a certificate blinded or scrambled with a random bit string known only to the CA. A hashed version of the string is displayed on the user's screen. The user telephones the CA and compares what is displayed with what the CA has sent. If they match, and the user can prove his or her identity, the CA makes the random bit string known to the user, so the certificate can be unscrambled.<p>
+</a><a name="850290">
+<h2> Authentication</h2>
+</a><a name="850291">
+Mutual authentication in Inferno requires that two parties who want to communicate must have a certificate from the same CA. As described above, the public key of the CA is used to check the certificate sent by the other user. The certificate is used to verify that the public key belongs to the party that the user wants to communicate with.<p>
+</a><a name="850292">
+If a user can trust the public key, then the key can be used to check the signature sent by the other party. If the public key unlocks the signature, then whoever sent the signature must have the corresponding secret key, and therefore, must be the owner of the public key. <p>
+</a><a name="848816">
+<h3> Protocol for authentication: STS</h3>
+</a><a name="848817">
+The following diagrams show how authentication is accomplished in Inferno with the STS or Station-to-Station protocol.<p>
+</a><a name="848970">
+<h4>  <img src="md_seca.gif">STS: Step 1</h4>
+</a><a name="848819">
+<a href="md_sec1.htm#848934">Figure &#32;9-1</a> represents two users, User 0 and User 1, who have already received certificates from the same CA. In order to authenticate each other, they follow the STS protocol. First, one user sends the other their public key and certificate along with a computation based on the Diffie-Hellman parameters contained in their certificate. These parameters will be used to create a shared secret key between User 0 and User 1.<p>
+</a><a name="848891">
+<h4> STS: Step 2<img src="md_seca1.gif"></h4>
+</a><a name="848932">
+In <a href="md_sec1.htm#848934">Figure &#32;9-2</a>, User 1 returns a computation based on the same Diffie-Hellman parameters along with User 1's public key and certificate. With each other's public key and certificate, along with the CA's public key that each has, User 0 and User 1 can verify that each has the other's public key. All they need now is to provide each other with a signature that can be verified with the other's public key to prove that they are indeed communicating with each other and not some third party.<p>
+</a><a name="848934">
+<h4> <img src="md_seca2.gif">STS: Steps 3 and 4</h4>
+</a><a name="848933">
+In <a href="md_sec1.htm#848934">Figure &#32;9-3</a>, each user signs information known to both of them that they can verify. The computations using the Diffie-Hellman parameters in this protocol enable User 0 and User 1 to compute a secret value that is known only to them. This value can be used as a shared secret key to encrypt later communications. The ability to derive the same key from the computations they passed back and forth such that no one else listening in on this protocol could determine the key, is a property of the Diffie-Hellman exchange.<p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

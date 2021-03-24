@@ -1,0 +1,82 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis11.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="846431">
+<center><h1> readdir - <a reading:directory and sorting files>read directory and sort files</h1></center>
+</a><pre><tt>include "readdir.m";
+readdir:= load Readdir Readdir-&gt;PATH;  
+    NAME, ATIME, MTIME, SIZE, NONE: con iota;
+    DESCENDING         : con (1&lt;&lt;5);
+init: fn(path: string, sortkey: int):
+                         (array of ref Dir, int);
+</tt></pre></p><a name="846442">
+<h2> Description</h2>
+</a><a name="846443">
+The <em>Readdir</em> module reads the contents of the directory <em>path</em> and sorts the resulting array according to <em>sortkey</em>.<p>
+</a><a name="846444">
+Each element in the returned array is a reference to one <em>Dir</em> element in the array formed by the <em>dirread</em> system call. <em>Readdir</em> also returns the number of entries read, or <em>-1</em> on failure.<p>
+</a><a name="846466">
+The sorting criteria for the returned array are based on <em>sortkey</em> as follows: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846447">
+NAME<p>
+</a><td><a name="846449">
+Sort files alphabetically by name.<p>
+</a>
+<tr><td><a name="846451">
+ATIME<p>
+</a><td><a name="846453">
+Sort files by access time, most recently accessed first.<p>
+</a>
+<tr><td><a name="846455">
+MTIME<p>
+</a><td><a name="846457">
+Sort files by modification time, most recently modified first.<p>
+</a>
+<tr><td><a name="846459">
+SIZE<p>
+</a><td><a name="846461">
+Sort files by size, largest file first.<p>
+</a>
+<tr><td><a name="846463">
+NONE<p>
+</a><td><a name="846465">
+Files are left in directory order, unsorted.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="846467">
+If the value <em>DESCENDING</em> is <em>OR</em>'ed into any of the above values (except <em>NONE</em>) the order of sorting is reversed.<p>
+</a><a name="846468">
+<h2> See Also</h2>
+</a><a name="846472">
+<a href="md_sys12.htm#845197"><em>read, write, stream - read, write, or stream file</em> in Chapter &#32;8</a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis11.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

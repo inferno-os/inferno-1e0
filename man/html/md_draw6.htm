@@ -1,0 +1,103 @@
+<html><head><title>Limbo<br>Draw Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845001">
+<center><h1> point - <a coordinate position>coordinate position</h1></center>
+</a><pre><tt>include  "draw.m";
+draw:= load Draw Draw-&gt;PATH;
+Point: adt
+{
+  x:   int;
+  y:   int;
+  add: fn(p: self Point, q: Point): Point;
+  sub: fn(p: self Point, q: Point): Point;
+  mul: fn(p: self Point, i: int):   Point;
+  div: fn(p: self Point, i: int):   Point;
+  eq:  fn(p: self Point, q: Point): int;
+  in:  fn(p: self Point, r: Rect):  int;
+};
+</tt></pre></p><a name="845018">
+<h2> Description</h2>
+</a><a name="845048">
+The Point data type specifies a position in the integer grid. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845021">
+x, y<p>
+</a><td><a name="845023">
+The coordinate position. The coordinates increase to the right   (<em>x</em>) and down   (<em>y</em>).<p>
+</a>
+<tr><td><a name="845025">
+<em>p</em>.add (<em>q</em>)<p>
+</a><td><a name="845027">
+Returns the point   (<em>p.x+q.x</em>, <em>p.y+q.y</em>).<p>
+</a>
+<tr><td><a name="845029">
+<em>p</em>.sub (<em>q</em>)<p>
+</a><td><a name="845031">
+Returns the point (<em>p.x-q.x</em>, <em>p.y-q.y</em>).<p>
+</a>
+<tr><td><a name="845033">
+p.mul (i)<p>
+</a><td><a name="845035">
+Returns the point (<em>p.x*i</em>, <em>p.y*i</em>).<p>
+</a>
+<tr><td><a name="845037">
+<em>p</em>.div (<em>i</em>)<p>
+</a><td><a name="845039">
+Returns the point (<em>p.x/i</em>, <em>p.y/i</em>).<p>
+</a>
+<tr><td><a name="845041">
+<em>p</em>.eq (<em>q</em>)<p>
+</a><td><a name="845043">
+Returns non-zero if the points' coordinates are equal and zero otherwise.<p>
+</a>
+<tr><td><a name="845045">
+<em>p</em>.in (<em>rect</em>)<p>
+</a><td><a name="845047">
+Returns 1 if point <em>p</em> is within rectangle <em>rect</em>, 0 if outside.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845057">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846735">
+<a href="md_draw.htm#844325"><em>Draw Module</em> in Chapter &#32;11</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:56 -->
+
+</body>
+</html>

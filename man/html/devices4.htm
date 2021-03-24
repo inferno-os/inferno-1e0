@@ -1,0 +1,90 @@
+<html><head><title>Inferno<br>Devices</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844616">
+<center><h1> draw - <a graphics device>graphics device</h1></center>
+</a><pre><tt>bind '#d' /dev
+
+/dev/draw/new
+/dev/draw/<em>&lt;n&gt;</em>/ctl
+/dev/draw/<em>&lt;n&gt;</em>/data
+/dev/draw/<em>&lt;n&gt;</em>/refresh
+</tt></pre></p><a name="844625">
+<h2> Description</h2>
+</a><a name="844626">
+The <em>draw</em> device serves a two-level file system providing an interface to the graphics facilities of the system; the Limbo Draw module (see <a href="md_draw.htm#844325"><em>Draw Module</em> in Chapter &#32;11</a>) accesses the device to implement its functions.<p>
+</a><a name="844631">
+Each client of the device connects by opening <em>/dev/draw/new</em> and reading back seven decimal numbers in the standard 12-character format. The seven values are:<p>
+</a><ul><a name="844632">
+<li>The connection number, <em>n</em><p>
+</a><a name="844633">
+<li>The image id of the display image (always zero)<p>
+</a><a name="844634">
+<li>The <em>ldepth</em> of the display image<p>
+</a><a name="844635">
+<li>Four values (<em>min.x</em>, <em>min.y</em>, <em>max.x</em>, and <em>max.y</em>) that define the display image.<p>
+</a><a name="844636">
+The client can then open the directory <em>/dev/draw/</em><em>&lt;n&gt;</em><em>/</em> (where <em>n</em> is the connection number) to access the <em>ctl</em>, <em>data</em>, and <em>refresh</em> files associated with the connection. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844639">
+ctl<p>
+</a><td><a name="844641">
+The <em>ctl</em> file accepts no messages; its only purpose is to return the initialization information.<p>
+</a>
+<tr><td><a name="844643">
+data<p>
+</a><td><a name="844645">
+The <em>data</em> file accepts messages corresponding to procedures in the Draw module, such as:<p>
+</a><a name="844646">
+Allocate a window or image<p>
+</a><a name="844647">
+Draw on the image.<p>
+</a><a name="844648">
+Paint text<p>
+</a><a name="844650">
+Such messages generate data to be returned to the client which can be recovered by reading the <em>data</em> file. The format of the messages to and from the <em>data</em> file is described later. <p>
+</a>
+<tr><td><a name="844652">
+refresh (read-only)<p>
+</a><td><a name="844654">
+As windows owned by the client are uncovered, they may not be refreshed by the server. For example, they could have refresh functions associated with them. In this case, the client is notified by a message <em>refresh</em> file reporting what needs to be repainted by the client. The message has five decimal integers formatted as in the <em>ctl</em> message: <p>
+</a><a name="844655">
+The image id of the window.<p>
+</a><a name="844656">
+Four decimal values (<em>min.x</em>, <em>min.y</em>, <em>max.x</em>, and <em>max.y</em>) that define the display image in need of refreshment.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a></ul><a name="844658">
+<h2> See Also</h2>
+</a><a name="844662">
+<a href="md_draw.htm#844325"><em>Draw Module</em> in Chapter &#32;11</a> <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:54:10 -->
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<html><head><title>Limbo<br>System Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys11.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845070">
+<center><h1> pctl - <a process control>process control</h1></center>
+</a><pre><tt>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+pctl: fn(flags: int, movefd: list of ref FD): int;
+</tt></pre></p><a name="845077">
+<h2> Description</h2>
+</a><a name="845078">
+A newly spawned Limbo process, also known as a thread, shares with its parent process a number of resources and properties, such as file name space, open file descriptors, and current working directory. The <em>pctl</em> function controls this sharing, allowing a process to gain a copy of a resource rather than to share it, to start with a null resource.<p>
+</a><a name="845079">
+The set of processes sharing a property are called a group; for example, the set of processes sharing a name space are called a name space group. Each process is a member of a <em>process</em> <em>group</em>, typically the set of threads functioning as a single program. All the members of a process group may be terminated at once using the <em>killgrp</em> control message in the <em>prog</em> device.<p>
+</a><a name="845080">
+A call to <em>pctl</em> affects the calling process and, indirectly according to <em>flags</em>, any other processes sharing properties with it. <p>
+</a><a name="850156">
+<h3> File Descriptor Group </h3>
+</a><a name="850173">
+The File Descriptor group is controlled by the following mutually exclusive options: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="850162">
+NEWFD<p>
+</a><td><a name="850164">
+Place the process in a new file descriptor group. By default, no files will be open for I/O after this <em>pctl</em>. However, any file descriptor passed in the <em>movefd</em> parameter will be preserved across the call.<p>
+</a>
+<tr><td><a name="850166">
+FORKFD<p>
+</a><td><a name="850168">
+Place the process in a new file descriptor group containing a copy of the current set of file descriptors. After this call, any changes the process makes to its set of open file descriptors will not be visible to other processes.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845091">
+<h3> Namespace Group </h3>
+</a><a name="850178">
+The Namespace group is controlled by the following mutually exclusive options: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="850185">
+NEWNS<p>
+</a><td><a name="850187">
+Place the process in a new file name space group containing only a root directory, /, made from an <em>attach</em> to <em>root</em>. The current directory is unaffected by this call. No files other than / will be accessible by name after this <em>pctl </em>and<em> bind </em>and <em>mount </em>calls will be necessary to build a new name space.<p>
+</a>
+<tr><td><a name="850189">
+FORKNS<p>
+</a><td><a name="850191">
+Place the process in a new file name space group containing a copy of the current name space. After this call, any changes the process makes to its name space, including <em>chdir</em> calls, will not affect other processes.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845099">
+<h3> NEWPGRP</h3>
+</a><a name="845101">
+Establish a new process group with a group id equal to that of the pid of the calling process. <p>
+</a><a name="845102">
+<h2> Return Value</h2>
+</a><a name="850194">
+The return value of <em>pctl</em> is the numerical process id of the calling process, which can be used for example to access its <em>prog</em> files.<p>
+</a><a name="850195">
+<h2> Example</h2>
+</a><a name="850196">
+<em>pid:= pctl(0,nil);</em><p>
+</a><a name="845104">
+<h2> Note</h2>
+</a><a name="845105">
+Programs that run synchronously from the shell share its file name space, so programs like <em>bind</em> and <em>mount</em> and<em> cd</em> can affect the shell's environment. Programs that need a private space should call <em>pctl</em> with the FORKNS option.<p>
+</a><a name="845106">
+<h2> See Also</h2>
+</a><a name="845113">
+<em><a href="md_sys.htm#847453"></em><em>Limbo System Module</em><em></a> </em>and <a href="cmd27.htm#853536"><em>sh - command line interface to the Inferno system</em> in Chapter &#32;5</a> <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys11.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:35 -->
+
+</body>
+</html>

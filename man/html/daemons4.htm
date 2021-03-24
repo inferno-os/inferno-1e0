@@ -1,0 +1,71 @@
+<html><head><title>Inferno <br>Daemons</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844681">
+<center><h1> virgild - <a connection service: for remote clients>connection service for remote clients</h1></center>
+</a><kbd>lib/cs
+</kbd><kbd>lib/virgild
+</kbd><pre><tt></tt></pre></p><a name="844687">
+<h2> Description</h2>
+</a><a name="844688">
+The<em> virgild </em>daemon monitors requests for name service arriving on UDP port<em> virgil</em>. Those requests are translated into a network address via the local connection server (see <a href="daemons1.htm#844312"><em>cs - connection server daemon</em></a>) and sent back to the requesting client.<p>
+</a><a name="844692">
+Requests should be of the form:<p>
+</a><a name="844693">
+<em>	userid?machinename</em><p>
+</a><a name="844694">
+The <em>userid</em> field is currently unused but must be supplied to satisfy the required syntax. The machine name can be a symbolic service name as described in <a href="formats1.htm#844311"><em>db - connection service database</em> in Appendix &#32;A</a>. Such names are resolved against the <em>/services/cs/db</em> file on the machine running <em>virgild</em>.<p>
+</a><a name="844698">
+The request is included in the response format:<p>
+</a><a name="844699">
+<em>	userid?machine_name=network_address</em><p>
+</a><a name="844700">
+The <em>virgild </em>daemon assumes that the local connection service has already been started.<p>
+</a><a name="844701">
+<h2> Caveat</h2>
+</a><a name="844703">
+If the machine name cannot be resolved into a network address, the virgild daemon writes a warning message to its standard error and reads its input for the next request. No notification is sent to the client. Clients are advised to arrange for a timeout on their translation requests.<p>
+</a><a name="844704">
+The<em> virgild </em>daemon is (currently) single threaded. <p>
+</a><a name="844722">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846148">
+<a href="daemons1.htm#844312"><em>cs - connection server daemon</em></a><p>
+</a>
+<tr><td><a name="846153">
+<a href="cmd25.htm#853520"><em>rcmd - remote command execution</em> in Chapter &#32;5</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="844812">
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:31 -->
+
+</body>
+</html>

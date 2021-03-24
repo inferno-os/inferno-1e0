@@ -1,0 +1,112 @@
+<html><head><title>Limbo<br>Draw Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844630">
+<center><h1>  Example - <a program for: illustrating image primitives>simple program to illustrate image primitives</h1></center>
+</a><pre><tt>implement Test; 
+include "sys.m";
+include "draw.m"; 
+Test: module 
+{ 
+ init:  fn(ctxt: ref Draw-&gt;Context, argv: list of string); 
+}; 
+init(nil: ref Draw-&gt;Context, nil: list of string)
+{     
+  sys:= load Sys  Sys-&gt;PATH;
+  draw:= load Draw Draw-&gt;PATH;
+    Display, Font, Rect, Point, Image, Screen: import draw;
+    #     
+    # Set up connection to display and initialize colors.     
+        display:= draw-&gt;Display.allocate(nil);
+        disp := display.image;
+        red  := display.color(Draw-&gt;Red);
+        blue := display.color(Draw-&gt;Blue);
+        white := display.color(Draw-&gt;White);
+        yellow:= display.color(Draw-&gt;Yellow);
+        ones := display.ones;
+    #     
+ # Paint the screen red.     
+ #     
+ disp.draw(disp.r, red, ones, disp.r.min);      sys-&gt;sleep(5000);
+ #     
+ # Texture a region with rectangular tiles.     
+ #     
+ texture:= display.newimage(((0,0),(2,3)), disp.ldepth,1,0);
+        texture.clipr = ((-10000,-10000),(10000,10000));
+ # put something in the texture     
+ texture.draw(((0,0),(1,3)), blue, ones, (0,0));
+ texture.draw(((0,0),(2, 1)), blue, ones, (0,0));
+ # use texture as both source and mask to let     
+ # destination color show through 
+ disp.draw(((100,100),(200,300)), texture, texture, (0,0));
+        sys-&gt;sleep(5000);
+ #     
+ # White-out a quarter of the pixels in a region,     
+ # to make the region appear shaded.     
+ #     
+ stipple:= display.newimage(((0,0),(2,2)), disp.ldepth,1,0);
+   stipple.draw(((0,0),(1,1)), ones, ones, (0,0));
+   disp.draw(((100,100),(300,250)), white, stipple, (0,0));     
+        sys-&gt;sleep(5000);
+ #     
+ # Draw textured characters.     
+ #
+ font:= Font.open(display, "*default*");
+  disp.text((100,310), texture, (0,0), font, "Hello world");     
+        sys-&gt;sleep(5000);     
+ #     
+ # Draw picture in elliptical frame.     
+ #
+  delight:= display.open("/icons/delight.bit");
+ piccenter:= delight.r.min.add(delight.r.max).div(2);
+   disp.fillellipse((250,250), 150, 50, delight, piccenter);
+disp.ellipse  ((250,250), 150, 50, 3, yellow, (0,0));
+                sys-&gt;sleep(5000);
+ # 
+ # Draw a parabolic brush stroke using an elliptical brush     
+ # to reveal more of the picture, consistent with what's     
+ # already visible.     
+ #
+ dx: con 15;
+ dy: con 3;
+ brush:= display.newimage(((0,0),(2*dx+1,2*dy+1)),
+                disp.ldepth, 0, 0);
+                brush.fillellipse((dx,dy), dx, dy, ones, (0,0));
+        for(x:=delight.r.min.x;         x&lt;delight.r.max.x;   x++)
+        {         
+           y:= (x-piccenter.x)*(x-piccenter.x)/80;
+                 y += 2*dy+1;                   # so whole brush is visible at top         
+           xx:= x+(250-piccenter.x)-dx;
+                 yy:= y+(250-piccenter.y)-dy;
+                
+disp.gendraw(((xx,yy),(xx+2*dx+1,yy+2*dy+1)),delight,
+                     (x-dx, y-dy), brush, (0,0));
+        } 
+}
+</tt></pre></p><a name="844632">
+<h2> Description </h2>
+</a><a name="844633">
+The example is a self-contained simple program that illustrates most of the features of the basic draw library. Run it from the top-level shell prompt, not within a window system, since it establishes its own connection to the display and writes directly on the display, not in a private window. The program exercises the drawing primitives, taking particular care to maintain a consistent coordinate system for the combinations of images on the display. Comments in the code introduce each step. <p>
+</a><pre><tt>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:56 -->
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+<../mkconfig
+<../$SYSHOST/mkhost
+
+DIRS=\
+	cmd\
+	ftpfs\
+	lib\
+	limbo\
+	math\
+	wm\
+	work\
+
+all:QV:		all-$SYSHOST
+clean:QV:	clean-$SYSHOST
+install:QV:	install-$SYSHOST
+installall:QV:	install-$SYSHOST
+nuke:QV:	nuke-$SYSHOST
+package:QV:	package-$SYSHOST
+uninstall:QV:	uninstall-$SYSHOST
+
+%-Plan9 \
+%-Inferno :QV:
+	for (j in $DIRS)
+	{
+		echo '@{cd' $j '; mk $MKFLAGS $stem}'
+		@{cd $j; mk $MKFLAGS $stem}
+	}
+
+%-Irix \
+%-Hp \
+%-Linux \
+%-Solaris :QV:
+	for j in $DIRS
+	do
+		if [ -d $j ]
+		then
+			echo "(cd $j; mk $MKFLAGS $stem)"
+			(cd $j; mk $MKFLAGS $stem)
+		fi
+	done
+
+%-Nt:QV:
+	$ECHO do not know how to make $target

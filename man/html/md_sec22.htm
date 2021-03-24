@@ -1,0 +1,413 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec21.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="850890">
+<center><h1> Summary of security modules, utilities, commands, daemons, and abstract data types</h1></center>
+</a><a name="853833">
+Implementing security in Inferno involves a number of different components. Application programs load modules to access security functions; commands are used to set up servers for security purposes, and daemons are initialized to listen for security-related communications. <p>
+</a><a name="854081">
+<h2> Modules</h2>
+</a><a name="853834">
+<a href="md_sec22.htm#853834">Table &#32;9-1</a> summarize the security modules covered in this chapter. The keyring module is defined by <em>keyring.m</em>. Other security modules are defined in <em>security.m.</em> 
+<Table Border="3">
+<caption><a name="853838">
+<h4> Summary of security modules &#32;</h4>
+</a></caption>
+<tr><td><a name="853844">
+Keyring 
+</a><td><a name="853846">
+auth
+</a><td><a name="853848">
+performs authentication
+</a>
+<tr><td><a name="853850">
+
+</a><td><a name="853852">
+readauthinfo
+</a><td><a name="853854">
+reads the authinfo adt
+</a>
+<tr><td><a name="853856">
+
+</a><td><a name="853858">
+writeauthinfo
+</a><td><a name="853860">
+writes the authinfo adt
+</a>
+<tr><td><a name="853862">
+
+</a><td><a name="853864">
+iptob64
+</a><td><a name="853866">
+converts integer to base 64 string
+</a>
+<tr><td><a name="853868">
+
+</a><td><a name="853870">
+b64toip
+</a><td><a name="853872">
+converts base 64 string to integer
+</a>
+<tr><td><a name="853874">
+
+</a><td><a name="853876">
+random
+</a><td><a name="853878">
+generate large, random numbers
+</a>
+<tr><td><a name="853880">
+
+</a><td><a name="853882">
+bits
+</a><td><a name="853884">
+returns number of bits of precision
+</a>
+<tr><td><a name="853886">
+
+</a><td><a name="853888">
+expmod
+</a><td><a name="853890">
+returns base**exp mod (mod)
+</a>
+<tr><td><a name="853892">
+
+</a><td><a name="853894">
+eq
+</a><td><a name="853896">
+compares two IPint adts
+</a>
+<tr><td><a name="853898">
+
+</a><td><a name="853900">
+iptobytes
+</a><td><a name="853902">
+converts integer to array of bytes
+</a>
+<tr><td><a name="853904">
+
+</a><td><a name="853906">
+certtostr
+</a><td><a name="853908">
+convert ref Certificate to a string
+</a>
+<tr><td><a name="853910">
+
+</a><td><a name="853912">
+pktostr
+</a><td><a name="853914">
+convert ref PK to a string
+</a>
+<tr><td><a name="853916">
+
+</a><td><a name="853918">
+sktostr
+</a><td><a name="853920">
+convert ref SK to a string
+</a>
+<tr><td><a name="853922">
+
+</a><td><a name="853924">
+strtocert
+</a><td><a name="853926">
+convert string to ref Certificate
+</a>
+<tr><td><a name="853928">
+
+</a><td><a name="853930">
+strtopk
+</a><td><a name="853932">
+convert string to ref PK
+</a>
+<tr><td><a name="853934">
+
+</a><td><a name="853936">
+strtosk
+</a><td><a name="853938">
+convert string to ref SK
+</a>
+<tr><td><a name="853940">
+
+</a><td><a name="853942">
+sign
+</a><td><a name="853944">
+create a signed certificate
+</a>
+<tr><td><a name="853946">
+
+</a><td><a name="853948">
+verify
+</a><td><a name="853950">
+verify a signed certificate
+</a>
+<tr><td><a name="853952">
+
+</a><td><a name="853954">
+genSK
+</a><td><a name="853956">
+generate private, public keys
+</a>
+<tr><td><a name="853958">
+
+</a><td><a name="853960">
+genSKfromPK
+</a><td><a name="853962">
+generate SK based on PK parameters
+</a>
+<tr><td><a name="853964">
+
+</a><td><a name="853966">
+sktopk
+</a><td><a name="853968">
+extracts PK from SK/PK pair
+</a>
+<tr><td><a name="853970">
+
+</a><td><a name="853972">
+sha
+</a><td><a name="853974">
+produce a message digest with sha
+</a>
+<tr><td><a name="853976">
+
+</a><td><a name="853978">
+md5
+</a><td><a name="853980">
+produce a message digest with md5
+</a>
+<tr><td><a name="853982">
+
+</a><td><a name="853984">
+dhparams
+</a><td><a name="853986">
+creates Diffie-Hellman parameters
+</a>
+<tr><td><a name="853988">
+
+</a><td><a name="853990">
+getstring
+</a><td><a name="853992">
+reads a string from a file descriptor
+</a>
+<tr><td><a name="853994">
+
+</a><td><a name="853996">
+putstring
+</a><td><a name="853998">
+writes a string to a file descriptor
+</a>
+<tr><td><a name="854000">
+
+</a><td><a name="854002">
+getbytearray
+</a><td><a name="854004">
+reads a byte array from a file descriptor
+</a>
+<tr><td><a name="854006">
+
+</a><td><a name="854008">
+putbytearray
+</a><td><a name="854010">
+writes a byte array to a file descriptor
+</a>
+<tr><td><a name="854012">
+
+</a><td><a name="854014">
+puterror
+</a><td><a name="854016">
+writes an error string to a file descriptor
+</a>
+<tr><td><a name="854018">
+SSL
+</a><td><a name="854020">
+connect
+</a><td><a name="854022">
+connect to ssl device
+</a>
+<tr><td><a name="854024">
+
+</a><td><a name="854026">
+secret
+</a><td><a name="854028">
+provide secrets to ssl connection
+</a>
+<tr><td><a name="854030">
+Login 
+</a><td><a name="854032">
+login
+</a><td><a name="854034">
+obtain a certificate
+</a>
+<tr><td><a name="854036">
+
+</a><td><a name="854038">
+getauthinfo
+</a><td><a name="854040">
+Tk user interface to login
+</a>
+<tr><td><a name="854042">
+Password
+</a><td><a name="854044">
+get
+</a><td><a name="854046">
+read a password from a password file
+</a>
+<tr><td><a name="854048">
+
+</a><td><a name="854050">
+put
+</a><td><a name="854052">
+write a password to a password file
+</a>
+<tr><td><a name="854054">
+Random
+</a><td><a name="854056">
+randomint
+</a><td><a name="854058">
+generate a random number
+</a>
+<tr><td><a name="854060">
+
+</a><td><a name="854062">
+randombuf
+</a><td><a name="854064">
+generate an array of random bytes
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="852085">
+<h2> Commands</h2>
+</a><a name="851149">
+<a href="md_sec22.htm#851149">Table &#32;9-2</a> summarizes the commands that are used for security with servers and set-top boxes: 
+<Table Border="3">
+<caption><a name="854090">
+<h4> Summary of security-related commands</h4>
+</a></caption>
+<tr><td><a name="851130">
+changelogin
+</a><td><a name="851132">
+create/update the password file on server
+</a>
+<tr><td><a name="851134">
+createsignerkey
+</a><td><a name="851136">
+create the key for the signer server
+</a>
+<tr><td><a name="854820">
+getauthinfo
+</a><td><a name="854822">
+create/obtain a certificate for authentication
+</a>
+<tr><td><a name="851138">
+manufacture
+</a><td><a name="851140">
+emulate the set-top box ID in ROM
+</a>
+<tr><td><a name="851142">
+register
+</a><td><a name="851144">
+register set-top box with signer
+</a>
+<tr><td><a name="851146">
+verify
+</a><td><a name="851148">
+authenticate receiver of blinded certificate
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="854107">
+<h2> Daemons</h2>
+</a><a name="854125">
+<a href="md_sec22.htm#854125">Table &#32;9-3</a> summarizes the daemons that run on a server: 
+<Table Border="3">
+<caption><a name="854110">
+<h4> Summary of security-related server daemons</h4>
+</a></caption>
+<tr><td><a name="854114">
+countersigner
+</a><td><a name="854116">
+`unblinds' a certificate for a client
+</a>
+<tr><td><a name="854118">
+logind
+</a><td><a name="854120">
+provide a certificate to a client
+</a>
+<tr><td><a name="854122">
+signer
+</a><td><a name="854124">
+sends a blinded certificate to a client
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="854126">
+<h2> Abstract Data Types</h2>
+</a><a name="851170">
+The following abstract data types (adts) are defined in the Keyring module:<p>
+</a><a name="851171">
+<h3> SigAlg</h3>
+</a><a name="851172">
+The <em>SigAlg</em> adt contains a single string that specifies the algorithm used for digital signatures. The allowable values are <em>MD5</em> and <em>SHA</em>, which specify which one-way hash function is used to produce a digital signature, or message digest. In general, a one-way hash function converts an arbitrary length message to a unique fixed-length message digest. <em>MD5</em> produces a 128-bit; <em>SHA</em> produces a 160-bit hash.<p>
+</a><a name="851173">
+<h3> PK and SK</h3>
+</a><a name="851174">
+The <em>PK</em> adt contains the data necessary to construct a public key; the <em>SK</em> adt contains the data necessary to construct a secret key. Both keys are built from the combination of a specified signature algorithm and a string representing the name of owner of the key.<p>
+</a><a name="851175">
+<h3> Certificate</h3>
+</a><a name="851176">
+The <em>Certificate</em> adt contains a digital signature with the certification of the trusted authority (CA), the hash algorithm that is used, the name of the signer and a message expiration date.<p>
+</a><a name="851177">
+<h3> DigestState </h3>
+</a><a name="851178">
+The <em>DigestState</em> adt contains the state of partially completed hash functions during processing.<p>
+</a><a name="851179">
+<h3> Authinfo </h3>
+</a><a name="851180">
+The <em>Authinfo</em> adt contains an individual user's private and public key, the signer's certificate and the signer's public key, and the Diffie-Hellman parameters. <em>Authinfo</em> is normally created during login or registration (See <a href="md_sec14.htm#844720"><em>login, getauthinfo - get an Authinfo adt from a certificate authority</em></a> and <a href="md_sec18.htm#846848"><em>register - command to register set-top-box identity with signer</em></a>).<p>
+</a><a name="851187">
+<h3> IPint</h3>
+</a><a name="851236">
+The <em>IPint</em> adt provides certain cryptographic functions so that various popular public key algorithms can be implemented directly in Limbo. The current implementation limits the maximum integer to 2<sup>3192</sup>-1.<p>
+</a><a name="851237">
+An <em>IPint</em> can be converted into two external formats: <p>
+</a><ul><a name="851238">
+<li>an array of bytes (in which the first byte is the highest order byte of the integer) that is useful when communicating with the kernel's internal <em>ssl</em> device (<em>#D</em>) (see <a href="devices8.htm#844978"><em>ssl - secure sockets layer device</em> in Chapter &#32;2</a>)<p>
+</a><a name="851232">
+<li>a MIME base 64 format that allows an <em>IPint</em> to be stored in files or transmitted across networks in text form.<p>
+</a></ul>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec21.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

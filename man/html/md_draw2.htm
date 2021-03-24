@@ -1,0 +1,138 @@
+<html><head><title>Limbo<br>Draw Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844537">
+<center><h1> display - connection to draw device</h1></center>
+</a><pre><tt>include "draw.m";
+draw:= load Draw Draw-&gt;PATH;
+Display: adt
+{
+ image:       ref Image;
+ ones:        ref Image;
+ zeros:       ref Image;
+ allocate:    fn(dev: string) :ref Display;
+ startrefresh:fn(d: self ref Display);
+ publicscreen:fn(d: self ref Display, id: int) :ref Screen;
+ newimage:    fn(d: self ref Display,
+           r: Rect, ldepth, repl, color: int) :ref Image;
+ color:       fn(d: self ref Display,color: int):ref Image;
+ rgb:         fn(d: self ref Display, red, green, blue:
+                               int):ref Image;
+ open:        fn(d: self ref Display, name: string)
+                                   :ref Image;
+ readimage:   fn(d: self ref Display, fd: ref Sys-&gt;FD)
+                                   :ref Image;
+ writeimage:  fn(d: self ref Display, fd: ref Sys-&gt;FD, 
+                     i:ref Image)    :int;
+ rgb2cmap:     fn(d: self ref Display, red, green, blue:
+                           int)      :int;
+ cmap2rgb:    fn(d: self ref Display, color: int)     
+                          :(int, int, int);
+};
+</tt></pre></p><a name="844562">
+<h2> Description</h2>
+</a><a name="844564">
+ The <em>Display</em> type represents a connection to a <em>draw</em> device. This device is the representation of a physical display, such as a CRT, and its associated memory. It contains the storage for all images, objects must be allocated through <em>Display</em> member functions. Graphics operations that use multiple Image objects may not mix images from different <em>Displays</em>. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844567">
+image<p>
+</a><td><a name="844569">
+The visible contents of the display. Draw on <em>image</em> to change the display.<p>
+</a>
+<tr><td><a name="844571">
+ones, zeros<p>
+</a><td><a name="844573">
+Replicated images of a single pixel, either all ones (true) or all zeros (false). Useful as masks for basic graphical operations.<p>
+</a>
+<tr><td><a name="844575">
+allocate (<em>dev</em>)<p>
+</a><td><a name="844577">
+Attach to a new display, represented by the <em>draw </em>device mounted in the specified dev directory. If <em>dev</em> is the empty string, <em>/dev</em> is used. The return value is <em>nil </em>if the allocation fails.<p>
+</a>
+<tr><td><a name="844579">
+<em>d</em>.startrefresh ( )<p>
+</a><td><a name="844581">
+Receive and process window refresh events from the device. After allocating a Display <em>object</em>, the application should spawn a thread to call <em>startrefresh</em>. <p>
+</a>
+<tr><td><a name="844583">
+<em>d</em>.publicscreen (<em>id</em>)<p>
+</a><td><a name="844585">
+Create a locally addressable pointer to a public <em>Screen</em>. See <a href="md_draw9.htm#845163"><em>screen - type to define the abstract data structures for the windows on a display</em></a>.<p>
+</a>
+<tr><td><a name="844590">
+<em>d</em>.newimage<p>
+</a><a name="844591">
+(<em>clipr</em>, <em>ldepth</em>, <em>repl</em>, <em>color</em>)<p>
+</a><td><a name="844593">
+Allocate an off-screen <em>Image</em>. The arguments supply the values for that are used to paint the image when created.<p>
+</a>
+<tr><td><a name="844595">
+<em>d</em>.color (<em>color</em>)<p>
+</a><td><a name="844597">
+Create a single-pixel, replicated off-screen image of the specified <em>color</em>. The Draw <em>module</em> defines constants for several common colors: <em>Black</em>, <em>Blue</em>, <em>Green</em>, <em>Red</em>, <em>White</em>, and <em>Yellow</em>.<p>
+</a>
+<tr><td><a name="844599">
+<em>d</em>.rgb<p>
+</a><a name="844600">
+(<em>red</em>, <em>green</em>, <em>blue</em>)<p>
+</a><td><a name="846399">
+Use the values (from 0 [no color] through 255 [saturated]) of red, green, and blue to find the closest matching color map entry, and creates a single-pixel replicated image of that color. Equivalent to <em>d.color</em>(<em>d.rgb2cmap</em>(<em>red</em>,<em> green</em>, <em>blue</em>)). <p>
+</a>
+<tr><td><a name="844604">
+<em>d</em>.open (<em>file</em>)<p>
+</a><td><a name="844606">
+Read an image description from <em>file</em> and return an <em>Image</em> holding the picture. This function will implicitly handle either <em>compressed</em> or <em>uncompressed</em> formats. (See <a href="formats3.htm#844382"><em>image - external format for images</em> in Appendix &#32;A</a><em> </em>for further details)<p>
+</a>
+<tr><td><a name="844611">
+<em>d</em>.readimage (<em>fd</em>)<p>
+</a><td><a name="844613">
+Analogous to <em>open</em>, except the image is obtained from an open file descriptor, <em>fd</em>, rather than a named file. <p>
+</a>
+<tr><td><a name="844615">
+<em>d</em>.writeimage (<em>fd</em>, <em>i</em>)<p>
+</a><td><a name="844617">
+Complement of <em>readimage</em>. Write an image file representing image <em>i </em>to the open file descriptor, <em>fd</em>. This image is always written in a <em>compressed</em> format. See <a href="formats3.htm#844382"><em>image - external format for images</em> in Appendix &#32;A</a><em> </em>for further details. <p>
+</a>
+<tr><td><a name="844622">
+<em>d</em>.rgb2cmap<p>
+</a><a name="844623">
+(<em>red</em>, <em>green</em>, <em>blue</em>)<p>
+</a><td><a name="844625">
+Return the color map index of the color that best matches the color triple. The values of the components range from 0 (no color) to 255 (saturated).<p>
+</a>
+<tr><td><a name="844627">
+<em>d</em>.cmap2rgb (<em>color</em>)<p>
+</a><td><a name="844629">
+Decompose the color into a color triple and return the result. <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:56 -->
+
+</body>
+</html>

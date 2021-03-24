@@ -1,0 +1,66 @@
+<html><head><title>Inferno<br>Communications Protocol, Styx</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="846967">
+<center><h1> attach, nop - <a messages:for initiating activity>messages to initiate activity</h1></center>
+</a><pre><tt>Tnop    <em>tag</em> [2]
+Rnop    <em>tag</em> [2]
+Tattach <em>tag</em> [2] <em>fid</em> [2] <em>uid</em> [28] <em>aname</em> [28]
+Rattach <em>tag</em> [2] <em>fid</em> [2] <em>qid</em> [8]
+</tt></pre></p><a name="848594">
+<h2> Description</h2>
+</a><a name="848589">
+The <em>attach</em> message serves as a fresh introduction from a user on the client machine to a server. The message identifies the user <em>(uid)</em> and may select the file tree to access (<em>aname</em>).<p>
+</a><a name="848590">
+As a result of the <em>attach</em> transaction, the client will have a connection to the root directory of the desired file tree, represented by <em>fid</em>. An error is returned if <em>fid</em> is already in use. The server's idea of the root of the file tree is represented by the returned <em>qid</em>.<p>
+</a><a name="846977">
+The <em>nop</em> request does nothing overt but may be used to synchronize the channel initially.<p>
+</a><a name="846978">
+The <em>tag</em> should be <em>notag</em> (value 16rFFFF) for a <em>nop</em> message.<p>
+</a><a name="849975">
+<h2> Entry Points</h2>
+</a><a name="849978">
+An <em>attach </em>transaction will be generated for kernel devices (see <a href="devices.htm#"><em>Inferno Devices</em> in Chapter 2</a>) when a system call evaluates a file name beginning with #. A <strong>mount</strong> call (see <a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em> in Chapter 8</a>) generates an <em>attach</em> message to the remote file server. When the kernel boots, an <em>attach</em> is made to the root device, <em>root</em>, and then an <em>attach</em> is made to the requested file server machine.<p>
+</a><a name="846990">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="850143">
+<a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em> in Chapter 8</a><p>
+</a>
+<tr><td><a name="850145">
+<a href="md_misc.htm#845885"><em>Limbo Miscellaneous Modules</em> in Chapter 15</a><p>
+</a>
+<tr><td><a name="850147">
+<a href="devices.htm#"><em>root - the root file system</em> in Chapter 2</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:07 -->
+
+</body>
+</html>

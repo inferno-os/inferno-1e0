@@ -1,0 +1,299 @@
+<html><head><title>Limbo<br>Math Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_math1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_math3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844413">
+<center><h1> fp - <a floating point operations>floating point operations</h1></center>
+</a><pre><tt>include "math.m";
+math:= load Math Math-&gt;PATH;
+
+Infinity, NaN, MachEps, Pi, Degree         : real;
+INVAL, ZDIV, OVFL, UNFL, INEX              : int;
+RND_NR, RND_NINF, RND_PINF, RND_Z, RND_MASK: int;
+
+getFPcontrol, getFPstatus: fn()            : int;
+FPcontrol, FPstatus: fn(r, mask: int)      : int;
+ilogb              : fn(x: real)           : int;
+scalbn             : fn(x: real, n: int)   : real;
+copysign           : fn(x, s: real)        : real;
+finite, isnan      : fn(x: real)           : int;
+nextafter          : fn(x, y: real)        : real;
+
+fdim, fmin, fmax   : fn(x, y: real)        : real;
+fabs               : fn(x: real)           : real;
+ceil, floor        : fn(x: real)           : real;
+remainder          : fn(x, p: real)        : real;
+fmod               : fn(x, y: real)        : real;
+modf               : fn(x: real)           :(int, real);
+rint               : fn(x: real)           : real;
+</tt></pre></p><a name="844439">
+<h2> Description</h2>
+</a><a name="844440">
+These constants and functions provide control over rounding modes, exceptions, and other properties of floating point arithmetic. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844443">
+Infinity and NaN<p>
+</a><td><a name="844445">
+<em>Infinity</em> and <em>NaN</em> are constants containing the positive infinity and quiet not-a-number values of the IEEE binary floating point standard, double precision.<p>
+</a>
+<tr><td><a name="844447">
+MachEps<p>
+</a><td><a name="844449">
+The constant <em>MachEps</em> is 2<sup>-52</sup>, the smallest <em>e</em> such that 1+<em>e</em> is not equal to 1.<p>
+</a>
+<tr><td><a name="844451">
+Pi<p>
+</a><td><a name="844453">
+<em>Pi</em><kbd> </kbd>is the nearest machine number to the infinitely precise value.<p>
+</a>
+<tr><td><a name="844455">
+Degree<p>
+</a><td><a name="844457">
+Degree is <em>Pi/180</em>.<p>
+</a>
+<tr><td><a name="844459">
+FPcontrol (<em>r, mask</em>) and <p>
+</a><a name="844460">
+FPstatus (<em>r, mask</em>)<p>
+</a><td><a name="844462">
+Each thread has a floating point control word that governs rounding mode and whether a particular floating point exception causes a trap. It also has a floating point status word that stores accumulated exception flags. The functions <em>FPcontrol</em> and <em>FPstatus</em> copy bits to the control or status word, in positions specified by <em>mask</em>, returning the previous values of the bits specified in the <em>mask</em>.<p>
+</a>
+<tr><td><a name="844464">
+getFPcontrol ( ) and getFPstatus ( )<p>
+</a><td><a name="844466">
+The functions <em>getFPcontrol</em> and <em>getFPstatus</em> return the words unchanged. <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844467">
+Constants for non-overlapping single-bit masks are provided for use in arguments or return values. They stand for the five IEEE exceptions: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844470">
+INVAL<p>
+</a><td><a name="844472">
+invalid operation<p>
+</a><td><a name="844474">
+0/0, 0+NaN, Infinity-Infinity, or sqrt(-1)<p>
+</a>
+<tr><td><a name="844476">
+ZDIV<p>
+</a><td><a name="844478">
+division by zero<p>
+</a><td><a name="844480">
+1/0<p>
+</a>
+<tr><td><a name="844482">
+OVFL<p>
+</a><td><a name="844484">
+overflow<p>
+</a><td><a name="844486">
+1.8e308<p>
+</a>
+<tr><td><a name="844488">
+UNFL<p>
+</a><td><a name="844490">
+underflow<p>
+</a><td><a name="844492">
+1.1e-308<p>
+</a>
+<tr><td><a name="844494">
+INEX<p>
+</a><td><a name="844496">
+inexact<p>
+</a><td><a name="844498">
+.3*.3<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844500">
+By default, <em>INEX</em> is quiet, <em>OVFL</em>, <em>UNFL</em>, and <em>ZDIV</em> are fatal, and rounding is to nearest even number. Limbo modules are entitled to assume this, and if they need to use quiet <em>OVFL</em>, <em>UNFL</em>, or <em>ZDIV</em>, they must either set and restore the control register or clearly document that the modules that call them must do so.<p>
+</a><a name="844501">
+Constants (distinct bit patterns) are defined for interfacing with the floating point control word. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844504">
+RND_NR<p>
+</a><td><a name="844506">
+round to nearest even<p>
+</a>
+<tr><td><a name="844508">
+RND_NINF<p>
+</a><td><a name="844510">
+round toward negative infinity<p>
+</a>
+<tr><td><a name="844512">
+RND_PINF<p>
+</a><td><a name="844514">
+round toward infinity<p>
+</a>
+<tr><td><a name="844516">
+RND_Z<p>
+</a><td><a name="844518">
+round toward zero<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844519">
+Any of the above constants can be set or extracted from the floating point control word using <em>RND_MASK</em>. Several examples follow:  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844522">
+FPcontrol(0, UNFL);<p>
+</a><td><a name="844524">
+Make underflow silent.<p>
+</a>
+<tr><td><a name="844526">
+FPstatus(0, INEX);<p>
+</a><td><a name="844528">
+Check and clear the inexact flag.<p>
+</a>
+<tr><td><a name="844530">
+FPcontrol (RND_PINF, RND_MASK);<p>
+</a><td><a name="844532">
+Set directed rounding.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844600">
+ 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844535">
+ilogb (<em>x</em>)<p>
+</a><td><a name="844537">
+The <em>ilogb</em> function returns the nearest integral logarithm base 2 of the absolute value of <em>x</em>: <em>for</em> positive finite <em>x</em>,<p>
+</a><a name="844538">
+<em>1 &#32;&lt;= &#32;x*2-ilogb(x)&lt; 2</em>, and <em>ilogb(-x) = ilogb(x)</em>.<p>
+</a>
+<tr><td><a name="844540">
+scalbn (<em>x</em>, <em>n</em>)<p>
+</a><td><a name="844542">
+The <em>scalbn</em> function returns a scaled power of two: <p>
+</a><a name="844543">
+ <em>x *</em><kbd>2</kbd><sup>n</sup>.<p>
+</a>
+<tr><td><a name="844545">
+copysign (<em>x</em>, <em>s</em>)<p>
+</a><td><a name="844547">
+The <em>copysign</em> function returns the magnitude of <em>x </em>and the sign bit of <em>s</em>.<p>
+</a>
+<tr><td><a name="844549">
+nextafter (<em>x</em>, <em>y</em>)<p>
+</a><td><a name="844551">
+The <em>nextafter</em> function returns the machine number nearest <em>x</em> closer to<em> y</em>.<p>
+</a>
+<tr><td><a name="844553">
+finite (<em>x</em>)<p>
+</a><td><a name="844555">
+The <em>finite</em> function returns is 0 if <em>x</em> is <em>Nan</em> or <em>Infinity</em>, and 1 otherwise.<p>
+</a>
+<tr><td><a name="844557">
+isnan (<em>x</em>)<p>
+</a><td><a name="844559">
+The <em>isnan</em> function returns 1 if <em>x</em> is <em>Nan</em>, and 0 otherwise.<p>
+</a>
+<tr><td><a name="844561">
+fdim (<em>x</em>, <em>y</em>)<p>
+</a><td><a name="844563">
+The <em>fdim</em> function equals <em>x - y</em> if <em>x</em> is greater than <em>y</em>, otherwise it is 0.<p>
+</a>
+<tr><td><a name="844565">
+fmin (<em>x</em>, <em>y</em>)<p>
+</a><td><a name="844567">
+The minimum of <em>x</em> and <em>y</em>.<p>
+</a>
+<tr><td><a name="844569">
+fmax (<em>x</em>, <em>y</em>)<p>
+</a><td><a name="844571">
+The maximum of <em>x</em> and <em>y</em>.<p>
+</a>
+<tr><td><a name="844573">
+fabs (<em>x</em>)<p>
+</a><td><a name="844575">
+The absolute value of <em>x</em>.<p>
+</a>
+<tr><td><a name="844577">
+ceil (<em>x</em>)<p>
+</a><td><a name="844579">
+The ceiling (round-up) of <em>x</em>.<p>
+</a>
+<tr><td><a name="844581">
+floor (<em>x</em>)<p>
+</a><td><a name="844583">
+The floor (round-down) of <em>x</em>.<p>
+</a>
+<tr><td><a name="844585">
+fmod (<em>x</em>, <em>y</em>)<p>
+</a><td><a name="844587">
+The <em>fmod</em> function conforms to the C language standard. It returns the value <em>x</em> - <em>i</em> *<em>y</em> for some<em> i </em>such that the remainder has the sign of <em>x</em> and magnitude less than the magnitude of <em>y</em>.<p>
+</a>
+<tr><td><a name="844589">
+remainder (<em>x</em>, <em>y</em>)<p>
+</a><td><a name="844591">
+The <em>remainder</em> function conforms to the IEEE standard which gives a remainder of magnitude no more than half the magnitude of <em>y</em>.<p>
+</a>
+<tr><td><a name="844593">
+modf (<em>x</em>)<p>
+</a><td><a name="844595">
+The <em>modf</em> function breaks <em>x</em> into integer and fractional parts returned in a tuple.<p>
+</a>
+<tr><td><a name="844597">
+rint (<em>x</em>)<p>
+</a><td><a name="844599">
+The <em>rint</em> function rounds to an integer, following the rounding mode specified in the floating point control word.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844601">
+<h2> See Also</h2>
+</a><a name="844605">
+<a href="md_math.htm#840761"><em>Limbo Math Module</em></a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_math1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_math3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:13 -->
+
+</body>
+</html>

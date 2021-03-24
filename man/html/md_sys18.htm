@@ -1,0 +1,61 @@
+<html><head><title>Limbo<br>System Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys17.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845483">
+<center><h1> utfbytes - <a compute Unicode length of UTF byte sequence; Unicode: computing length of UTF byte sequence>compute the Unicode length of a UTF byte sequence</h1></center>
+</a><pre><tt>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+utfbytes: fn(buf: array of byte, n: int): int;
+</tt></pre></p><a name="845490">
+<h2> Description</h2>
+</a><a name="845491">
+The <em>utfbytes</em> function examines the <em>n</em> -byte UTF sequence starting at <em>buf</em> [<em>0</em>] and returns the number of bytes, if any, that represent a single Unicode character. The end of the array may contain an incomplete UTF sequence without affecting the return value.<p>
+</a><a name="845503">
+<h2> Caveat</h2>
+</a><a name="845504">
+A call to <em>utfbytes</em> can generate a bounds check error, if the length argument is larger than the array itself.<p>
+</a><a name="848944">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="851112">
+<a href="md_sys.htm#847453"><em>Limbo System Module</em></a><p>
+</a>
+<tr><td><a name="851114">
+<a href="md_sys2.htm#844593"><em>byte2char, char2byte - convert between bytes and characters</em></a><p>
+</a>
+<tr><td><a name="851116">
+<a href="formats5.htm#844478"><em>UTF, Unicode, ASCII - character set and format</em> in Appendix &#32;A</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="851109">
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys17.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:35 -->
+
+</body>
+</html>

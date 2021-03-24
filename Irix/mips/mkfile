@@ -1,0 +1,35 @@
+SYSTARG=Irix
+OBJTYPE=mips
+
+
+A=		a
+O=		o
+
+
+AR=		ar
+ARFLAGS=	rvu
+
+AS=		cc -c
+ASFLAGS=\
+		$ASFLAGS\
+		-mips2\
+
+CC=		cc -c
+CFLAGS=\
+		$CFLAGS\
+		-w\
+		-g3\
+		-Xcpluscomm\
+		-I$ROOT_DEVEL/$SYSTARG/$OBJTYPE/include\
+		-I$ROOT_DEVEL/include\
+
+LD=		cc
+LDFLAGS=\
+		$LDFLAGS\
+		-L$ROOT_DEVEL/$SYSTARG/$OBJTYPE/lib\
+
+LDSYSLIBS=	-lfpe -lm -lX11
+
+
+YACC=		yacc
+YFLAGS=		-d

@@ -1,0 +1,78 @@
+<html><head><title>Limbo<br>Prefab Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_pref2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_pref4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844673">
+<center><h1> environ - <a ITV (Interactive Television) toolkit: environment; graphics: ITV (Interactive Television) toolkit>environment for ITV toolkit to provide a graphics framework for a item collections</h1></center>
+</a><pre><tt>include "draw.m";
+include "prefab.m";
+prefab:= load Prefab Prefab-&gt;PATH;
+Environ: adt
+{
+  screen: ref Draw-&gt;Screen;
+  style: ref Style;
+};
+</tt></pre></p><a name="844686">
+<h2> Description</h2>
+</a><a name="844687">
+The <em>Environ</em> abstract data type collects the <em>Style</em> and <em>Screen</em> types necessary to specify how and where to draw <em>Prefab</em> items. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844690">
+screen<p>
+</a><td><a name="844692">
+Specifies the <em>Screen</em> upon which items will be displayed.<p>
+</a>
+<tr><td><a name="844694">
+style<p>
+</a><td><a name="844696">
+Specifies the <em>Style</em> for items in an environment. To draw various items in different fonts or colors, the application should associate different <em>Environ</em> objects with the various items. (But see also the <em>layout</em> functions in <em>prefab-element </em>and <em>prefab-compound</em>).<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844697">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845406">
+<a href="md_pref.htm#845277"><em>Limbo Prefab Module</em> in Chapter 12<strong></a>, </strong><p>
+</a>
+<tr><td><a name="845408">
+<a href="md_draw9.htm#845163"><em>screen - type to define the abstract data structures for the windows on a display</em> in Chapter 11<strong></a></strong><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="845403">
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_pref2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_pref4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:04 -->
+
+</body>
+</html>

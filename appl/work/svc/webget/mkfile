@@ -1,0 +1,61 @@
+<../../../../mkconfig
+<../../../../$SYSHOST/mkhost
+
+OBJ=\
+	date.dis\
+	file.dis\
+	http.dis\
+	image2enc.dis\
+	message.dis\
+	webget.dis\
+	wgutils.dis\
+	
+
+all:V:	$OBJ
+
+MODULE=\
+	date.m\
+	image2enc.m\
+	message.m\
+	transport.m\
+	wgutils.m\
+
+LOGS=\
+	webget.log\
+	
+
+OBJINST=${OBJ:%=../../../../dis/svc/webget/%}
+LOGINST=${LOGS:%=../../../../services/webget/%}
+OBJPKG=${OBJ:%=$PREFIX_PKG/dis/svc/webget/%}
+
+$OBJ:	$MODULE
+
+install:V: $OBJ
+	$RM $OBJINST $LOGINST
+	$CP $OBJ ../../../../dis/svc/webget
+	$CP $LOGS ../../../../services/webget
+	chmod 666 ../../../../services/webget/webget.log
+
+uninstall:V:
+	$RM $OBJINST $LOGINST
+
+package:V:	$OBJ\
+		$PREFIX_PKG/dis/svc/webget
+		$RM $OBJPKG
+		$CP $OBJ $PREFIX_PKG/dis/svc/webget
+
+%.install:V:	%.dis
+	cp $stem.dis ../../../../dis/svc/webget
+
+clean nuke:V:
+	$RM *.dis *.sbl
+
+%.dis:	%.b
+	limbo -I../../../../module -gw $stem.b
+
+%.s:	%.b
+	limbo -I../../../../module -w -G -S $stem.b
+
+$PREFIX_PKG/dis:
+	$MKDIR $target
+

@@ -1,0 +1,239 @@
+<html><head><title>Limbo<br>System Module</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys10.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys12.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845119">
+<center><h1> print, fprint, sprint - <a printing:formatted output>print formatted output</h1></center>
+</a><strong></strong>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+fprint: fn(fd: ref FD, format: string, *): int;
+print:  fn(format: string, *): int;
+sprint: fn(format: string, *): string;
+<a name="845128">
+<h2> Description</h2>
+</a><a name="845142">
+These functions format and print their arguments as UTF text. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845131">
+print (<em>format</em>, *)<p>
+</a><td><a name="845133">
+Write text to the standard output. Return the number of bytes transmitted or a negative value if an error was encountered when writing the output.<p>
+</a>
+<tr><td><a name="845135">
+fprint (<em>fd</em>, *)<p>
+</a><td><a name="845137">
+Write to the <em>fd</em> file descriptor. Return the number of bytes transmitted or a negative value, if an error was encountered when writing the output.<p>
+</a>
+<tr><td><a name="845139">
+sprint (<em>format</em>, *)<p>
+</a><td><a name="845141">
+Format text into a string and return the string. Returns the formatted string.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845143">
+Each of these functions converts, formats, and prints its trailing arguments under control of a <em>format</em> string. The format contains two types of objects: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845146">
+plain characters<p>
+</a><td><a name="845148">
+Plain characters are simply copied to the output stream.<p>
+</a>
+<tr><td><a name="845150">
+conversion specifications<p>
+</a><td><a name="845152">
+Each conversion results in fetching of zero or more arguments.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845153">
+The Limbo compiler recognizes calls to these functions and checks that the arguments match the format specifications in number and type.<p>
+</a><a name="845154">
+Each conversion specification has the following format:<p>
+</a><a name="845156">
+<strong></strong>       <em>%[flags]verb</em><p>
+</a><a name="845159">
+The <em>verb</em> is a single character and each flag is a single character or a (decimal) numeric string. Up to two numeric strings may be used. The first string is called <em>f1</em>, the second <em>f2</em>. A period can be used to separate them, and if the period is present, then <em>f1</em> and <em>f2</em> are taken to be zero if missing, otherwise they are omitted. Either or both of the numbers may be replaced with the character *, meaning that the actual number will be obtained from the argument list as an integer. <p>
+</a><a name="849289">
+The flags and numbers are arguments to the <em>verb</em> defined as follows: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845162">
+d, x<p>
+</a><td><a name="845164">
+The numeric verbs <em>d</em> and <em>x</em> format their <em>int</em> arguments in decimal and hexadecimal, respectively. Address values of lists, arrays, etc. can also be printed<p>
+</a><a name="846469">
+Each verb interprets the flags <em>#</em> and <em>- </em>to mean alternate format and left justified and the flag<em> b </em>is used to allow big's to be printed.<p>
+</a><a name="846466">
+If <em>f2</em> is not omitted, the number is padded on the left with zeros until at least <em>f2</em> digits appear. If alternate format is specified for<em> x</em> conversion, the number is preceded by<em> 16r</em>. Finally, if <em>f1</em> is not omitted, the number is padded on the left (or right, if left justification is specified) with enough blanks to make the field at least <em>f1</em> characters long.<p>
+</a>
+<tr><td><a name="845166">
+e, f, g<p>
+</a><td><a name="845168">
+The floating point verbs <em>e</em>, <em>f</em>, and g take a <em>real</em> argument. <p>
+</a><a name="846474">
+Each interprets the flags +, -, and # to mean always print a sign, left justified, and alternate format. <p>
+</a><a name="851264">
+The <em>e</em> conversion appends an exponent <em>e</em>[-]<em>digits</em>. <p>
+</a><a name="851262">
+The <em>f</em> verb produces output of the form [-]<em>digits</em> [<em>.digits</em>]. <p>
+</a><a name="851258">
+The <em>g</em> verb will output the argument in either <em>e</em> or <em>f</em> with the goal of producing the smallest output. Also, trailing zeros are omitted from the fraction part of the output, and a trailing decimal point appears only if it is followed by a digit. When alternate format is specified, the result will always contain a decimal point, and for <em>g</em> conversions, trailing zeros are not removed.<p>
+</a><a name="846479">
+The <em>f1</em> flag is the minimum field width and, if the converted value takes up less than <em>f1</em> characters, it is padded on the left (or &#32;right, if 'left justified') with spaces. <p>
+</a><a name="851267">
+The <em>f2</em> flag is the number of digits that are converted after the decimal place for <em>e</em> and <em>f </em>conversions, and <em>f2</em> is the maximum number of significant digits for <em>g</em> conversions. <p>
+</a>
+<tr><td><a name="845170">
+c<p>
+</a><td><a name="845172">
+The<em> c </em>verb copies a single character (integer) argument justified within a field of <em>f1</em> characters as described above.<p>
+</a>
+<tr><td><a name="845174">
+r<p>
+</a><td><a name="845176">
+The <em>r</em> verb takes no arguments. It prints the error string associated with the most recent system error.<p>
+</a>
+
+<tr><td><a name="845178">
+s<p>
+</a><td><a name="845180">
+The <em>s</em> verb copies a <em>string</em> to the output. The number of characters copied (<em>n</em>) is the minimum of the size of the string and <em>f2</em>. These <em>n</em> <em>characters</em> are justified within a field of <em>f1</em> characters as described above.<p>
+</a>
+
+<tr><td><a name="sy11u">
+u<p>
+</a><td><a name="sy11u1">
+The <em>u</em> verb treats the argument as unsigned.<p>
+</a>
+
+<tr><td><a name="sy11p">
+%<p>
+</a><td><a name="sy11p1">
+The <em>%</em> verb is used for printing a literal.<p>
+</a>
+
+<tr><td><a name="sy11E">
+E<p>
+</a><td><a name="sy11E1">
+The <em>E</em> verb is the same as <em>e</em>, but specify exponent using E rather than e.<p>
+</a>
+
+<tr><td><a name="sy11G">
+G<p>
+</a><td><a name="sy11G1">
+The <em>G</em> verb is the same as <em>g </em>, but specify exponent using E rather than e.<p>
+</a>
+
+<tr><td><a name="sy11X">
+X<p>
+</a><td><a name="sy11X1">
+The <em>X</em> verb  is the same as <em>x</em>, but print hex digits in upper-case (and print 0X rather than 0x if # flag present).<p>
+</a>
+
+
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+
+</a><a name="sy11E2">
+<h2> Example</h2>
+</a>
+
+</a><a name="sy11E3">
+<h3> Program</h3>
+</a>
+
+</a><a name="sy11E4">
+<pre>implement print;
+include "sys.m";
+sys: Sys;
+include "draw.m";
+print: module
+{
+        init: fn(ctxt: ref Draw->Context, argv: list of string);
+};
+init(ctxt: ref Draw->Context, argv: list of string)
+{
+        sys = load Sys sys->PATH;
+        sys->print("[%%%%]\t%%\n");
+        i : int = 16rab9cd;
+        sys->print("[%%#x]\t%#x\n", i);
+        sys->print("[%%#X]\t%#X\n", i);
+        r : real = 0.00000345;
+        sys->print("[%%e]\t%e\n", r);
+        sys->print("[%%E]\t%E\n", r);
+        sys->print("[%%g]\t%g\n", r);
+        sys->print("[%%G]\t%G\n", r);
+        i = -1;
+        sys->print("[%%d]\t%d\n", i);
+        sys->print("[%%ud]\t%ud\n", i);
+}</pre>
+</a>
+
+</a><a name="sy11E5">
+<h3> Output Data</h3>
+</a>
+
+</a><a name="sy11E6">
+<pre>
+[%%]    %
+[%#x]   0xab9cd
+[%#X]   0XAB9CD
+[%e]    3.450000e-06
+[%E]    3.450000E-06
+[%g]    3.45e-06
+[%G]    3.45E-06
+[%d]    -1
+[%ud]   4294967295
+ </pre>
+
+
+</a><a name="845189">
+<h2> Errors</h2>
+</a><a name="845190">
+Output longer than 256 bytes is truncated. <p>
+</a><a name="845191">
+The <em>x</em> verb does not apply the<em> 0x </em>prefix when <em>f2</em> is present. <p>
+</a><a name="848930">
+<h2> See Also</h2>
+</a><a name="848937">
+<em><a href="md_sys.htm#847453"></em><em>Limbo System Module</em><em></a> </em>and <a href="md_sys9.htm#844990"><em>open, create - open/create a file for reading or writing</em></a><p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys10.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys12.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/07/97 17:40:35 -->
+
+</body>
+</html>

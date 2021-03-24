@@ -1,0 +1,421 @@
+<html><head><title>Inferno<br>Devices</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844745">
+<center><h1> <a prog>prog - <a interface:to running programs>interface to running programs</h1></center>
+</a><pre><tt>bind '#p' /prog
+
+/prog/<em>&lt;n&gt;</em>/ctl
+/prog/<em>&lt;n&gt;</em>/dbgctl
+/prog/<em>&lt;n&gt;</em>/heap
+/prog/<em>&lt;n&gt;</em>/ns
+/prog/<em>&lt;n&gt;</em>/nsgrp
+/prog/<em>&lt;n&gt;</em>/pgrp
+/prog/<em>&lt;n&gt;</em>/stack
+/prog/<em>&lt;n&gt;</em>/status
+/prog/<em>&lt;n&gt;</em>/text
+/prog/<em>&lt;n&gt;</em>/wait
+...
+</tt></pre></p><a name="844761">
+<h2> Description</h2>
+</a><a name="844762">
+The <em>prog</em> device serves a two-level structure. The first level contains numbered directories corresponding to pids of live Inferno processes. The second level, for each such directory, contains a set of files representing the corresponding process. All files operate on <em>utf</em> strings.<p>
+</a><a name="844763">
+<h3> status (read-only)</h3>
+</a><a name="844764">
+The status <em>file</em> contains six fields, each separated by a blank. The fields are:<strong>	 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844767">
+process identifiers<p>
+</a><td><a name="844769">
+8 characters right justified<p>
+</a>
+<tr><td><a name="844771">
+process group identifiers<p>
+</a><td><a name="844773">
+8 characters right justified<p>
+</a>
+<tr><td><a name="844775">
+user name<p>
+</a><td><a name="844777">
+at least 10 characters left justified<p>
+</a>
+<tr><td><a name="844779">
+process state<p>
+</a><td><a name="844781">
+10 characters left justified<p>
+</a>
+<tr><td><a name="844783">
+process memory<p>
+</a><td><a name="844785">
+amount of memory used by the process in units of 1024 bytes with at least 5 characters, right justified, followed by a K<p>
+</a>
+<tr><td><a name="844788">
+name of the current program module<p>
+</a><td><a name="844790">
+up to 28 characters, left justified<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</strong><p>
+</a><a name="844791">
+<h3> pgrp (read-only)</h3>
+</a><a name="844792">
+The <em>pgrp</em> file contains the process group identifier in decimal format.<p>
+</a><a name="844793">
+<h3> nsgrp (read-only)</h3>
+</a><a name="844794">
+The <em>nsgrp</em> file contains the name space group identifier in decimal format.<p>
+</a><a name="844795">
+<h3> ns (read-only)</h3>
+</a><a name="844796">
+The <em>ns</em> file contains an ordered set of triples, separated by a space, which describe the <strong>bind</strong> and <strong>mount</strong> operations used to construct the name space. The fields are: the integer <em>flags</em>, the <em>to</em> file, and the <em>from</em> file.<p>
+</a><a name="844800">
+<h3> wait (read-only)</h3>
+</a><a name="844801">
+The <em>wait</em> file may be read to recover information about the exiting children of the process. A read of <em>wait</em> will block until a child of the process, created after <em>wait</em> was opened, exits. When such a child exits, the read returns a string with three fields: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844804">
+pid of exiting process<p>
+</a><td><a name="844806">
+decimal value, followed by a space<p>
+</a>
+<tr><td><a name="844808">
+module name<p>
+</a><td><a name="844810">
+string, enclosed in double-quotes<p>
+</a>
+<tr><td><a name="844812">
+error message<p>
+</a><td><a name="844814">
+zero to 64 characters<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844815">
+<h3> ctl</h3>
+</a><a name="844825">
+Messages written to the <em>ctl</em> file control the execution of the process. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844818">
+kill<p>
+</a><td><a name="844820">
+Kill the process.<p>
+</a>
+<tr><td><a name="844822">
+killgrp<p>
+</a><td><a name="844824">
+Kill all processes in the same group as the process. A process writing to its own <em>ctl</em> file does not kill itself.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844826">
+<h3> dbgctl</h3>
+</a><a name="844827">
+The <em>dbgctl</em> file provides facilities for debugging a process. Messages written to the file control the execution of the process. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844830">
+step <em>n</em> <p>
+</a><td><a name="844832">
+Step the interpreter for at most <em>n</em> instructions<em>,</em> or until a breakpoint is reached.<p>
+</a>
+<tr><td><a name="844834">
+toret<p>
+</a><td><a name="844836">
+Step the interpreter until a return from the current activation frame or a breakpoint is reached.<p>
+</a>
+<tr><td><a name="844838">
+cont<p>
+</a><td><a name="844840">
+Step the interpreter until a breakpoint is reached.<p>
+</a>
+<tr><td><a name="844842">
+start<p>
+</a><td><a name="844844">
+Run the process, ignoring any breakpoints.<p>
+</a>
+<tr><td><a name="844846">
+bpt set <em>pc path </em><p>
+</a><td><a name="844848">
+Set a breakpoint at <em>pc</em> (program counter) for the module given by <em>path</em>.<p>
+</a>
+<tr><td><a name="844850">
+bpt del <em>pc path </em><p>
+</a><td><a name="844852">
+Clear a breakpoint if one exists.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844853">
+Reading <em>dbgctl</em> gives updates for some state transitions, while the process is being debugged. Each update is terminated by a newline, and includes the following messages: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844856">
+exited<p>
+</a><td><a name="844858">
+The process exited without error.<p>
+</a>
+<tr><td><a name="844860">
+broken: <em>error</em> <p>
+</a><td><a name="844862">
+The process died due to <em>error</em>, a string with up to 64 characters.<p>
+</a>
+<tr><td><a name="844864">
+send<p>
+</a><td><a name="844866">
+The process is blocked sending on a channel.<p>
+</a>
+<tr><td><a name="844868">
+recv<p>
+</a><td><a name="844870">
+The process is blocked receiving on a channel.<p>
+</a>
+<tr><td><a name="844872">
+alt<p>
+</a><td><a name="844874">
+The process is blocked in an alt statement.<p>
+</a>
+<tr><td><a name="844876">
+run<p>
+</a><td><a name="844878">
+The process is unblocked and now ready to run.<p>
+</a>
+<tr><td><a name="844880">
+new <em>pid</em> <p>
+</a><td><a name="844882">
+The process has spawned a new process identified by <em>pid</em>.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844883">
+<h3> stack (read-only)</h3>
+</a><a name="844884">
+The <em>stack</em> file contains the dynamic call stack trace. Each activation frame is described by one line with six fields, each separated by a space: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844887">
+Frame pointer <p>
+</a><td><a name="844889">
+8 hexadecimal digits<p>
+</a>
+<tr><td><a name="844891">
+Program counter<p>
+</a><td><a name="844893">
+8 hexadecimal digits<p>
+</a>
+<tr><td><a name="844895">
+Module data pointer <p>
+</a><td><a name="844897">
+8 hexadecimal digits<p>
+</a>
+<tr><td><a name="844899">
+Module code pointer <p>
+</a><td><a name="844901">
+8 hexadecimal digits<p>
+</a>
+<tr><td><a name="844903">
+Execution method for the module <p>
+</a><td><a name="844905">
+0 means interpreted, 1 compiled<p>
+</a>
+<tr><td><a name="844907">
+The path name of the module<p>
+</a><td><a name="844909">
+<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844910">
+The top activation frame starts at offset 0.<p>
+</a><a name="844911">
+<h3> heap</h3>
+</a><a name="844912">
+The <em>heap</em> file may be queried to examine the state of the process. The file must be opened for both read and write (<em>ORDWR</em>). Moreover, access to this debugging facility may be not be allowed in production systems.<p>
+</a><a name="844913">
+A data query contains an address, a period, a format character, and a count. <p>
+</a><a name="844914">
+An instruction query contains a <em>pc </em>(program counter), a plus, a mode address, a period, the format <em>I</em>, and a count. <p>
+</a><a name="844915">
+The addresses in the query may be decimal, hexadecimal preceded by <em>0x</em> or <em>0X</em>, or octal preceded by <em>0</em>. Count gives the number of consecutive data items retrieved by reading <em>heap</em> starting at offset 0; the format varies according to the format character. <p>
+</a><a name="844941">
+All data items other than strings are terminated by a newline. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844918">
+W<p>
+</a><td><a name="844920">
+32-bit decimal integers.<p>
+</a>
+<tr><td><a name="844922">
+B<p>
+</a><td><a name="844924">
+8-bit unsigned decimal bytes.<p>
+</a>
+<tr><td><a name="844926">
+V<p>
+</a><td><a name="844928">
+64-bit decimal integers.<p>
+</a>
+<tr><td><a name="844930">
+R<p>
+</a><td><a name="844932">
+64-bit reals.<p>
+</a>
+<tr><td><a name="844934">
+I<p>
+</a><td><a name="844936">
+Disassembled Dis instructions.<p>
+</a>
+<tr><td><a name="844938">
+P<p>
+</a><td><a name="844940">
+32-bit hexadecimal address, or <em>nil</em>.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844955">
+The following formats examine properties of specific 32-bit pointers. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844944">
+L<p>
+</a><td><a name="844946">
+Examine a list, yielding a pair of hexadecimal addresses separated by a period, giving the address of the head and tail of a list. It is an error to use<kbd> </kbd><em>L</em> on <em>nil</em>.<p>
+</a>
+<tr><td><a name="844948">
+A<p>
+</a><td><a name="844950">
+Examine an array, yielding a decimal length, a period, and the address of the 0th element of an array, or<em> nil</em>.<p>
+</a>
+<tr><td><a name="844952">
+C<p>
+</a><td><a name="844954">
+Examine a string, yielding the decimal length in characters, a period, and the <em>utf</em> representation of the string.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844956">
+<h3> text</h3>
+</a><a name="844957">
+The <em>text</em> file is currently unimplemented.<p>
+</a><a name="846338">
+<h3> process states  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846427">
+alt<p>
+</a><td><a name="846429">
+Inter-thread communication processing<p>
+</a>
+<tr><td><a name="846431">
+send<p>
+</a><td><a name="848577">
+Ready to transmit a value to another thread<p>
+</a>
+<tr><td><a name="846435">
+recv<p>
+</a><td><a name="846437">
+Ready to receive a value from another thread<p>
+</a>
+<tr><td><a name="846439">
+debug<p>
+</a><td><a name="846441">
+Debugged <p>
+</a>
+<tr><td><a name="846443">
+ready<p>
+</a><td><a name="848575">
+Available to execute instructions<p>
+</a>
+<tr><td><a name="846447">
+release<p>
+</a><td><a name="846449">
+Remove from queue to complete a kernel call<p>
+</a>
+<tr><td><a name="846451">
+exiting<p>
+</a><td><a name="848589">
+Thread instructions completed<p>
+</a>
+<tr><td><a name="846455">
+broken<p>
+</a><td><a name="846457">
+Thread has crashed<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h3>
+</a><a name="848394">
+<h2> See Also</h2>
+</a><a name="846856">
+<a href="cmd23.htm#853505"><em>ps - thread status</em> in Chapter &#32;5</a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:54:10 -->
+
+</body>
+</html>

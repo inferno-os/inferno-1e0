@@ -1,0 +1,40 @@
+SYSTARG=Hp
+OBJTYPE=s800
+
+
+A=		a
+O=		o
+
+
+AR=		ar
+ARFLAGS=	cvru
+
+AS=		c89 -c
+ASFLAGS=
+
+CC=		c89 -c
+CFLAGS=\
+		$CFLAGS\
+		-D_HPUX_SOURCE \
+		-D_REERTRANT \
+		+e \
+		-g\
+		-w\
+		-xCC \
+		-Xa\
+		-I$ROOT_DEVEL/$SYSTARG/$OBJTYPE/include\
+		-I$ROOT_DEVEL/include\
+		-I$ROOT_DEVEL/emu\
+
+LD=		c89
+LDFLAGS=\
+		$LDFLAGS\
+		-L$ROOT_DEVEL/$SYSTARG/$OBJTYPE/lib\
+		-L/usr/openwin/lib\
+
+LDSYSLIBS=	-lm -lX11   -lcma
+
+RANLIB=		true
+
+YACC=		yacc
+YFLAGS=		-d

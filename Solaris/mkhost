@@ -1,0 +1,12 @@
+SYSHOST=Solaris
+
+#	shell commands
+
+SH=	sh
+CP=	cp
+ECHO=	echo
+FALSE=	false
+MKDIR=	mkdir -p
+RM=	rm -f
+RMDIR=	rmdir
+TRUE=	true

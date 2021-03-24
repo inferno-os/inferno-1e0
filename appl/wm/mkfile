@@ -1,0 +1,129 @@
+<../../mkconfig
+<../../$SYSHOST/mkhost
+
+DIRS=\
+	brutus\
+	dsp\
+
+OBJ=\
+	about.dis\
+	avi.dis\
+	brutus.dis\
+	coffee.dis\
+	date.dis\
+	deb.dis\
+	debdata.dis\
+	debsrc.dis\
+	dir.dis\
+	edit.dis\
+	charon.dis\
+	license.dis\
+	logon.dis\
+	memory.dis\
+	mpeg.dis\
+	qt.dis\
+#	readmail.dis\
+	rmtdir.dis\
+	rt.dis\
+#	sam.dis\
+#	samstub.dis\
+#	samtk.dis\
+#	sendmail.dis\
+	sh.dis\
+#	shortcut.dis\
+	task.dis\
+	telnet.dis\
+	view.dis\
+#	winctl.dis\
+#	wish.dis\
+	wm.dis\
+
+all:QV:		$OBJ all-$SYSHOST
+clean:QV:	clean-$SYSHOST
+nuke:QV:	nuke-$SYSHOST
+
+MODULE=\
+	../../module/bufio.m\
+	../../module/cci.m\
+	../../module/daytime.m\
+	../../module/debug.m\
+	../../module/draw.m\
+	../../module/filepat.m\
+	../../module/html.m\
+	../../module/keyring.m\
+	../../module/mpeg.m\
+	../../module/newns.m\
+	../../module/pipe.m\
+	../../module/quicktime.m\
+	../../module/rand.m\
+	../../module/readdir.m\
+	../../module/riff.m\
+	../../module/security.m\
+	../../module/sh.m\
+	../../module/string.m\
+	../../module/sys.m\
+	../../module/tk.m\
+	../../module/tklib.m\
+	../../module/version.m\
+	../../module/url.m\
+	../../module/webget.m\
+	../../module/wmlib.m\
+	../../module/workdir.m\
+	wmdeb.m\
+
+OBJINST=${OBJ:%=../../dis/wm/%}
+OBJPKG=${OBJ:%=$PREFIX_PKG/dis/wm/%}
+
+$OBJ:	$MODULE
+
+install:V: $OBJ install-$SYSHOST
+	$RM $OBJINST
+	$CP $OBJ ../../dis/wm
+
+installall:QV: install
+
+uninstall:V: uninstall-$SYSHOST
+	$RM $OBJINST
+
+package:V:	package-$SYSHOST $OBJ\
+		$PREFIX_PKG/dis/wm
+		$RM $OBJPKG
+		$CP $OBJ $PREFIX_PKG/dis/wm
+
+%.install:V:	%.dis
+	cp $stem.dis ../../dis/wm
+
+clean nuke:V:
+	rm -f *.dis *.sbl
+
+%.dis:	%.b
+	limbo -I../../module -gw $stem.b
+
+%.s:	%.b
+	limbo -I../../module -w -G -S $stem.b
+
+$PREFIX_PKG/dis:
+	$MKDIR $target
+
+#sam.dis samstub.dis samtk.dis: samstub.m samterm.m
+
+%-Plan9 \
+%-Inferno :QV:
+	for (j in $DIRS)
+	{
+		echo '@{cd' $j '; mk $MKFLAGS $stem}'
+		@{cd $j; mk $MKFLAGS $stem}
+	}
+
+%-Irix \
+%-Hp \
+%-Linux \
+%-Solaris :QV:
+	for j in $DIRS
+	do
+		echo "(cd $j; mk $MKFLAGS $stem)"
+		(cd $j; mk $MKFLAGS $stem)
+	done
+
+%-Nt:QV:
+	$ECHO do not know how to make $target

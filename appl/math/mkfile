@@ -1,0 +1,43 @@
+<../../mkconfig
+<../../$SYSHOST/mkhost
+
+OBJ=\
+	ffts.dis\
+	graph0.dis\
+	gr.dis\
+	linalg.dis\
+	linbench.dis\
+
+all:V:	$OBJ
+
+MODULE=\
+	../../module/math.m\
+	../../module/gr.m\
+	../../module/linalg.m\
+	../../module/draw.m\
+	../../module/sys.m\
+	../../module/tk.m\
+	../../module/tklib.m\
+	../../module/wmlib.m\
+	../../module/draw.m\
+	../../module/bufio.m\
+
+OBJINST=${OBJ:%=../../dis/math/%}
+$OBJ:	$MODULE
+
+install:V: $OBJ
+	$RM $OBJINST
+	$CP $OBJ ../../dis/math
+
+uninstall:V:
+	$RM $OBJINST
+
+nuke \
+clean:V:
+	$RM *.dis *.sbl
+
+%.dis:	%.b
+	limbo -I../../module -gw $stem.b
+
+%.s:	%.b
+	limbo -I../../module -wG -S $stem.b

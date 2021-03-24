@@ -1,0 +1,232 @@
+LIMITED USE SOFTWARE LICENSE AGREEMENT FOR INFERNO BETA SOFTWARE
+
+The terms and conditions of this  Agreement  will  apply  to  the
+SOFTWARE  delivered  by  electronic  download  or other means and
+derivatives obtained therefrom, including  any  copy.   The  term
+SOFTWARE  includes  programs  and  related documentation supplied
+herewith and updates subsequently provided by LUCENT.
+
+If you have executed a separate Software Agreement  covering  the
+Software supplied herewith, such Software Agreement will govern.
+
+1.      TITLE AND LICENSE GRANT
+
+     The SOFTWARE  is  copyrighted  and/or  contains  proprietary
+     information  protected by law.  All SOFTWARE, and all copies
+     thereof, are and will remain the sole property of LUCENT  or
+     its  suppliers.  LUCENT  hereby  grants you a personal, non-
+     transferable and non-exclusive right to use the SOFTWARE for
+     internal  evaluation  purposes,  in whatever  form recorded,
+     which is  furnished to  you under this  Agreement. Any other
+     use  of this  SOFTWARE or  removal of the  SOFTWARE  from  a
+     country  in  which  use  is  licensed  shall   automatically
+     terminate  this  license.  No right is granted  to  use  the
+     SOFTWARE  in  any   product  which  is   marketed   or  used
+     commercially
+
+     Use of SOFTWARE anywhere except in the country in which  the
+     SOFTWARE  is  provided  may,  in  addition  to the terms and
+     conditions of this License  Agreement,  be  subject  to  the
+     terms  and conditions of a separate written agreement signed
+     by the user. You acknowledge that the SOFTWARE is subject to
+     U.S.  export  laws  and  regulations and any use or transfer
+     must be authorized under those regulations. You  agree  that
+     you  will  not  use,  distribute,  transfer, or transmit the
+     SOFTWARE, or technical  information  (even  if  incorporated
+     into  other  products) except in compliance with U.S. export
+     regulations.
+
+     You agree to use your best efforts to see that any  user  of
+     the  SOFTWARE licensed hereunder complies with the terms and
+     conditions of this License Agreement  and  to  refrain  from
+     taking  any  steps,  such  as  reverse  engineering, reverse
+     assembly or reverse compilation, to  derive  a  source  code
+     equivalent  of  the SOFTWARE.  If the SOFTWARE is located in
+     the European Community and you assert that you have a  right
+     to  and  need  for  information "indispensable for achieving
+     interoperability  of  an  independently   created   computer
+     program"  with  the SOFTWARE, you shall submit a request for
+     such information to LUCENT prior to undertaking any steps to
+     reverse  engineer,  reverse  assemble or reverse compile the
+     SOFTWARE.   The  meaning  of  "indispensable  for  achieving
+     interoperability"  shall  be interpreted pursuant to Article
+     VI of the European  Community  Computer  Software  Directive
+     91/205.   If  the  information  is  deemed  indispensable by
+     LUCENT, LUCENT will (a) provide such  information  within  a
+     reasonable  period  of  time  or (b) advise you that you may
+     decompile  the  SOFTWARE   pursuant   to   guidelines.    If
+     information  is  provided under option (a) above, you may be
+     charged a fee.
+
+
+
+2.      SOFTWARE USE
+
+   A.      You are permitted  to  make  a  single  archive  copy,
+     provided  the  SOFTWARE  shall  not otherwise be reproduced,
+     copied, or,  except  for  the  documentation,  disclosed  to
+     others  in  whole  or  in part except as explicitly provided
+     herein.  If  you  install  the  software  on a client-server
+     system, you may  install the software  on a server and up to
+     ten subtended clients.  Any such copy shall contain the same
+     copyright notice and proprietary marking, including diskette
+     markings, appearing on the original SOFTWARE.
+
+   B.      The SOFTWARE,
+
+       1.              together with any  archive  copy  thereof,
+     shall  be  destroyed  when no longer used in accordance with
+     this License  Agreement,  or  when  the  right  to  use  the
+     SOFTWARE is terminated; and
+       2.              shall not be removed  from  a  country  in
+     which use is licensed.
+
+   C.      You understand and  acknowledge  that  the  nature  of
+     SOFTWARE  is such that in its normal operation it may access
+     and download elements of  software or  data  from  resources
+     which  are  external  to  the computer or device running the
+     SOFTWARE, such as Inferno enabled servers. LUCENT  does  not
+     undertake  to provide such external resources or servers and
+     specifically disclaims any representation or warranty as  to
+     the  availability,  quality or performance of such resources
+     or whether they may contain any  defects  which  may  affect
+     performance of the SOFTWARE or Licensee's  computer.  LUCENT
+     shall not be responsible for provision of any communications
+     facilities  or  the  costs  associated  with communications.
+     Licensee understands  and  acknowledges  that  the  Software
+     Products  may contain expiration routines which will disable
+     the Software Products at the  expiration  of  this  Software
+     License.
+
+
+3.      NO WARRANTY
+
+
+   A.      You understand and acknowledge that the SOFTWARE is  a
+     "Beta"  version of a product still under development and may
+     contain errors, "bugs" or other defects.   The  SOFTWARE  is
+     provided  on  an  AS-IS basis, without warranty of any kind.
+     Specifically, LUCENT does not warrant that the functions  of
+     the  SOFTWARE  will  meet your requirements or that SOFTWARE
+     operation will be error-free or uninterrupted.
+
+   B.      LUCENT has used reasonable efforts to minimize defects
+     or  errors  in the SOFTWARE. HOWEVER, YOU ASSUME THE RISK OF
+     ANY AND ALL DAMAGE OR LOSS FROM USE, OR INABILITY TO USE 
+     THE SOFTWARE.
+
+   C.      Unless a separate agreement for  software  maintenance
+     is  entered  into  between  you  and LUCENT, LUCENT bears no
+     responsibility for supplying assistance for  fixing  or  for
+     communicating known errors to you pertaining to the SOFTWARE
+     supplied hereunder.
+
+   D.      LUCENT, ITS  AFFILIATES,  CONTRACTORS,  SUPPLIERS  AND
+     AGENTS   MAKE   NO   WARRANTIES,  EXPRESS  OR  IMPLIED,  AND
+     SPECIFICALLY DISCLAIM ANY  WARRANTY  OF  MERCHANTABILITY 
+     OR FITNESS FOR A PARTICULAR PURPOSE OR ANY WARRANTY OF 
+     INTELLECTUAL PROPERTY NONINFRINGEMENT.
+
+     Some  states  or  other  jurisdictions  do  not  allow   the
+     exclusion  of  implied warranties or limitations on how long
+     an implied warranty lasts, so the above limitations may  not
+     apply to you.  This warranty gives you specific legal rights
+     and you may also have other rights which vary from one state
+     or jurisdiction to another.
+
+
+4.      FEEDBACK
+
+
+     If you provide LUCENT with reports of bugs or errors in  the
+     SOFTWARE,  reports  on  the operation of the SOFTWARE or any
+     changes or modifications proposed or suggested by you to the
+     Software  Products  during  the  term  of  this Agreement in
+     connection  with  the   evaluating   and   testing   thereof
+     ("Feedback"),   LUCENT shall have all the rights to use such
+     Feedback at its discretion including, but not limited to the
+     incorporation  of  such  suggested  changes or modifications
+     into LUCENT software and the right to assign, license or  to
+     otherwise  transfer to third parties the software so changed
+     or modified without  obligation  or  recourse  to  you.  You
+     hereby  grant  and  assign  to  LUCENT and its licensees all
+     rights and licenses as are necessary to incorporate Feedback
+     into  the  Inferno Software and/or other Lucent products and
+     to distribute and otherwise commercially exploit the Inferno
+     Software  and/or  other  Lucent  products without payment or
+     accounting to you.
+
+
+5.      EXCLUSIVE REMEDIES AND LIMITATIONS OF LIABILITIES
+
+
+   A.     YOU AGREE THAT  YOUR SOLE  REMEDY AGAINST  LUCENT,  ITS
+     AFFILIATES, CONTRACTORS,  SUPPLIERS,  AND AGENTS FOR LOSS OR
+     DAMAGE  CAUSED  BY  ANY DEFECT  OR FAILURE  IN THE  SOFTWARE
+     REGARDLESS OF  THE FORM  OF  ACTION,  WHETHER  IN  CONTRACT,
+     TORT, INCLUDING NEGLIGENCE, STRICT LIABILITY  OR  OTHERWISE,
+     SHALL  BE  THE REPLACEMENT  OF  LUCENT  FURNISHED  SOFTWARE,
+     PROVIDED SUCH SOFTWARE IS RETURNED TO LUCENT.  THIS SHALL BE
+     EXCLUSIVE  OF  ALL  OTHER   REMEDIES  AGAINST   LUCENT,  ITS
+     AFFILIATES, CONTRACTORS,  SUPPLIERS  OR  AGENTS, EXCEPT  FOR
+     YOUR RIGHT TO CLAIM DAMAGES FOR BODILY INJURY TO ANY PERSON.
+
+   B.      Regardless of any other provisions of this  Agreement,
+     neither LUCENT nor its affiliates, contractors, suppliers or
+     agents shall be liable  for  any  indirect,  incidental,  or
+     consequential  damages (including lost profits) sustained or
+     incurred in connection with the use, operation, or inability
+     to  use the SOFTWARE or for damages due to causes beyond the
+     reasonable control of LUCENT, its  affiliates,  contractors,
+     suppliers  and  agents attributable to any service, products
+     or action of any other person.
+
+6.      MISCELLANEOUS PROVISIONS
+
+
+
+   A.      This Agreement shall be construed in  accordance  with
+     and governed by the laws of the State of New York, excluding
+     its conflict of law rules.
+
+
+   B.      U.S. GOVERNMENT RIGHTS. If you are acquiring  SOFTWARE
+     on  behalf  of any part of the United States Government, the
+     following provisions apply:  The SOFTWARE is  deemed  to  be
+     "commercial  software"  and  "commercial  computer  software
+     documentation,"  respectively,  pursuant  to  DFAR   Section
+     227.7202   and   FAR   12.212,   as   applicable.  Any  use,
+     modification, reproduction, release, performance, display or
+     disclosure  of the SOFTWARE by the U.S. Government or any of
+     its agencies shall be governed solely by the terms  of  this
+     Agreement  and  shall  be  prohibited  except  to the extent
+     expressly permitted by the terms of this Agreement.
+
+7.   PATENTS
+
+   A.     LUCENT hereby grants to you an immunity from suit under
+     LUCENT's  present patents solely with respect to your use in
+     testing   the  SOFTWARE  for   evaluation   purposes  for  a
+     reasonable  time  period  not  to exceed one  hundred eighty
+     (180) days  from your receipt thereof and not in combination
+     with any other software or hardware furnished to customers.
+
+
+   B.      It is recognized that  third parties may have  patents
+     that  might  be  infringed by  your  use of the SOFTWARE and
+     LUCENT makes  no representations  or warranties with respect
+     thereto.  It shall be your sole  responsibility to determine
+     the existence and applicability of patents  of third parties
+     and to secure any necessary license with respect thereto.
+_________________________________________________________________
+
+     YOU  ACKNOWLEDGE  THAT  YOU HAVE  READ  THIS  AGREEMENT  AND
+     UNDERSTAND  IT, AND  THAT  BY  DOWNLOADING  THE SOFTWARE YOU
+     AGREE TO BE  BOUND BY ITS TERMS AND CONDITIONS.  YOU FURTHER
+     AGREE THAT,  EXCEPT FOR SEPARATE  WRITTEN AGREEMENTS BETWEEN
+     LUCENT AND YOU, THIS AGREEMENT IS THE COMPLETE AND EXCLUSIVE
+     STATEMENT OF  THE RIGHTS  AND  LIABILITIES  OF  THE PARTIES.
+     THIS  AGREEMENT   SUPERSEDES  ALL  PRIOR  ORAL   AGREEMENTS,
+     PROPOSALS  OR UNDERSTANDINGS,  AND ANY OTHER  COMMUNICATIONS
+     BETWEEN US RELATING TO THE SUBJECT MATTER OF THIS AGREEMENT.
+

@@ -1,0 +1,84 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc7.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc9.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="846275">
+<center><h1> newns - <a building:new name space; name space:building:new>build a new name space from a description file</h1></center>
+</a><pre><tt>include "newns.m";
+ns:=   load Newns Newns-&gt;PATH;
+newns: fn(user: string, nsfile: string): string;
+</tt></pre></p><a name="846284">
+<h2> Description</h2>
+</a><a name="846285">
+The <em>Newns</em> module reads file <em>nsfile</em> and builds a new name space based on the commands it contains. If <em>nsfile</em> is <em>nil</em> or empty, then <em>newns</em> attempts to read the file <em>namespace</em> in the current directory.<p>
+</a><a name="846286">
+The name space description file contains one or more lines each of which specifies one name space operation. The operations and their arguments are:<p>
+</a><a name="846287">
+<h3> bind [-abrci] source target </h3>
+</a><a name="846288">
+Use <em>source</em> as an alias for file or directory <em>target</em>. Options <em>a</em>, <em>b</em>, <em>c</em>, and <em>r</em> translate to flag values <em>MAFTER</em>, <em>MBEFORE</em>, <em>MCREATE</em>, and <em>MREPL</em>, respectively. Option <em>i</em> means to ignore errors. See <a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em> in Chapter &#32;8</a>.<p>
+</a><a name="846292">
+<h3> cd directory </h3>
+</a><a name="846293">
+Change working directory to <em>directory</em>. <p>
+</a><a name="846294">
+<h3> fork</h3>
+</a><a name="846295">
+Split the name space before modification. This is equivalent to passing a value of <em>FORKNS</em> to the <em>pctl</em> system call. See <a href="md_sys10.htm#845070"><em>pctl - process control</em> in Chapter &#32;8</a>.<p>
+</a><a name="846299">
+<h3> nodev</h3>
+</a><a name="846300">
+Disallow device attaches. This is equivalent to passing a value of <em>NODEVS</em> to the <em>pctl</em> system call. See <a href="md_sys10.htm#845070"><em>pctl - process control</em> in Chapter &#32;8</a>.<p>
+</a><a name="846304">
+<h3> mount [-abrci] [net!machine] to [target]</h3>
+</a><a name="846305">
+Mount the file tree of <em>machine</em> upon directory <em>target</em>. Options <em>a</em>, <em>b</em>, <em>c</em>, <em>i</em>, and <em>r</em> are the same as for <em>bind</em>.<p>
+</a><a name="849443">
+<h2> Notes</h2>
+</a><a name="849444">
+The <em>user</em> string is ignored.<p>
+</a><a name="846309">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="848517">
+<a href="cmd20.htm#853441"><em>nsbuild - build Inferno name space</em> in Chapter &#32;5</a><p>
+</a>
+<tr><td><a name="848522">
+<a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em> in Chapter &#32;8</a><p>
+</a>
+<tr><td><a name="848527">
+<a href="md_sys3.htm#844637"><em>chdir - change working directory</em> in Chapter &#32;8</a><p>
+</a>
+<tr><td><a name="848532">
+<a href="md_sys10.htm#845070"><em>pctl - process control</em> in Chapter &#32;8</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc7.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc9.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

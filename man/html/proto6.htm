@@ -1,0 +1,149 @@
+<html><head><title>Inferno<br>Communications Protocol, Styx</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="847076">
+<center><h1> open, create - <a preparing fid, for I/O on existing or new file; fid:preparing for I/O on existing/new file>prepare a fid for I/O on a file</h1></center>
+</a><pre><tt>Topen   <em>tag</em> [2]  <em>fid</em> [2]  <em>mode</em> [1]
+Ropen   <em>tag</em> [2] <em> fid</em> [2]  <em>qid</em> [8]
+Tcreate <em>tag</em> [2]  <em>fid</em> [2]  <em>name</em> [28] <em>perm</em> [4] <em>mode</em> [1]
+Rcreate <em>tag</em> [2]  <em>fid</em> [2]  <em>qid</em> [8]
+</tt></pre></p><a name="847084">
+<h2> Description</h2>
+</a><a name="847085">
+<h3> The open Transaction </h3>
+</a><a name="847086">
+The <em>open</em> request asks the file server to check permissions and prepare a fid for I/O with subsequent <em>read</em> and <em>write</em> messages.<p>
+</a><a name="847087">
+The <em>mode</em> field expresses the type of I/O requested and is checked against the permissions for the file. Additional options can also be requested. The allowed values are shown below. If other bits are set in <em>mode</em> they will be ignored. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="847090">
+OREAD <p>
+</a><td><a name="847092">
+Read access<p>
+</a>
+<tr><td><a name="847094">
+OWRITE <p>
+</a><td><a name="847096">
+Write access<p>
+</a>
+<tr><td><a name="847098">
+ORDWR <p>
+</a><td><a name="847100">
+Read and write access<p>
+</a>
+<tr><td><a name="847102">
+OEXEC <p>
+</a><td><a name="847104">
+Execute access<p>
+</a>
+<tr><td><a name="847106">
+OTRUNC (16r10)<p>
+</a><td><a name="847108">
+The file is to be truncated when opened. This option requires write permission on the file.<p>
+</a>
+<tr><td><a name="847110">
+ORCLOSE (16r40)<p>
+</a><td><a name="847112">
+The file is to be removed when the fid is clunked. This option requires write permission in the file's directory.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="847113">
+It is illegal to write a directory, truncate it, or attempt to remove it on close.<p>
+</a><a name="847114">
+All these permissions are checked at the time of the <em>open</em> request; any subsequent changes to the permissions of files do not affect the ability to read, write, or remove an open file.<p>
+</a><a name="847115">
+It is an error if the fid is already the product of a successful <em>open</em> or <em>create</em> message.<p>
+</a><a name="847117">
+<h3> The create Transaction</h3>
+</a><a name="847118">
+The <em>create</em> request asks the file server to create a new file with the <em>name</em> supplied, in the directory (<em>dir</em>) represented by <em>fid</em>. This request and requires write permission in the directory. The owner of the file is the implied user id of the request and the group of the file is the same as <em>dir</em>.<p>
+</a><a name="847119">
+The permissions of the newly created file depend on the permissions of the enclosing directory (<em>dir.perm</em>) and the <em>perm</em> value of the request.<p>
+</a><a name="847120">
+For non-directories, the formula is<p>
+</a><pre><tt>	(perm&amp;(~8r777|8r111)) | (dir.perm&amp;perm&amp;8r666) 
+
+</tt></pre></p><a name="847124">
+For directories, the formula is<p>
+</a><pre><tt>	(perm&amp;~8r777) | (dir.perm&amp;perm&amp;8r777)
+
+</tt></pre></p><a name="847128">
+This means, for example, that if the <em>create</em> allows read permission to others, but the containing directory does not, then the created file will not allow others to read the file.<p>
+</a><a name="847129">
+Finally, the newly created file is opened according to <em>mode</em>, and <em>fid</em> will represent the newly opened file. The <em>mode</em> is not checked against the permissions in <em>perm</em>.<p>
+</a><a name="847131">
+The <em>qid</em> for the new file is returned with the <em>create</em> reply message.<p>
+</a><a name="847132">
+Directories are created by setting the <em>CHDIR</em> bit (16r80000000) in the <em>perm</em>.<p>
+</a><a name="847133">
+The names<em> '.' </em>and <em>'..' </em>are special. It is illegal to create files with these names.<p>
+</a><a name="847134">
+It is an error if the fid is already the product of a successful <em>open</em> or <em>create</em> message.<p>
+</a><a name="847135">
+An attempt to <em>create</em> a file in a directory where the given <em>name</em> already exists will be rejected. The <strong>create</strong> system call uses <em>open</em> with truncation. (see <em><a href="md_sys9.htm#844990"></em><em>open, create - open/create a file for reading or writing</em> in Chapter 8<em></a></em>)<p>
+</a><a name="847139">
+The algorithm used by the <strong>create</strong> system call is:<p>
+</a><ol>
+<a name="847140">
+<li>Walk to the directory to contain the file. If that fails, return an error.
+</a><a name="847141">
+<li>Walk to the specified file. If the <em>walk</em> succeeds, send a request to <em>open</em> (with the truncate option) the file and return the result, successful or not.
+</a><a name="847142">
+<li>If the <em>walk</em> fails, send a <em>create</em> message. If that fails, it may be because the file was created by another process after the previous <em>walk</em> failed, so (once) try the <em>walk</em> and <em>open</em> (with the truncate option) again.
+</a><a name="847146">
+For the behavior of <em>create</em> on a union directory, (See <a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em> in Chapter 8</a>).<p>
+</a></ol>
+<a name="847147">
+<h2> Entry Points</h2>
+</a><a name="847148">
+The <strong>open</strong> and <strong>create</strong> calls both generate <em>open</em> messages; only the <strong>create</strong> call generates a <em>create</em> message.<p>
+</a><a name="847149">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="850179">
+<em><a href="md_sys1.htm#844542"></em><em>bind, mount, unmount - change file name space</em> in Chapter 8<em></a></em><p>
+</a>
+<tr><td><a name="850181">
+<em><a href="md_sys9.htm#844990"></em><em>open, create - open/create a file for reading or writing</em> in Chapter 8<em></a></em><p>
+</a>
+<tr><td><a name="850183">
+<em><a href="proto9.htm#847231"></em><em>stat, wstat - inquire or change file attributes</em><em></a></em><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:07 -->
+
+</body>
+</html>

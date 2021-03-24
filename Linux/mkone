@@ -1,0 +1,75 @@
+BIN=		$ROOT_DEVEL/$OBJDIR/bin
+libs=		${LIBS:%=$ROOT_DEVEL/$OBJDIR/lib/lib%.$A}
+
+all:V:		$O.out
+
+$O.out:	$OFILES $libs
+	$LD $LDFLAGS -o $target $OFILES $libs $LDSYSLIBS
+
+%.$O:	$HFILES		# don't combine with following %.$O rules
+
+%.$O:	%.c
+	$CC $CFLAGS -o $target $stem.c
+
+%.$O:	%.s
+	$AS $ASFLAGS -o $target $stem.s
+
+#	The default yacc rule should not be invoked on UNIX systems.
+#	Unfortunately, UNIX yacc generates files that do not compile
+#	on Windows, and we need to keep the Plan 9 generated files.
+
+#y.tab.h y.tab.c:	$YFILES
+#	$YACC $YFLAGS $YFILES
+
+install:V:	install-std
+
+install-std:V:	all\
+		$BIN\
+		$BIN/$TARG\
+
+uninstall:V:	uninstall-std
+
+uninstall-std:V:
+	$RM $BIN/$TARG
+
+package:V:	package-std
+
+package-std:V:	all\
+		$PREFIX_PKG/$SYSTARG\
+		$PREFIX_PKG/$SYSTARG/$OBJTYPE\
+		$PREFIX_PKG/$SYSTARG/$OBJTYPE/bin\
+		$PREFIX_PKG/$SYSTARG/$OBJTYPE/bin/$TARG
+
+$BIN/%:	$O.out
+	$RM $BIN/$stem
+	$CP $O.out $BIN/$stem
+
+$PREFIX_PKG/$SYSTARG/$OBJTYPE/bin/%:	$O.out
+	$RM $PREFIX_PKG/$SYSTARG/$OBJTYPE/bin/$stem
+	$CP $O.out $PREFIX_PKG/$SYSTARG/$OBJTYPE/bin/$stem
+
+installall:V:
+	for (OBJTYPE in $CPUS)
+		mk install
+
+nuke:V:	nuke-std
+
+nuke-std:EV:
+#	$RM y.tab.?			# do not remove yacc-generated files
+	$RM core y.debug y.output
+	$RM $OFILES $O.out
+	$RM *.[$OS] [$OS].out
+
+clean:V:	clean-std
+
+clean-std:EV:
+#	$RM y.tab.?			# do not remove yacc-generated files
+	$RM core y.debug y.output
+	$RM $OFILES $O.out
+	$RM *.[$OS] [$OS].out
+
+$BIN \
+$PREFIX_PKG/$SYSTARG \
+$PREFIX_PKG/$SYSTARG/$OBJTYPE \
+$PREFIX_PKG/$SYSTARG/$OBJTYPE/bin :
+	$MKDIR $target

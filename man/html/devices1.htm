@@ -1,0 +1,281 @@
+<html><head><title>Inferno<br>Devices</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="849009">
+<center><h1> audio - interface to audio devices</h1></center>
+</a><pre><tt>bind -a '#A' /dev
+
+/dev/audio
+/dev/audioctl
+</tt></pre></p><a name="847877">
+<h2> Description</h2>
+</a><a name="847878">
+The <em>audio</em> device provides kernel support for an interface to a variety of sound devices. Some of the things you can do with the audio device are:<p>
+</a><ul><a name="848698">
+<li>talk into the microphone on your computer and hear your voice be processed through inferno and played back through your speakers<p>
+</a><a name="848700">
+<li>talk through your microphone and save your voice in a file (record your voice) for later playback<p>
+</a><a name="848702">
+<li>play any Win95 .wav, or .snd file <p>
+</a><a name="848762">
+<li>play the sound you previously record through inferno<p>
+</a><a name="848704">
+<li>you can talk into your microphone and sound will be heard through the speakers machine across the network (and vice versa)<p>
+</a><a name="848707">
+The <em>audio</em> device reads and writes the audio device file <em>audio</em> and the audio control file <em>audioctl</em><p>
+</a></ul><a name="847879">
+<h2> audio device file - audio</h2>
+</a><a name="846873">
+The<em> </em>audio device file <em>audio</em> is used to send or receive raw audio data. Data read or written to the <em>audio</em> file are processed as raw information in the format described by the current state of the control file <em>audioctl</em>. The <em>audio</em> file does not support any file format conventions. It is the responsibility of the application to read or write <em>audio</em> data to or from files in a suitable format.<p>
+</a><a name="846879">
+<h4> Write to audio</h4>
+</a><a name="847065">
+The data written to <em>audio</em> are output to the assigned output device. The default <em>audio</em> output device is a speaker(s). Other output devices include headphones, line-out, and similar devices.<p>
+</a><a name="848879">
+If the application writes to the audio file faster than the buffer sends it to the output, the application blocks until there is enough internal memory to hold the incoming data.<p>
+</a><a name="846880">
+<h4> Read from Audio</h4>
+</a><a name="847066">
+The data read from <em>audio</em> is input from the assigned input device. The default audio input device is a microphone. <p>
+</a><a name="848868">
+The microphone input begins at the first read request and ends at close, or until the internal buffers are full. A subsequent read will then start the input again. <p>
+</a><a name="848878">
+<hr>
+<strong>NOTE:</strong><p>
+<em>The input may end if the read is not fast enough. This may lead to 
+dropped data samples.
+</em>
+<hr></a><a name="847526">
+<h2> audio control file - audioctl</h2>
+</a><a name="847573">
+The audio control file (<em>audioctl</em>) is used to send or receive formatted <em>audio</em> control messages. Control messages read or written to the <em>audioctl</em> file modify the processing of raw data read or written to the <em>audio</em> file.<p>
+</a><a name="847628">
+The <em>audioctl</em> file settings are persistent across process invocations. An application running on Inferno should query the capabilities of the local <em>audio</em> device before utilizing any audio services. An application should prepare the <em>audio</em> file for output by sending the appropriate message to the <em>audioctl</em> file prior to reading or writing data.<p>
+</a><a name="847639">
+Valid messages written to the <em>audioctl</em> file using the <em>write</em> system call return a non-zero value equal to the length of the ASCII message string. Invalid messages written to the <em>audioctl</em> file using the write system call return a value equal to -1.<p>
+</a><a name="847640">
+Applications reading from the <em>audioctl</em> file should supply a buffer of size <em>AUDIO_INFO_MAX (512).</em> The returned string from reading audioctl contains the supported type strings along with all the acceptable values for that type. The first value following the type is the current value. The returned string can then be tokenized using system calls and processed appropriately.<p>
+</a><a name="847574">
+<h3> Messages to ctl</h3>
+</a><a name="847149">
+Application messages sent to the <em>audioctl</em> file behave differently for input and output. <p>
+</a><a name="848883">
+Messages sent to the <em>audioctl</em> file to control output, block the process until any existing raw data in the <em>audio</em> file has been played. The state of the <em>audio</em> file output processing is then modified so that new raw data written to <em>audio</em> will play appropriately. <p>
+</a><a name="848884">
+Messages sent to the <em>audioctl</em> file to control input result in flushing any unread raw input data in the <em>audio</em> file. The state of the <em>audio</em> file input processing is then modified so that new raw data read from <em>audio</em> will match the new input control settings.<p>
+</a><a name="846882">
+The messages sent to or received from the <em>audioctl</em> file are ASCII-based text messages following the syntax:<p>
+</a>	[dir] type value [type value1 value2 value3]
+<a name="846884">
+<h4> dir</h4>
+</a><a name="847540">
+The option <em>dir</em> can be either <em>in</em> or <em>out</em> if an application wishes differing configuration for input and output.<p>
+</a><a name="847547">
+<h4> type value</h4>
+</a><a name="846885">
+A variable number of tuples consisting of type value(s) are accepted and/or returned. If multiple values for a given type are used, the first value (<em>value1</em>) represents the assigned control value for that type. Values are specific to the type identifier. All types and values are supplied as ASCII text separated by white space, tab stops, new-lines, or commas.<p>
+</a><a name="846887">
+The types and their acceptable values are listed as follows:<p>
+</a><a name="846901">
+<h4> enc - encoding format 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846890">
+ulaw<p>
+</a><td><a name="846892">
+&#181;-law encoding<p>
+</a>
+<tr><td><a name="846894">
+alaw<p>
+</a><td><a name="846896">
+A-law encoding<p>
+</a>
+<tr><td><a name="846898">
+pcm<p>
+</a><td><a name="846900">
+Pulse Code Modulation encoding<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="848900">
+<h4> rate - sampling rate 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846904">
+8000<p>
+</a><td><a name="846906">
+8000 samples per second<p>
+</a>
+<tr><td><a name="846908">
+11025<p>
+</a><td><a name="846910">
+11025 samples per second<p>
+</a>
+<tr><td><a name="846912">
+22050<p>
+</a><td><a name="846914">
+22050 samples per second<p>
+</a>
+<tr><td><a name="846916">
+44100<p>
+</a><td><a name="846918">
+44100 samples per second<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="846929">
+<h4> chans - channels 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846922">
+1<p>
+</a><td><a name="846924">
+1 channel<p>
+</a>
+<tr><td><a name="846926">
+2<p>
+</a><td><a name="846928">
+2 channels<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="846939">
+<h4> bits per encoding sample 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846932">
+8<p>
+</a><td><a name="846934">
+8 bits per sample<p>
+</a>
+<tr><td><a name="846936">
+16<p>
+</a><td><a name="846938">
+16 bits per sample<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="846961">
+<h4> buf - play/record sample buffer size 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="847621">
+0 - 100<p>
+</a><td><a name="847623">
+Any whole number between 0 and 100 representing the percentage between the minimum and maximum buffering capability.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="846962">
+<h4> count - number of samples waiting for I/O 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="847552">
+0<p>
+</a><td><a name="847554">
+flush in/out.<p>
+</a>
+<tr><td><a name="847556">
+#<p>
+</a><td><a name="847558">
+number of samples waiting for I/O<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="846974">
+<h4> dev - input device 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846967">
+mic<p>
+</a><td><a name="846969">
+input microphone<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="848355">
+<h4> dev - output device 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846978">
+spkr<p>
+</a><td><a name="846980">
+output speaker<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="847511">
+<h2> Note</h2>
+</a><a name="847516">
+There are two <em>audio</em> device files supported on any Inferno platform regardless of the number of physical <em>audio</em> devices or the number of applications which access the <em>audio</em> facilities. In this release, only one application can read and/or write to the <em>audio</em> device since mixing is not currently supported.<p>
+</a><a name="848802">
+A write to the audio file means your data has been queued to play but does not mean it has completed playing (sound may linger and continue although your write succeeds).<p>
+</a><a name="848653">
+When your application closes down, the close will block until all queued data has been played on the speakers<p>
+</a><a name="848655">
+To read or write audio data over a network, first cross mount to another machine and then read or write to the other machine.<p>
+</a><a name="848657">
+On Win95 and Win NT, mute your microphone first so you don't hear your echo <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:54:10 -->
+
+</body>
+</html>

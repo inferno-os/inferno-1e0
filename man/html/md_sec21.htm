@@ -1,0 +1,80 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec20.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec22.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="846169">
+<center><h1> verify - <a authenticating: receiver of blinded certificate>command to authenticate receiver of blinded certificate</h1></center>
+</a><pre><tt>lib/verify <em>set-top-box-id
+</em></tt></pre></p><a name="846174">
+<h2> Description</h2>
+</a><a name="846175">
+The <kbd></a>verify</kbd> command is used at a 'signer' server to extract information from the <kbd>/keydb/signed/</kbd><em>set-top-box-id</em> file previously created by the <kbd>signer</kbd> daemon. That information consists of the previously crafted authentication certificate and the 'blinded' version of the certificate that was sent to the requesting client.<p>
+</a><a name="846176">
+The <kbd>verify</kbd> command displays the 'blinded' version textually or graphically, as appropriate, so that it can be compared to that reported by the set-top-box owner over a secure independent mechanism (for example, telephone). If the operator of verify is convinced of the identity of the caller, the operator should reply affirmatively when prompted for acceptance.<p>
+</a><a name="846177">
+If the owner's identity is accepted, the <kbd>verify</kbd> command writes the authentication certificate to the <kbd>/keydb/countersigned/</kbd><em>set-top-box-id</em> file,   input for the <kbd>countersigner</kbd> daemon.<p>
+</a><a name="846178">
+<hr>
+<strong>NOTE:</strong><p>
+<em>After the operator of verify accepts the identity, the set-top-box 
+owner should be informed to respond affirmatively to the prompt 
+being displayed by the register command. The order of 
+acceptance (first on the signer host) then on the client is 
+important.
+</em>
+<hr></a><a name="846179">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="853013">
+/keydb/signed/set-top-box-id<p>
+</a>
+<tr><td><a name="853015">
+/keydb/countersigned/set-top-box-id<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="846197">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852210">
+<a href="md_sec20.htm#846000"><em>signer, countersigner - daemons for set-top box authentication</em></a><p>
+</a>
+<tr><td><a name="852215">
+<a href="md_sec18.htm#846848"><em>register - command to register set-top-box identity with signer</em></a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec20.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec22.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

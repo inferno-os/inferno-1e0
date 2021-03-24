@@ -1,0 +1,4 @@
+bind -ibc /n/remote /
+bind -ib #c /dev
+bind -ib #I /net
+bind -ia /wm /dis

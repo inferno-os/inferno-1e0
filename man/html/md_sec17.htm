@@ -1,0 +1,65 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec16.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec18.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="852779">
+<center><h1> randomint, randombuf -<a module: interface to: random number device; random number device: module interface to> interface to random number device</h1></center>
+</a>include "security.m";
+Random : module {
+	PATH:	con "/dis/lib/random.dis";
+	randomint:	fn(): int;
+	randombuf:	fn(buf:array of byte, n: int); int;
+}
+<a name="845810">
+<h2> Description</h2>
+</a><a name="845811">
+The <kbd></a>Random</kbd> module provides a convenient interface to <kbd>/dev/random,</kbd> a part of the console driver. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845814">
+randomint()<p>
+</a><td><a name="845816">
+Return a random integer value.<p>
+</a>
+<tr><td><a name="845818">
+randombuf(buf,n)<p>
+</a><td><a name="845820">
+Initialize array <em>buf</em> with <em>n</em> random bytes.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845832">
+<h2> See Also</h2>
+</a><a name="845825">
+<a href="devices3.htm#844456"><em>random (read-only)</em></a> of <a href="devices3.htm#844391"><em>cons - console device</em> in Chapter &#32;2</a><p>
+</a><a name="845831">
+The <kbd>/dev/random</kbd> file is implemented as part of the console device. <p>
+</a><a name="852783">
+<p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec16.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec18.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

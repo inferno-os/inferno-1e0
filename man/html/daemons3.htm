@@ -1,0 +1,163 @@
+<html><head><title>Inferno <br>Daemons</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="daemons4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844491">
+<center><h1> srv - <a starting:server daemons>start server daemons</h1></center>
+</a>lib/srv
+<pre><tt></tt></pre></p><a name="844496">
+<h2> Description</h2>
+</a><a name="844497">
+The <em>srv</em> command starts a suite of daemons. When these daemons are running on a computer, it is considered a network 'server'.<p>
+</a><a name="844498">
+<h3> Daemons</h3>
+</a><a name="844560">
+The <em>srv</em> command starts the following (hardcoded) set of daemons. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844501">
+DAEMON<p>
+</a><td><a name="844503">
+PORT<p>
+</a><td><a name="844505">
+DESCRIPTION<p>
+</a>
+<tr><td><a name="844507">
+lib/signer<p>
+</a><td><a name="845549">
+infsigner<p>
+</a><td><a name="844514">
+See <a href="md_sec19.htm#846000"><em>signer, countersigner - daemons for set-top box authentication</em> in Chapter &#32;9</a><p>
+</a>
+<tr><td><a name="844516">
+lib/countersigner<p>
+</a><td><a name="844518">
+infcsigner<p>
+</a><td><a name="845907">
+See <a href="md_sec19.htm#846000"><em>signer, countersigner - daemons for set-top box authentication</em> in Chapter &#32;9</a><p>
+</a>
+<tr><td><a name="844525">
+lib/logind<p>
+</a><td><a name="844527">
+inflogin<p>
+</a><td><a name="844532">
+See <a href="md_sec14.htm#847464"><em>logind - login daemon</em></a><p>
+</a>
+<tr><td><a name="844534">
+lib/virgild<p>
+</a><td><a name="844536">
+virgil<p>
+</a><td><a name="844538">
+See <a href="daemons4.htm#844681"><em>virgild - connection service for remote clients</em></a><p>
+</a>
+<tr><td><a name="844543">
+file service<p>
+</a><td><a name="844545">
+styx<p>
+</a><td><a name="844550">
+See <a href="daemons3.htm#844571"><em>File Service</em></a> below.<p>
+</a>
+<tr><td><a name="844552">
+remote execution services<p>
+</a><td><a name="844554">
+rstyx<p>
+</a><td><a name="844559">
+See <a href="cmd25.htm#853520"><em>rcmd - remote command execution</em> in Chapter &#32;5</a>.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844561">
+<h3> Initialization</h3>
+</a><a name="844562">
+Prior to starting the daemons, the <em>srv</em> command defines its name space according to the specification in file<em> server/namespace </em>(relative to the current directory). See <a href="md_misc8.htm#846275"><em>newns - build a new name space from a description file</em> in Chapter &#32;15</a> for the specification format.<p>
+</a><a name="844566">
+The <em>srv </em>command also starts the connection service for resolving network addresses. See <a href="cmd7.htm#853204"><em>cs - start connection server daemon</em></a> command.<p>
+</a><a name="844571">
+<h3> File Service</h3>
+</a><a name="844572">
+The<em> srv </em>command spawns a thread that monitors requests on the <em>styx</em> service port. For each incoming request, yet another thread is spawned to authenticate the connection and provide access to the local file system. See <a href="md_sys4.htm#844663"><em>dial, announce, export, listen - make network connections</em> in Chapter &#32;8</a> for the discussion of the<em> export </em>function.<p>
+</a><a name="844577">
+<h3> Remote Execution Services</h3>
+</a><a name="844578">
+Among the daemons created by the <em>srv </em>command is a thread that monitors requests on service port <em>rstyx. </em>These requests represent requests by clients for commands to be executed on the server.<p>
+</a><a name="844582">
+See <a href="cmd25.htm#853520"><em>rcmd - remote command execution</em> in Chapter &#32;5</a> for the description of a client interface for sending command requests to a server.<p>
+</a><a name="844583">
+Each incoming request is logged to the server's console. The message includes the client's network address.<p>
+</a><a name="844593">
+The client's request must consist of two lines: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844586">
+Line 1<p>
+</a><td><a name="844588">
+A decimal integer representing the number of bytes in the following line.<p>
+</a>
+<tr><td><a name="844590">
+Line 2<p>
+</a><td><a name="844592">
+The command and arguments, if any to be executed on the server.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844594">
+The client's commands are executed with the same Inferno user ID that was used when the<em> srv </em>command was issued.<p>
+</a><a name="844595">
+The client's commands are executed on the server with standard input, output, and error redirected to the<em> /dev/cons </em>device on the client. This redirection requires that the client export its file system (see <a href="md_sys4.htm#844663"><em>dial, announce, export, listen - make network connections</em> in Chapter &#32;8</a>) over the connection it creates to the server.<p>
+</a><a name="844599">
+<h3> Termination</h3>
+</a><a name="844600">
+Once the daemons have been started, the<em> srv </em>command starts the Inferno shell (see <a href="cmd27.htm#853536"><em>sh - command line interface to the Inferno system</em> in Chapter &#32;5</a>) to process command line input. The <em>srv</em> command does not terminate.<p>
+</a><a name="844617">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844610">
+/n/client<p>
+</a><td><a name="844612">
+Clients requesting remote command execution have their file system mounted on this server directory.<p>
+</a>
+<tr><td><a name="844614">
+/n/client/dev<p>
+</a><td><a name="844616">
+Servers of remote execution request access the console device of the server via this directory.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="daemons4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:31 -->
+
+</body>
+</html>

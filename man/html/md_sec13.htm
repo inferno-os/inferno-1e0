@@ -1,0 +1,78 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec12.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec14.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844684">
+<center><h1> IPi</a>nt adt - 'infinite' precision integer utility functions</h1></center>
+</a><pre><tt>include "keyring.m"
+keyring:= load Keyring Keyring-&gt;PATH;
+#infinite precision integers
+IPint: adt
+{
+  x:    int;
+  #conversions
+  iptob64:   fn(i: self ref IPint): string;
+  b64toip:   fn(str: string)  : ref IPint;
+  iptobytes: fn(i: self ref IPint): array of byte;
+  #large random integer generator
+  random:    fn(minbits, maxbits: int): ref IPint;
+  #operations
+  bits:      fn(i:  self ref IPint): int;
+  expmod:    fn(base: self ref IPint, exp, mod: 
+                            ref IPint):ref IPint;
+  eq:        fn(i1:  self ref IPint, i2: ref IPint): int;
+};
+</tt></pre></p><a name="844705">
+<h2> Description</h2>
+</a><a name="844706">
+The <em>IPint</em> adt provides the following integer manipulation functions required for cryptographic support in Limbo:<p>
+</a><a name="850539">
+<h3> iptob64(i)</h3>
+</a><a name="850540">
+The <em>iptob64</em> function converts a large integer to a base 64 string for convenient transmission over a network connection. <p>
+</a><a name="850541">
+<h3> b64toip(str)</h3>
+</a><a name="850542">
+The <em>b64toip</em> function performs the inverse operation of <em>iptob64</em>. <p>
+</a><a name="850543">
+<h3> iptobytes(i)</h3>
+</a><a name="850544">
+The <em>iptobytes</em> function converts a large integer to an array of bytes for faster communication to the kernel <em>ssl</em> device.<p>
+</a><a name="844707">
+<h3> random (minbits, maxbits)</h3>
+</a><a name="844708">
+The <em>random</em> function generates large random numbers with a range of <em>minbits</em> to <em>maxbits</em>. The maximum number allowed in the current implementation is 2<sup>28192</sup>-1. The seed for the generator is obtained by dueling clocks. <em>IPint</em> types are manipulated during security protocols.<p>
+</a><a name="844709">
+<h3> bits (i)</h3>
+</a><a name="844710">
+The <em>bits</em> function returns the number of bits of <em>precision</em> in <em>IPint</em>.<p>
+</a><a name="844711">
+<h3> expmod (base, exp, mod)</h3>
+</a><a name="844712">
+The <em>expmod</em> function returns <em>baseexp &#32;mod &#32;mod</em><em>.</em><p>
+</a><a name="844713">
+<h3> eq (i1, i2)</h3>
+</a><a name="844714">
+The <em>eq</em> function is a simple comparison of two <em>IPints,</em> which returns 1 if the two are equal, 0 otherwise.<p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec12.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec14.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

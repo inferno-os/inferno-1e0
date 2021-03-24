@@ -1,0 +1,105 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec10.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec12.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="854692">
+<center><h1> getauthinfo - command to create/obtain a certificate for authentication</h1></center>
+</a><pre>getauthinfo id</pre>
+
+<a name="854695">
+<h2> server command</h2>
+</a><a name="854696">
+On a 'signer' server, the <em>getauthinfo</em> command provides an interactive means to create a certificate for a user. The id is specified as the file name, <em>default</em>. Before issuing the getauthinfo command, a directory must exist on the server with the name <em>/usr/inferno/keyring</em>. <p>
+</a><a name="854697">
+<h2> client command</h2>
+</a><a name="854698">
+On a client, the <em>getauthinfo</em> command provides a means to obtain a user's certificate from a 'signer' server. The <em>id</em> is of the form <em>net!machine</em>, where machine is the address of the 'signer' server (see <a href="cmd1.htm"><em>bind, mount, unmount - change name space</em> </a> for more information about addresses of this form).<p>
+</a><a name="854699">
+In order to perform authentication, two machines must have a certificate from the same 'signer' server. To save a certificate in a file on a client, a directory <em>/usr/username/keyring</em> must be created on the client, where <em>username</em> is the name of the user for whom the certificate is to be obtained.<p>
+</a><a name="854700">
+<h3> user responses</h3>
+</a><a name="854718">
+The user is prompted for the following items: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854703">
+signer<p>
+</a><td><a name="854705">
+the name of the 'signer' server, for example, <em>pcwork1.company.com</em>. The default is the name in the file <em>/services/cs/db</em>.<p>
+</a>
+<tr><td><a name="854707">
+remote user name<p>
+</a><td><a name="854709">
+the name of the user for whom a certificate is either to be created on the server or retrieved on the client. The default is the name in /dev/user.<p>
+</a>
+<tr><td><a name="854711">
+password<p>
+</a><td><a name="854713">
+the password for the user. The password entered on the client must match the password on the server in order to retrieve a certificate. This password can be stored in encrypted form on the server with the <em>changelogin</em> command (see changelogin earlier in this chapter). The password must be at least 7 characters. <p>
+</a>
+<tr><td><a name="854715">
+save in file<p>
+</a><td><a name="854717">
+the default is no. If the user responds "yes" on a client, the certificate is stored on the client in the file <em>/usr/username/keyring/net!machine</em>. On the server, the user should respond "yes," and the newly created certificate is stored in the file <em>/usr/Inferno/keyring/default</em>.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="854732">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854721">
+/usr/username/keyring/net!machine<p>
+</a><td><a name="854723">
+where a certificate is stored on a client machine<p>
+</a>
+<tr><td><a name="854725">
+/usr/inferno/keyring/default<p>
+</a><td><a name="854727">
+where a certificate is stored on a 'signer' server.<p>
+</a>
+<tr><td><a name="854729">
+/services/cs/db<p>
+</a><td><a name="854731">
+contains the default name of the 'signer' server.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="854733">
+<h2> See Also</h2>
+</a><a name="854734">
+<a href="md_sec6.htm#845673"><em>changelogin - command to create/update the password file</em></a><p>
+</a><a name="854735">
+<a href="md_sec14.htm#844720"><em>login, getauthinfo - get an Authinfo adt from a certificate authority</em></a><p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec10.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec12.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:37:53 -->
+
+</body>
+</html>

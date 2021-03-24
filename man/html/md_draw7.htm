@@ -1,0 +1,58 @@
+<html><head><title>Limbo<br>Draw Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw6.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw8.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845060">
+<center><h1> pointer - <a status:of pointer device; pointer device status >state of a pointer device such as a mouse</h1></center>
+</a><pre><tt>include "draw.m";
+draw:= load Draw Draw-&gt;PATH;
+Pointer: adt
+{
+  buttons: int;
+  xy:    Point;
+};
+</tt></pre></p><a name="845080">
+<h2> Description 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845073">
+buttons<p>
+</a><td><a name="845075">
+Each button on the device corresponds to a bit in <em>buttons</em>; zero (0) bits indicate released or non-existent <em>buttons</em>, and one (1) bits indicates pressed <em>buttons</em>. The bits, from least to most significant positions, represent the buttons from left to right. <p>
+</a>
+<tr><td><a name="845077">
+xy<p>
+</a><td><a name="845079">
+The pointer's screen coordinates.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="845082">
+The pointer's position and button state is passed through a channel in the <em>Context</em>, as described in <a href="md_draw1.htm#844416"><em>context - graphics environment</em></a>.<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw6.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw8.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:56 -->
+
+</body>
+</html>

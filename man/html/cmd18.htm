@@ -1,0 +1,63 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd17.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd19.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853410">
+<center><h1> mv - <a renaming files; moving files; file operations: renaming files; file operations: moving files>rename/move files</h1></center>
+</a><pre><tt>mv <em>fromfile</em> <em>tofile</em> 
+mv <em>fromfile...</em> <em>todir</em> 
+</tt></pre></p><a name="845332">
+<h2> Description</h2>
+</a><a name="845333">
+The <em></a>mv</em> command can be used in several ways.<p>
+</a><a name="845334">
+If there are two arguments of the same type (directories or files) then <em>mv</em> will rename the <em>fromfile</em> to <em>tofile</em>.<p>
+</a><a name="845335">
+For files, a previously file named <em>tofile</em> will be (silently) removed. This requires write permission for the current directory. Write permission is not needed for <em>tofile</em>.<p>
+</a><a name="845336">
+For directories, a previously existing directory named <em>todir </em>will be (silently) removed if empty, and the <em>mv</em> operation will fail.<p>
+</a><a name="845337">
+If the last argument is a directory, the earlier arguments (all files) will be moved into that directory. Any previously existing files of the same name will be overwritten.<p>
+</a><a name="851116">
+<h2> Caveats</h2>
+</a><a name="854916">
+Directories cannot be renamed or moved into other directories.<p>
+</a><a name="845358">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854059">
+<a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter &#32;8</a> <p>
+</a>
+<tr><td><a name="854063">
+<a href="md_sys13.htm#845234"><em>remove - remove a file</em> in Chapter &#32;8</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd17.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd19.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd16.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd18.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853380">
+<center><h1> <a >mkdir - <a creating:directory>make a directory</h1></center>
+</a><pre><tt>mkdir <em>dirname...
+</em></tt></pre></p><a name="845306">
+<h2> Description</h2>
+</a><a name="845307">
+The <em></a>mkdir</em> command creates the specified directories. It requires write permission in the parent directory.<p>
+</a><a name="845308">
+The new directories are created with permissions starting with <em>8r777</em> but masked with the permissions of the parent directory according to the formula given in <em>open</em>. This has the effect of limiting the permissions of the newly created directories to those of the parent directory. For example, if the parent directory lacks write permission for group and no permissions for 'other', then so will the newly created directory.<p>
+</a><a name="845309">
+<h2> Diagnostics</h2>
+</a><a name="845310">
+A warning message is generated if a directory of the specified name already exists. Execution continues for the remaining names in the argument list, if any.<p>
+</a><a name="845311">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854040">
+<a href="cmd4.htm#853178"><em>chmod - change file mode (permissions)</em></a><p>
+</a>
+<tr><td><a name="854042">
+<a href="cmd26.htm#853532"><em>rm - remove file(s)</em></a> <p>
+</a>
+<tr><td><a name="854044">
+<a href="md_sys9.htm#844990"><em>open, create - open/create a file for reading or writing</em> in Chapter &#32;8</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd16.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd18.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

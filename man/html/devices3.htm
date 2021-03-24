@@ -1,0 +1,188 @@
+<html><head><title>Inferno<br>Devices</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844391">
+<center><h1> cons - <a console device>console device</h1></center>
+</a><pre><tt>bind '#c' /dev
+
+/dev/cons
+/dev/consctl
+/dev/keyboard
+/dev/memory
+/dev/pin
+/dev/pointer
+/dev/random
+/dev/sysname
+/dev/time
+/dev/user
+</tt></pre></p><a name="844410">
+<h2> Description</h2>
+</a><a name="848045">
+The console device serves a one-level directory giving access to the console and miscellaneous information.<p>
+</a><a name="844411">
+<h3> cons (read-write)</h3>
+</a><a name="844413">
+Reading the <em>cons</em> file returns characters typed on the keyboard. Normally, characters are buffered until a newline (<em>\n</em>) is entered to enable erase and kill processing via special characters: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844416">
+^U<p>
+</a><td><a name="844418">
+A control-U, <em>^U</em>, typed at the keyboard kills the current input line (removes all characters from the buffer of characters not yet read via cons).<p>
+</a>
+<tr><td><a name="844420">
+\b<p>
+</a><td><a name="844422">
+A backspace <em>erases</em> the previous non-kill, non-erase character from the input buffer. Killing and erasing only delete characters back to, but not including, the last newline.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844423">
+Typed keystrokes produce 16-bit characters that are translated into the variable-length UTF encoding (see <a href="formats5.htm#844478"><em>UTF, Unicode, ASCII - character set and format</em> in Chapter &#32;A</a>) before putting them into the buffer. A <a href="md_sys12.htm#845197"><em>read, write, stream - read, write, or stream file</em> in Chapter &#32;8</a> of length greater than zero causes the process to wait until a newline or a <em>^D</em> ends the buffer, and then returns as much of the buffer as the argument to <strong>read</strong> allows, but only up to one complete line.<p>
+</a><a name="844432">
+A terminating <em>^D </em>is not put into the buffer. The next <strong>read</strong> will return immediately with unread bytes typed since the last newline but before the <em>^D</em>. Thus, a <em>^D</em> entered at the start of a line will cause a <strong>read</strong> system call to return 0 bytes, the equivalent of reading at the end of a file.<p>
+</a><a name="844433">
+A <em>write</em> to the system call <em>cons</em> causes the characters to be printed on the console screen.<p>
+</a><a name="844434">
+<h3> consctl (write-only)</h3>
+</a><a name="844435">
+The behavior of the keyboard input can be changed by writing certain control strings to the <em>consctl</em> file.<p>
+</a><a name="844436">
+<h4> rawon</h4>
+</a><a name="844437">
+If the string <em>rawon</em> has been written to the <em>consctl</em> file and the file is still open, <em>cons</em> is in <em>raw</em> mode with the following attributes:<p>
+</a><ul><a name="844438">
+<li>Characters are not echoed as they are typed.<p>
+</a><a name="844439">
+<li>Backspace and <em>^D</em> are not treated specially.<p>
+</a><a name="844440">
+<li>Characters are available to <em>read</em> as soon as they are typed.<p>
+</a></ul><a name="844441">
+<h4> rawoff</h4>
+</a><a name="844442">
+Ordinary mode is reentered when <em>rawoff</em> is written to <em>consctl,</em> or this file is closed.<p>
+</a><a name="844443">
+<h3> keyboard (read-only)</h3>
+</a><a name="844444">
+The <em>keyboard</em> file returns the underlying tokens produced by the keyboard hardware as they are produced; in the emulation environment, it is like an always-<em>raw mode </em>cons file.<p>
+</a><a name="844445">
+<h3> null (read-write)</h3>
+</a><a name="844446">
+The <em>null</em> file throws away anything written to it and always returns zero bytes when read.<p>
+</a><a name="844447">
+<h3> pointer (read-only)</h3>
+</a><a name="844448">
+A read of the <em>pointer</em> file returns the status of the mouse or other pointing device: its position and button state. The read blocks until the state has changed since the last read. The read returns an <em>m</em> character followed by three integers in the standard Inferno 12-character decimal format. See <a href="md_misc.htm#845885"><em>Limbo Miscellaneous Modules</em> in Chapter &#32;15</a>.<p>
+</a><a name="844453">
+The integers are the device's coordinates on the screen (<em>x</em> and <em>y</em>) and a bit mask with the 1, 2, and 4 bits set when the pointer's left, middle, and right buttons, respectively, are down.<p>
+</a><a name="844454">
+<h3> pin (read-write)</h3>
+</a><a name="844455">
+The <em>pin</em> file, when read, returns either the string '<em>no pin' </em>if no PIN has been set for authentication, or '<em>pin set'</em>, if one has. The <em>pin</em> file may be written once per process group with a decimal representation of the PIN to use on this Inferno machine.<p>
+</a><a name="844456">
+<h3> random (read-only)</h3>
+</a><a name="844457">
+The <em>random</em> device returns as many bytes of random data as are requested in the <em>read</em>.<p>
+</a><a name="845745">
+<h2> Other Files</h2>
+</a><a name="844458">
+The rest of the files contain (mostly) read-only strings. Each string has a fixed length: a <em>read</em> of more than that gives a result of that fixed length (the result does not include a terminating zero byte); a <em>read</em> of less than that length leaves the file offset so the rest of the string (but no more) will be read the next time. To reread the file without closing it, the system module <em>seek</em> call must be used to reset the offset.<p>
+</a><a name="844462">
+When the file contains numeric data, each number is formatted in decimal as an 11-digit number with leading blanks and one trailing blank (twelve bytes total). There is no trailing newline character.<p>
+</a><a name="844464">
+<h3> sysname (read-write)</h3>
+</a><a name="844465">
+The <em>sysname</em> file holds the text name of the machine. No privilege is needed to write to this file.<p>
+</a><a name="844466">
+<h3> user (read-write)</h3>
+</a><a name="844467">
+The <em>user</em> file contains the name of the user associated with the current process group.<p>
+</a><a name="844468">
+On hosted systems, this value can be changed only by processes owned by the initiator of the <em>emu</em> program.<p>
+</a><a name="844469">
+<h3> memory (read-only)</h3>
+</a><a name="844470">
+The <em>memory</em> file returns a formatted presentation of the state of the memory allocation pools in the system. Each line of output returned reports the following parameters for a single pool:<p>
+</a><ul><a name="844471">
+<li>amount of memory in use<p>
+</a><a name="844472">
+<li>upper size limit<p>
+</a><a name="844473">
+<li>number of allocations done<p>
+</a><a name="844474">
+<li>number of frees done<p>
+</a><a name="844475">
+<li>number of extensions done<p>
+</a><a name="844476">
+<li>name of the pool<p>
+</a></ul><a name="844478">
+<h3> time (read-write)</h3>
+</a><a name="844479">
+Reading the <em>time</em> file obtains in decimal format (<em>%.lld</em>) the number of microseconds since the epoch 00:00:00 GMT, Jan. 1, 1970. This `clock' can be reset by writing the desired time value (in decimal format) to the <em>time</em> file.<p>
+</a><a name="844487">
+<h2> Notes</h2>
+</a><a name="844488">
+When running the Inferno native kernel, two control-T's followed by certain letters generate console output for debugging: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844491">
+^T^Tp<p>
+</a><td><a name="844493">
+prints data about kernel processes<p>
+</a>
+<tr><td><a name="844495">
+^T^Ts<p>
+</a><td><a name="844497">
+prints the kernel stack<p>
+</a>
+<tr><td><a name="844499">
+^T^Tx<p>
+</a><td><a name="844501">
+prints data about memory allocation<p>
+</a>
+<tr><td><a name="844503">
+^T^Tr<p>
+</a><td><a name="844505">
+reboots the system<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844506">
+These sequences have no special meaning when running the emulator (<em>emu</em>).<p>
+</a><a name="846174">
+<h2> See Also</h2>
+</a><a name="846178">
+<a href="formats5.htm#844478"><em>UTF, Unicode, ASCII - character set and format</em> in Chapter &#32;A</a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:54:10 -->
+
+</body>
+</html>

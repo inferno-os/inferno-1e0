@@ -1,0 +1,39 @@
+SYSTARG=Solaris
+OBJTYPE=sparc
+
+
+A=		a
+O=		o
+
+
+AR=		ar
+ARFLAGS=	cvru
+
+AS=		cc -c
+ASFLAGS=
+
+CC=		cc -c
+CFLAGS=\
+		$CFLAGS\
+		-mt\
+		-g\
+		-w\
+		-xCC \
+		-Xa\
+		-I$ROOT_DEVEL/$SYSTARG/$OBJTYPE/include\
+		-I$ROOT_DEVEL/include\
+		-I/usr/openwin/share/include\
+
+LD=		cc
+LDFLAGS=\
+		$LDFLAGS\
+		-mt\
+		-L$ROOT_DEVEL/$SYSTARG/$OBJTYPE/lib\
+		-L/usr/openwin/lib\
+
+LDSYSLIBS=	-lsunmath -lsocket -lm -lX11 -lnsl -lposix4
+
+RANLIB=		true
+
+YACC=		yacc
+YFLAGS=		-d

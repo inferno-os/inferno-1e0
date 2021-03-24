@@ -1,0 +1,40 @@
+SYSTARG=Solaris
+OBJTYPE=386
+
+
+A=		a
+O=		o
+
+
+AR=		ar
+ARFLAGS=	cvru
+
+AS=		cc -c
+ASFLAGS=
+
+CC=		cc -c
+CFLAGS=\
+		$CFLAGS\
+		-mt\
+		-g\
+		-fstore\
+		-w\
+		-xCC \
+		-Xa\
+		-I$ROOT_DEVEL/$SYSTARG/$OBJTYPE/include\
+		-I$ROOT_DEVEL/include\
+		-I/usr/openwin/share/include\
+
+LD=		cc
+LDFLAGS=\
+		$LDFLAGS\
+		-mt\
+		-L$ROOT_DEVEL/$SYSTARG/$OBJTYPE/lib\
+		-L/usr/openwin/lib\
+
+LDSYSLIBS=	-lnsl -lsocket -lX11 -lm -lposix4
+
+RANLIB=		true
+
+YACC=		yacc
+YFLAGS=		-d

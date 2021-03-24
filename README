@@ -1,0 +1,12 @@
+Beta 1997 release of Inferno 1.0 Build 1 from Lucent's Inferno Business Unit.
+
+This software was originally provided by Lucent Technologies Inc under NOTICE.orig and LICENSE.orig.
+It is now being made available under the new licence in NOTICE, by Vita Nuova Holdings Limited,
+under an agreement with Lucent on 1 March 2000.
+
+With the exception of new NOTICE files and this README, it is provided here as originally distributed,
+for historical reference.
+
+* there is no non-Limbo source (they didn't include it)
+* there is no Plan 9 support
+* there is a `Distributed Sports Program' demo (with source and images)

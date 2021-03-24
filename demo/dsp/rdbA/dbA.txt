@@ -1,0 +1,50 @@
+-name-David Washington
+-team-Blue Birds
+-display-.f.t insert end 'Name: David Washington
+-display-.f.t insert end 'Team: Blue Birds
+-end-
+-name-Sam Reagan
+-team-Blue Birds
+-display-.f.t insert end 'Name: Sam Reagan
+-display-.f.t insert end 'Team: Blue Birds
+-end-
+-name-Juan Watters
+-team-Blue Birds
+-display-.f.t insert end 'Name: Juan Watters
+-display-.f.t insert end 'Team: Blue Birds
+-end-
+-name-Juan Neal
+-team-Blue Birds
+-display-.f.t insert end 'Name: Juan Neal
+-display-.f.t insert end 'Team: Blue Birds
+-end-
+-name-George Wu
+-team-Blue Birds
+-display-.f.t insert end 'Name: George Wu
+-display-.f.t insert end 'Team: Blue Birds
+-end-
+-name-George Carter
+-team-Greenies
+-display-.f.t insert end 'Name: George Carter
+-display-.f.t insert end 'Team: Greenies
+-end-
+-name-William Lincoln
+-team-Greenies
+-display-.f.t insert end 'Name: William Lincoln
+-display-.f.t insert end 'Team: Greenies
+-end-
+-name-Sampson LaParo
+-team-Greenies
+-display-.f.t insert end 'Name: Sampson LaParo
+-display-.f.t insert end 'Team: Greenies
+-end-
+-name-Ben Krushchev
+-team-Greenies
+-display-.f.t insert end 'Name: Ben Krushchev
+-display-.f.t insert end 'Team: Greenies
+-end-
+-name-David Montalban
+-team-Greenies
+-display-.f.t insert end 'Name: David Montalban
+-display-.f.t insert end 'Team: Greenies
+-end-

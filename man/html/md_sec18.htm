@@ -1,0 +1,91 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec17.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec19.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="846848">
+<center><h1> register - <a registering set-top-box identity with signer>command to register set-top-box identity with signer</h1></center>
+</a><pre><tt>mux/register [<em>signer</em>]
+</tt></pre></p><a name="846853">
+<h2> Description</h2>
+</a><a name="846854">
+The </a>register command contacts a 'signer' host and obtains an authenticated certificate based on the contents of <kbd>/nvfs/ID</kbd> (the set-top-box-id in non-volatile memory). The certificate is deposited in file <kbd>/nvfs/default</kbd> for later use.<p>
+</a><a name="846855">
+The 'signer' host contacted is defined by <kbd>signer</kbd>, the first option to the command. If missing, the 'signer' defined by the <kbd>/services/cs/db</kbd> file is used.<p>
+</a><a name="846856">
+There are several phases to obtaining the certificate:<p>
+</a><ol>
+<a name="846857">
+<li>First, the <kbd>register</kbd> command interacts with the 'signer daemon' (the thread listening on the <kbd>infsigner</kbd> port on the 'signer' host) to construct the certificate. This certificate is 'blinded' by a random bit mask, sent back to the <kbd>register</kbd> command and displayed textually or graphically, as appropriate.
+</a><a name="846858">
+<li>The user running the <kbd>register</kbd> command must contact a human agent at the 'signer' host by an independent, secure mechanism (for example, a telephone call). The agent at the 'signer' host there runs the <kbd>verify</kbd> command (see <a href="md_sec21.htm#846169"><em>verify - command to authenticate receiver of blinded certificate</em></a>) to display the same 'blinded' certificate being displayed to the user of <kbd>register</kbd> on the client. Once the agent is convinced that the 'blinded' certificate has been delivered to the correct party, the agent tells <kbd>verify</kbd> to accept the identify of the caller. 
+</a><a name="846862">
+<li>The <kbd>register</kbd> command contacts the 'countersigner' daemon (the thread listening on the <kbd>infcsigner</kbd> port of the 'signer' host) to obtain the bitmask needed to 'unblind' the previously received certificate. This step can only be validly performed after the completion of the <kbd>verify</kbd> command on the 'signer' host.
+</a></ol>
+<a name="846876">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846865">
+/nvfs/ID<p>
+</a><td><a name="846867">
+File representing set-top-box-id in ROM.<p>
+</a>
+<tr><td><a name="846869">
+/nvfs/default<p>
+</a><td><a name="846871">
+Repository of authenticated certificate.<p>
+</a>
+<tr><td><a name="846873">
+/services/cs/db<p>
+</a><td><a name="846875">
+Default definition of 'signer' host.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="846899">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852788">
+<a href="md_sec16.htm#846552"><em>manufacture - command to emulate set-top-box-id in ROM</em></a><p>
+</a>
+<tr><td><a name="852794">
+<a href="formats1.htm#844311"><em>db - connection service database</em> in Appendix &#32;A</a><p>
+</a>
+<tr><td><a name="852798">
+<a href="md_sec20.htm#846000"><em>signer, countersigner - daemons for set-top box authentication</em></a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec17.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec19.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

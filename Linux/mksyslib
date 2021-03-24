@@ -1,0 +1,47 @@
+all:V:		$ROOT_DEVEL/$OBJDIR/lib/$LIB
+
+$ROOT_DEVEL/$OBJDIR/lib/$LIB:\
+		$ROOT_DEVEL/$OBJDIR\
+		$ROOT_DEVEL/$OBJDIR/lib\
+		$OFILES			# force archive even when not needed
+	$AR $ARFLAGS $target $OFILES
+
+%.$O:	$HFILES		# don't combine with following %.$O rules
+
+%.$O:	%.c
+	$CC $CFLAGS -o $target $stem.c
+
+%.$O:	%.s
+	$AS $ASFLAGS -o $target $stem.s
+
+install:QV:	all
+
+uninstall:V:	uninstall-std
+
+uninstall-std:V:
+	$RM $ROOT_DEVEL/$OBJDIR/lib/$LIB
+
+installall:V:
+	for(OBJTYPE in $CPUS) mk install
+
+%.all:V:
+	for(OBJTYPE in $CPUS) mk $stem
+
+%.installall:V:
+	for(OBJTYPE in $CPUS) mk $stem
+
+clean:V:	clean-std
+
+clean-std:EV:
+	$RM $OFILES
+
+nuke:V:		nuke-std
+
+nuke-std:EV:
+	$RM $OFILES
+
+$PREFIX_PKG/$OBJDIR/lib : 
+	test -d $target || $MKDIR $target
+
+$ROOT_DEVEL/$OBJDIR/lib : 
+	test -d $target || $MKDIR $target

@@ -1,0 +1,115 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis13.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis15.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="846509">
+<center><h1> string: append, drop, in, prefix, splitl, splitr, splitstrl, splitstrr, take, toint, tolower, toupper - <a string operations+>string operations</h1></center>
+</a><pre><tt>include "string.m";
+str:= load String String-&gt;PATH;
+append:    fn(s: string, l: list of string): list of string;
+drop:      fn(s, cl: string)               : string;
+in:        fn(c: int, cl: string)          : int;
+prefix:    fn(pre, s: string)              : int;
+splitl:    fn(s, cl: string)             : (string, string);
+splitr:    fn(s, cl: string)             : (string, string);
+splitstrl: fn(s,  t: string)             : (string, string);
+splitstrr: fn(s,  t: string)             : (string, string);
+take:      fn(s, cl: string)               : string;
+toint:     fn(s: string, base: int)        : (int, string);
+tolower:   fn(s: string)                   : string;
+toupper:   fn(s: string)                   : string;
+</tt></pre></p><a name="846539">
+<h2> Description</h2>
+</a><a name="848199">
+The <em>cl</em> argument to some of these functions is a character class in which a minus sign (<kbd>-</kbd>) between any two characters indicates a range and a circumflex (<kbd>^</kbd>) in the first position means <em>not</em> in the class. Examples of strings that represent character classes are "<em>a-zA-Z</em>" and "<em>^acg-mr</em>". 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="848202">
+append (<em>s</em>, <em>l</em>)<p>
+</a><td><a name="848204">
+Appends string<em> s</em> to the end of string list <em>l</em>.<p>
+</a>
+<tr><td><a name="848206">
+drop (<em>s</em>, <em>cl</em>)<p>
+</a><td><a name="848208">
+Removes the maximal prefix of string <em>s</em> that is in class <em>cl</em>. <p>
+</a>
+<tr><td><a name="848210">
+in (<em>c</em>, <em>cl</em>)<p>
+</a><td><a name="848213">
+Returns a 1 if <em>c</em> is in class <em>cl</em> and a 0 if it is not. <p>
+</a>
+<tr><td><a name="848216">
+prefix (<em>pre</em>, <em>s</em>)<p>
+</a><td><a name="848218">
+Returns a 1 if string <em>pre</em> is a prefix of string <em>s</em> and a 0 if it is not.<p>
+</a>
+<tr><td><a name="848220">
+splitl (<em>s</em>, <em>cl</em>)<p>
+</a><td><a name="848222">
+Splits string <em>s</em> just before the first character in class <em>cl</em>.<p>
+</a>
+<tr><td><a name="848224">
+splitr (<em>s</em>, <em>cl</em>)<p>
+</a><td><a name="848226">
+Splits string <em>s</em> just after the last character in class <em>cl</em>.<p>
+</a>
+<tr><td><a name="848228">
+splitstrl (<em>s</em>, <em>t</em>)<p>
+</a><td><a name="848230">
+Splits string <em>s</em> just before the initial segment of string <em>s</em> which consists entirely of string <em>t</em>.<p>
+</a>
+<tr><td><a name="848232">
+splitstrr (<em>s</em>, <em>t</em>)<p>
+</a><td><a name="848234">
+Splits string <em>s</em> just after the last segment of string <em>s</em> which consists entirely of string <em>t</em>.<p>
+</a>
+<tr><td><a name="848236">
+take (<em>s</em>, <em>cl</em>)<p>
+</a><td><a name="848238">
+Returns the maximal prefix of string <em>s</em> that is in class <em>cl</em>.<p>
+</a>
+<tr><td><a name="848240">
+toint (<em>s</em>, <em>base</em>)<p>
+</a><td><a name="848242">
+Returns as an integer the value represented by the string <em>s</em>. The string is scanned up to the first character inconsistent with <em>base</em>. The first inconsistent character marks the beginning of the returned string. Leading white-space characters are ignored. The <em>base</em> can be any integer in the range 0 to 36, inclusive.<p>
+</a>
+<tr><td><a name="848244">
+tolower (<em>s</em>)<p>
+</a><td><a name="848246">
+Converts all upper case letters in the string <em>s</em> to lower case letters.<p>
+</a>
+<tr><td><a name="848248">
+toupper (<em>s</em>)<p>
+</a><td><a name="848250">
+Converts all lower case letters in the string <em>s</em> to upper case letters.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis13.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis15.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

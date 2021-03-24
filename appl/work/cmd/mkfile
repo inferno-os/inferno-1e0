@@ -1,0 +1,68 @@
+<../../../mkconfig
+<../../../$SYSHOST/mkhost
+
+OBJ=\
+	irtest.dis\
+	manufacture.dis\
+	rcmd.dis\
+	stack.dis\
+	tail.dis\
+	tclsh.dis\
+	wish.dis\
+
+all:V:	$OBJ
+
+auhdr.dis: auplay.dis
+	cp auplay.dis auhdr.dis
+
+MODULE= ../../../module/sys.m\
+	../../../module/draw.m\
+	../../../module/string.m\
+	../../../module/prefab.m\
+	../../../module/ir.m\
+	../../../module/srv.m\
+	../../../module/tk.m\
+	../../../module/daytime.m\
+	../../../module/keyring.m\
+	../../../module/security.m\
+	../../../module/bufio.m\
+	../../../module/readdir.m\
+	../../../module/regex.m\
+	../../../module/newns.m\
+	../../../module/sh.m\
+	../../../module/workdir.m\
+	../../../module/filepat.m\
+	../../../module/pipe.m\
+
+OBJINST=${OBJ:%=../../../dis/%}
+OBJPKG=${OBJ:%=$PREFIX_PKG/dis/%}
+
+$OBJ:	$MODULE
+
+install:V: $OBJ
+	$RM $OBJINST
+	$CP $OBJ ../../../dis
+
+uninstall:V:
+	$RM $OBJINST
+
+package:V:	$OBJ\
+		$PREFIX_PKG/dis
+	$RM $OBJPKG
+	$CP $OBJ $PREFIX_PKG/dis
+
+%.install:V:	%.dis
+	cp $stem.dis ../../../dis
+
+nuke \
+clean:V:
+	$RM *.dis *.sbl
+
+%.dis:	%.b
+	limbo -I../../../module -gw $stem.b
+
+%.s:	%.b
+	limbo -I../../../module -wG -S $stem.b
+
+$PREFIX_PKG/dis:
+	$MKDIR $target

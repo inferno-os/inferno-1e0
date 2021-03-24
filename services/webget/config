@@ -1,0 +1,3 @@
+#httpproxy	webproxy.cs.bell-labs.com:8000
+httpproxy	none
+starturl	file:/services/webget/start.html

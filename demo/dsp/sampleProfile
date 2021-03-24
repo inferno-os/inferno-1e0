@@ -1,0 +1,25 @@
+#
+# Save the file with filename: Profile
+# Note: the file should contain three lines only, remove all comments
+#
+ 
+#
+# Mount the remote machine 
+#<your machine name> should be replaced with the remote machine name or IP
+# create a directory, such as /demo/dsp/remote
+#
+mount tcp!<your machine name> /demo/dsp/remote
+
+#
+# Bind 
+# 
+#
+bind /demo/dsp/remote/demo/dsp /demo/dsp
+
+# 
+#Run the DSP application
+#
+#<your machine name> should be replaced with the remote machine name or IP
+
+/demo/dsp/slideshow tcp!<your machine name> tcp!<your machine name>
+

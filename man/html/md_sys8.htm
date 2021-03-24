@@ -1,0 +1,43 @@
+<html><head><title>Limbo<br>System Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys7.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys9.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844967">
+<center><h1> millisec - <a millisecond timer; internal clock, resolution time>millisecond timer</h1></center>
+</a><pre><tt>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+millisec: fn(): int;
+</tt></pre></p><a name="844974">
+<h2> Description</h2>
+</a><a name="844975">
+<h3> millisec ( )</h3>
+</a><a name="844976">
+The <em>millisec</em> returns the value of an internal system clock in milliseconds.<p>
+</a><a name="844977">
+The actual resolution of the clock is a property of the underlying system and may be coarser than a millisecond. The epoch is arbitrary, so <em>millisec</em> is useful for measuring durations but not absolute time. If the system operates continuously, the millisecond counter overflows every couple of months. A reboot resets the epoch.<p>
+</a><a name="844978">
+<h2> See Also</h2>
+</a><a name="844985">
+<em><a href="md_sys.htm#847453"></em><em>Limbo System Module</em><em></a> </em>and <a href="md_sys15.htm#850724"><em>sleep - delay execution</em></a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys7.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys9.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:35 -->
+
+</body>
+</html>

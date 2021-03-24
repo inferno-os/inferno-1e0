@@ -1,0 +1,10 @@
+-team-Greenies
+-display-.f.t insert end 'Wins:          25
+-display-.f.t insert end 'Losses:        31
+-display-.f.t insert end 'Field Goals:   273
+-end-
+-team-Blue Birds
+-display-.f.t insert end 'Wins:          16
+-display-.f.t insert end 'Losses:        22
+-display-.f.t insert end 'Field Goals:   115
+-end-

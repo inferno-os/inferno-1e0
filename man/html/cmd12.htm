@@ -1,0 +1,73 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd11.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd13.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853289">
+<center><h1> grep - <a searching file(s) for pattern>search file(s) for a pattern</h1></center>
+</a><pre><tt>grep [-l] [-n] [-e <em>pattern</em>] [-v] <em>pattern</em> [<em>file...</em> ]
+</tt></pre></p><a name="845028">
+<h2> Description</h2>
+</a><a name="845029">
+The <em></a>grep</em> command searches the input <em>files</em> (standard input, by default) for lines that match the <em>pattern</em>, a regular expression as defined in <em>regex</em>. Lines matching the pattern ('matching' lines) are printed to the standard output.<p>
+</a><a name="845030">
+The minus (<em>' - '</em>) sign can be used on the command line to explicitly name standard input as an input source. The following command will search <em>file1</em>, then standard input, then <em>file2</em>.<p>
+</a><pre><tt>	grep pattern file1 - file2
+</tt></pre></p><a name="845054">
+<h2> Options 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845036">
+-l<p>
+</a><td><a name="845038">
+Print once the names of files with any matching lines. Matched lines are not printed.<p>
+</a>
+<tr><td><a name="845040">
+-n<p>
+</a><td><a name="845042">
+Prefix each line of output with its line number within its file. <p>
+</a>
+<tr><td><a name="845044">
+-v<p>
+</a><td><a name="845046">
+Reverse: print lines that do not match the pattern.<p>
+</a>
+<tr><td><a name="845048">
+-e <em>pattern</em> <p>
+</a><td><a name="845050">
+Use the following field as the <em>pattern</em> for selecting lines. Handy when searching for patterns that might be interpreted as options. The following command searches for instances of <em>-n </em>in <em>file</em>. <p>
+</a><pre><tt>
+<kbd>grep -e -n</kbd> <kbd>file
+</kbd></tt></pre></p>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="845055">
+<h2> See Also</h2>
+</a><a name="845059">
+<a href="md_mis11.htm#844848"><em>regex - regular expression recognizer</em> in Chapter &#32;15</a> <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd11.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd13.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

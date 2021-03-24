@@ -1,0 +1,169 @@
+<html><head><title>Inferno<br>Devices</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845920">
+<center><h1> cmd - <a interface to host operating system commands>interface to host operating system commands</h1></center>
+</a><pre><tt>bind -a '#C' /
+
+/cmd/clone
+/cmd/&lt;<em>n&gt;</em>/ctl
+/cmd/&lt;<em>n&gt;</em>/data
+/cmd/&lt;<em>n&gt;</em>/status
+</tt></pre></p><a name="845933">
+<h2> Description</h2>
+</a><a name="845934">
+The <em>cmd</em> device provides an interface to commands on the host operating system. By convention, this kernel device (<em>#C</em>) is bound to the root directory (with the <em>-a</em> option). After binding the entry point to this facility, the file <em>/cmd/clone</em> is available. Opening that file provides a handle for launching a command, managing the command's I/O, and checking the command's status.<p>
+</a><a name="845935">
+<h3> clone</h3>
+</a><a name="845936">
+Opening <em>/cmd/clone</em> creates or allocates a currently unused directory, &lt;<em>n&gt; </em>(where <em>n</em> is a decimal<em> </em>integer<em>)</em>, under <em>/cmd. </em>Directory <em>n </em>contains<em> </em>files <em>ctl</em>, <em>data</em>, and <em>status. </em>The file descriptor returned from the open of <em>clone</em> provides access to the <em>/cmd/&lt;n&gt;/ctl</em> file selected by <em>cmd</em> for subsequent operations. <p>
+</a><a name="845937">
+<h3> ctl</h3>
+</a><a name="845938">
+Reading<em> /cmd/&lt;n&gt;/ctl </em>via the file descriptor returned from opening<em> <br>/cmd/clone</em> provides <em>n</em>, a value that can be used to construct filenames for the related files. Writes to<em> /cmd/&lt;n&gt;/ctl </em>must be of the format:<p>
+</a><pre><tt>	exec <em>oscmd</em> <em>args</em>...
+
+</tt></pre></p><a name="845942">
+Prior to launching the command<em> cmd </em>prints at the console a line (128 bytes, maximum) of the format:<p>
+</a><pre><tt>	devcmd: '<em>oscmd args...</em>' pid <em>pid
+</em>
+</tt></pre></p><a name="845947">
+<strong></strong>The string between the single quotes matches the command written to<em> <br>/cmd/&lt;n&gt;/ctl </em>and <em>pid</em> is the number in decimal format of the process running the emulator. Each field is separated by a single blank.<p>
+</a><a name="845949">
+File offset is ignored for both reading and writing.<p>
+</a><a name="845950">
+<h3> data</h3>
+</a><a name="845951">
+Reading<em> </em><em>/cmd/&lt;n&gt;/data</em><em> </em>obtains the data that the command is writing to its standard output and standard error.<p>
+</a><a name="845952">
+Writing to<em> </em><em>/cmd/&lt;n&gt;/data </em>sends the data into the command's standard input.<p>
+</a><a name="845953">
+<h3> status (read-only)</h3>
+</a><a name="845955">
+Reading<em> /cmd/&lt;n&gt;/status </em>provides a status line (to a maximum of 128 bytes) of the format:<p>
+</a><pre><tt>	cmd/<em>n</em> <em>refcnt</em> <em>state</em> <em>cmd args...
+</em>
+</tt></pre></p><a name="845976">
+where each field separator is a single blank. The meaning of each field is: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845961">
+<em>n</em><p>
+</a><td><a name="845963">
+The directory <em>n</em> where <em>status</em> resides.<p>
+</a>
+<tr><td><a name="845965">
+<em>refcnt</em><p>
+</a><td><a name="845967">
+The number (decimal) of open file descriptors for <br><em>/cmd/&lt;n&gt;/ctl.</em><p>
+</a>
+<tr><td><a name="845969">
+<em>state</em><p>
+</a><td><a name="845971">
+The status of the interface in directory <em>/cmd/&lt;n&gt;</em>. States are shown below.<p>
+</a>
+<tr><td><a name="845973">
+<em>cmd [args]...</em><p>
+</a><td><a name="845975">
+The active command. Output only for state<em> Execute</em>.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845990">
+<h4> States</h4>
+</a><a name="848507">
+A <em>cmd</em> directory <em>&lt;n&gt;</em><em> </em>can be in one of the following states 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845979">
+<em>Open</em><p>
+</a><td><a name="845981">
+Allocated for use but not yet running a command.<p>
+</a>
+<tr><td><a name="845983">
+<em>Execute</em><p>
+</a><td><a name="845985">
+Running a command<p>
+</a>
+<tr><td><a name="845987">
+<em>Close</em><p>
+</a><td><a name="845989">
+Command completed. Available for reallocation via<em> <br></em><em>/cmd/clone</em>.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845991">
+<h3> Directory Management</h3>
+</a><a name="845992">
+Once closed, a directory &lt;<em>n&gt;</em> created by <em>cmd</em> persists and is reused by <em>cmd</em> in response to later openings of <em>/cmd/clone</em>. The <em>cmd</em> device only creates a new directory when all others, if any, are in use.<p>
+</a><a name="845993">
+<h3> Command Execution</h3>
+</a><a name="845994">
+<h4> Unix-Hosted Systems</h4>
+</a><a name="845995">
+The command is run via the <em>/bin/sh</em> program as follows<p>
+</a><pre><tt>	/bin/sh -c '<em>cmd args...</em>'
+</tt></pre></p><a name="845999">
+Emulator run by root:<p>
+</a><a name="846000">
+If available, the emulator runs the command with a host user ID (<em>uid</em>) and host group ID (<em>gid</em>) corresponding to Inferno's representation for the user's identity. If not available, the emulator runs the command with <em>uidnobody</em> and <em>gidnobody</em>.<p>
+</a><a name="846001">
+Emulator not run by root:<p>
+</a><a name="846002">
+Commands are run on the host with the same host identity as the emulator<p>
+</a><a name="846003">
+<h4> Windows-Hosted Systems</h4>
+</a><a name="846004">
+The command must be a binary executable (not a command interpreter built-in) in the emulator's path.<p>
+</a><a name="846005">
+The command is always run with the same host identity as the emulator. <p>
+</a><a name="846021">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="848455">
+<em><a href="cmd_env2.htm#844323">emu - Inferno emulator</em> in Chapter &#32;4<em></a></em><p>
+</a>
+<tr><td><a name="848459">
+<em><a href="cmd21.htm#853452">os - interface OS commands (hosted Inferno only)</em> in Chapter &#32;5<em></a></em><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:54:10 -->
+
+</body>
+</html>

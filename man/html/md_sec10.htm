@@ -1,0 +1,151 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec11.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="852622">
+<center><h1> get, put - <a reading: and writing password entries; password file: reading/writing password entries>read and write password entries in the <a file operations:reading password entries; file operations:writing password entries>password file</h1></center>
+</a><pre><tt>include "keyring.m";
+include "security.m";
+pw := load Password Password-&gt;PATH;
+
+Password: module
+{
+  PW: adt {
+            id:     string;         # user id
+            pw:     array of byte;  # password
+        expire: int;       # expiration time (epoch seconds)
+         other:  string;            # about the account
+           };
+  get: fn(id: string): ref PW;
+  put: fn(pass: ref PW): int;
+  PWlen: con 4;
+</tt></pre></p>
+<a name="854266">
+<h2> Description</h2>
+</a><a name="852130">
+This module provides a convenient interface to the password file (<kbd>/keydb/password</kbd>). Each entry in the file contains information corresponding to the members of the <kbd>PW</kbd> adt. Those members and their respective sizes (in bytes) are: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852133">
+id<p>
+</a><td><a name="852135">
+32<p>
+</a><td><a name="852137">
+User identification string<p>
+</a>
+<tr><td><a name="852139">
+<kbd>pw</kbd><p>
+</a><td><a name="852141">
+<kbd>Keyring-&gt;SHAdlen</kbd> (20)<p>
+</a><td><a name="852143">
+Password.<p>
+</a>
+<tr><td><a name="852145">
+expire<p>
+</a><td><a name="852147">
+length of <kbd>int</kbd> (4)<p>
+</a><td><a name="852149">
+Expiration data in seconds of epoch (Jan &#32;1 &#32;00:00 &#32;1970 &#32;GMT). See <a href="md_misc2.htm#848752"><em>daytime: text, filet, gmt, local, now, time, tm2epoch - time conversions</em> in Chapter &#32;15</a>.<p>
+</a>
+<tr><td><a name="852154">
+other<p>
+</a><td><a name="852156">
+72<p>
+</a><td><a name="852158">
+Arbitrary administrative comment.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="852159">
+Each new entry increases the size of the password file by 128 bytes.<p>
+</a><a name="852170">
+The functions provide access to the file: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852162">
+get(id)<p>
+</a><td><a name="852164">
+If user <em>id</em> has an entry in the password file, the <kbd>get</kbd> function supplies a <kbd>PW</kbd> adt with the corresponding information. Otherwise, a <kbd>nil</kbd> reference is returned.<p>
+</a>
+<tr><td><a name="852166">
+put(pass)<p>
+</a><td><a name="852168">
+The <kbd>put</kbd> function copies the information of the <em>pass</em> adt into the password file. If an entry for <em>pass</em><kbd>.id</kbd> already exists, it is overwritten; otherwise, a new entry is appended to the file. If none exists, the password file is created.<p>
+</a><a name="852169">
+Any members of <kbd>PW</kbd> that exceed the corresponding field limit are silently truncated before being written to the password file.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="852171">
+The constant <kbd>PWlen</kbd> is currently unused.<p>
+</a><a name="852177">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852174">
+/keydb/password<p>
+</a><td><a name="852176">
+Storage for password entries.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="852178">
+<h2> Caveat</h2>
+</a><a name="852179">
+Access to the password file is not serialized.<p>
+</a><a name="852180">
+This module transfers data without transformation (except for the truncating of excessively long fields) between the <kbd>PWD</kbd> adt and the password file. If some transformation is needed (for example, encryption of the <kbd>pw</kbd> value), the caller must make separate arrangements.<p>
+</a><a name="854678">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854672">
+<a href="md_sec15.htm#847464"><em>logind - login daemon</em> in Chapter &#32;9</a><p>
+</a>
+<tr><td><a name="854677">
+<a href="md_sec6.htm#845673"><em>changelogin - command to create/update the password file</em></a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec11.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

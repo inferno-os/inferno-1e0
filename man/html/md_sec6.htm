@@ -1,0 +1,102 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845673">
+<center><h1> changelogin - command to <a file operations:creating:password file; file operations:updating password file>create/update the password file</h1></center>
+</a>changelogin <em>id
+</em><a name="845676">
+<h2> Description</h2>
+</a><a name="845677">
+The </a>changelogin command provides an interactive mechanism for the administration of a password file <kbd>/keydb/password</kbd>, a requirement of '<em>signer</em>' servers. If an entry for <em>id</em> exists, it is modified; otherwise, a new entry is created.<p>
+</a><a name="845698">
+The user is prompted for the following items: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845680">
+password<p>
+</a><td><a name="845682">
+The user is prompted for a string at least 7 characters in length. The SHA digest of the entered string is stored in the password file. See <a href="md_sec19.htm#845430"><em>sha, md5, sign, verify - cryptographic digests and digital signatures</em></a>. <p>
+</a><a name="845686">
+By default, the password for an existing entry is unchanged.<p>
+</a>
+<tr><td><a name="845688">
+expiration date<p>
+</a><td><a name="845690">
+The user is prompted for an expiration time in the format:<p>
+</a>DDMMYYYY
+
+<a name="845692">
+The user input is checked for valid day, month, and year; moreover, the new date must be later than the current time.<p>
+</a><a name="845693">
+By default, the current value, if any, is unchanged for an existing entry and one year from the current time for a new entry.<p>
+</a>
+<tr><td><a name="845695">
+free form info<p>
+</a><td><a name="845697">
+Arbitrary administrative information.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845699">
+The lengths of each value is subject to the size limitations defined by the <kbd>Password</kbd> Module (see <a href="md_sec10.htm#852622"><em>get, put - read and write password entries in the password file</em></a>). <p>
+</a><a name="845708">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845705">
+/keydb/password<p>
+</a><td><a name="845707">
+Storage for password entries.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="845724">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852839">
+<a href="md_sec10.htm#852622"><em>get, put - read and write password entries in the password file</em></a><p>
+</a>
+<tr><td><a name="852843">
+<a href="md_sec15.htm#847464"><em>logind - login daemon</em></a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

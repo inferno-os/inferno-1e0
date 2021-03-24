@@ -1,0 +1,70 @@
+<html><head><title>Limbo<br>Math Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_math2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844609">
+<center><h1> linalg - <a linear algebra primitives>linear algebra primitives</h1></center>
+</a><pre><tt>include "math.m";
+math:= load Math Math-&gt;PATH;
+
+dot         : fn(x, y: array of real)  : real;
+norm1, norm2: fn(x: array of real)     : real;
+iamax       : fn(x: array of real)     : int;
+gemm        : fn(transa, transb: int, # upper case N or T
+                 m, n, k: int, alpha      : real,
+                 a: array of real, lda    : int,
+                 b: array of real, ldb    : int, beta: real,
+                 c: array of real, ldc    : int);
+sort        : fn(x: array of real, p: array of int);
+</tt></pre></p><a name="844625">
+<h2> Description</h2>
+</a><a name="844626">
+These routines implement the basic functions of linear algebra. The standard vector inner product and norms are defined as follows:<p>
+</a><pre><tt>   dot(<em>x</em>,<em> y</em>) = sum(<em>x</em> [<em>i</em>]*<em> y</em> [<em>i</em>])   
+        norm1(<em>x</em>) = sum(fabs(<em>x</em> [<em>i</em>]))   
+        norm2(<em>x</em>) = sqrt(dot(<em>x</em>, <em>x</em>))
+
+</tt></pre></p><a name="844632">
+For the infinity norm, the function<em> iamax(x) </em>computes an integer <em>i</em> such that<em> fabs(x[i]) </em>is maximal. These are all standard BLAS (basic linear algebra subroutines) except that in Inferno they apply only to contiguous (unit stride) vectors.<p>
+</a><a name="844633">
+The convention is assumed that matrices are represented as singly-subscripted arrays with Fortran storage order. So for an <em>m</em> by <em>n</em> matrix <em>A</em>, loops are used with 0&lt;=<em> i</em> &lt; <em>m</em> and 0&lt;= <em>j</em> &lt;<em> n</em> and access is <em>A [i + m *j]</em>.<p>
+</a><a name="844634">
+Rather than provide the huge number of entry points in BLAS2 and BLAS3, Inferno provides the matrix multiply primitive, gemm, defined by<p>
+</a>    A = a* A'*B' + <img src="chars/beta.gif">*C
+
+<a name="844636">
+where the apostrophes indicate an optional transposition. As shown by the work of Kagstrom, Ling, and Van Loan, the other BLAS functionality can be built efficiently on top of <em>gemm</em>.<p>
+</a><a name="844637">
+Matrix <em>a</em> ' is <em>m</em> by <em>k</em>, matrix <em>b</em> ' is <em>k</em> by <em>n</em>, and matrix <em>c</em> is <em>m</em> by <em>n</em>. Here <em>a</em> ' means <em>a</em> &#32;<em>(</em>a &#32;') if <em>transa</em> is the constant <em>N (T)</em>, and similarly for <em>b</em> '. The sizes <em>m</em>, <em>n</em>, and <em>k</em> denote the active part of the matrix. The parameters <em>lda</em>, <em>ldb</em>, and <em>ldc</em> denote the leading dimension or size for purposes of indexing. So to loop over <em>c</em> use loops with 0&lt;= <em>i</em> &lt; <em>m</em> and 0&lt;= <em>j</em> &lt; <em>j</em> and access <em>a</em> [<em>i</em> +<em>ldc</em> *<em>j</em>].<p>
+</a><a name="844638">
+The sorting function <em>sort (x, p)</em> updates a 0-origin permutation <em>p</em> so that <em>x</em> &#32;[<em>p</em>[<em>i</em>]] &#32;&lt;= &#32;x [p[i+1]], leaving <em>x</em> unchanged.<p>
+</a><a name="844639">
+<h2> See Also</h2>
+</a><a name="844643">
+<a href="md_math.htm#840761"><em>Limbo Math Module</em></a><p>
+</a><a name="844644">
+Bo Kagstrom, Per Ling, and Charles Van Loan<em>. Portable high performance GEMM-based level 3 BLAS.</em> In R.F. Sincovec et al., editor, Parallel Processing for Scientific Computing, pages 339-346. SIAM Publications, 1993.<p>
+</a><a name="840424">
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_math2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:13 -->
+
+</body>
+</html>

@@ -1,0 +1,419 @@
+<html><head><title>Inferno Communications Protocol, Styx</title></head>
+<body bgcolor=white>
+ 
+</a><a name="846658">
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="index.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="846636">
+<p>
+
+<h1>Inferno Communications Protocol, Styx</h1>
+</a>
+<hr><p><a name="849456">
+The following Styx messages are described in this chapter:  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="849410">
+<a href="proto1.htm#846967"><em>attach, nop - messages to initiate activity</em></a> <p>
+</a>
+<tr><td><a name="849415">
+<a href="proto2.htm#847005"><em>clone - duplicate a fid</em></a> <p>
+</a>
+<tr><td><a name="849420">
+<a href="proto3.htm#847019"><em>clunk - forget about a fid</em></a> <p>
+</a>
+<tr><td><a name="849425">
+<a href="proto4.htm#847039"><em>error - return an error</em></a> <p>
+</a>
+<tr><td><a name="849430">
+<a href="proto5.htm#847050"><em>flush - abort a message</em></a> <p>
+</a>
+<tr><td><a name="849435">
+<a href="proto6.htm#847076"><em>open, create - prepare a fid for I/O on a file</em></a> <p>
+</a>
+<tr><td><a name="849440">
+<a href="proto7.htm#847164"><em>read, write - transfer data from and to a file</em></a> <p>
+</a>
+<tr><td><a name="849445">
+<a href="proto8.htm#847206"><em>remove - remove a file from a server</em></a> <p>
+</a>
+<tr><td><a name="849450">
+<a href="proto9.htm#847231"><em>stat, wstat - inquire or change file attributes</em></a> <p>
+</a>
+<tr><td><a name="849455">
+<a href="proto9a.htm#847356"><em>walk - descend a directory hierarchy</em></a> <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="849084">
+Inferno uses a single protocol called Styx, to exchange information between computers. It is a lightweight protocol encapsulated by IP. It is connection based and provides a reliable transmission of sequenced messages. Styx has the following attributes:<p>
+</a><ul><a name="849085">
+<li>treats files as a sequence of bytes rather than blocks<p>
+</a><a name="849086">
+<li>uses adaptive timeouts, which make it perform well on both the Internet and on local Ethernet<p>
+</a><a name="849087">
+<li>must run above a reliable transport with delimited messages<p>
+</a><a name="849088">
+<li>has low complexity with high performance<p>
+</a></ul><a name="848912">
+<h2> Styx Communications Protocol</h2>
+</a><a name="848913">
+The Styx communications protocol is used for messages between clients and servers across the network. <p>
+</a><a name="849136">
+An Inferno <em>server</em> is a machine that provides access to one or more hierarchical file systems on request from an Inferno process, usually through a network connection. The prototypical server is a separate machine that stores large numbers of user files on permanent media. <p>
+</a><a name="849133">
+A <em>connection</em> to a server is a bidirectional communications link between a server and a client. There may be a single client or multiple clients sharing the same connection. A connection remains established while any of the files in the connection directory are referenced or until a <strong>close</strong> system call is received from the network. <p>
+</a><a name="849126">
+The primary function of the server is to process file system navigation and file manipulation requests from its clients. A server's file tree is attached to a process group's name space by <em>bind</em> and <em>mount</em> and calls. See <a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em> in Chapter 8</a> and <a href="md_sys.htm#847453"><em>Limbo System Module</em> in Chapter 8</a>. Processes in the group are then clients of the server. Their system calls operating on the server's files are translated into requests and transmitted over the connection to the appropriate server. The server's response completes the request.<p>
+</a><a name="849150">
+Most programs do not see the Styx protocol directly, rather they make calls to library routines that access files. Their requests are translated by the mount driver, <em>mnt</em>, into Styx messages. Client application programs need not explicitly manage details of the Styx protocol as described in this section.<p>
+</a><a name="848919">
+<h2> Styx protocol</h2>
+</a><a name="848920">
+File operations between any two machines are accomplished by sending requests and receiving replies via the Styx protocol in a manner similar to Unix remote procedure calls. The protocol supports remote access to files and allows a remote machine to use these interfaces as gateways.<p>
+</a><a name="848921">
+Styx messages are not manipulated directly by an application designer. Any file operation that invokes Styx results in messages that perform the necessary operations on the remote name space. The exact set of messages differs depending on the call, but in all cases the complexity is concealed from the developer, who simply invokes mount, open, read and similar system commands as necessary.<p>
+</a><a name="848922">
+The protocol contains messages that perform:<p>
+</a><ul><a name="848923">
+<li>Navigation over the file hierarchy<p>
+</a><a name="848924">
+<li>Control of file attributes<p>
+</a><a name="848925">
+<li>Access to data in files<p>
+</a><a name="848926">
+<li>Miscellaneous functions<p>
+</a></ul><a name="848927">
+<h3> Operation</h3>
+</a><a name="848928">
+A kernel-resident file server, <em>devmnt</em>, functions as a mount driver that is used by the <em>mount</em> system call to connect the name space of a process to the service provided by a server over a communications channel. After the <em>mount</em> has executed successfully, system calls involving files in that portion of the name space are converted by <em>devmnt</em> into the appropriate Styx messages to the server.<p>
+</a><a name="848929">
+The <em>mount</em> system call issues <em>attach</em> messages to the server to identify and validate the user of the connection. Each distinct use of a connection must mount it separately; <em>devmnt</em> multiplexes the access of the various users and their processes to the service.<p>
+</a><a name="848930">
+File oriented system calls are converted by the kernel into Styx procedure calls. The server <em>devmnt</em> translates these procedure calls into remote procedure calls, which are then transmitted to the server as Styx messages over the communications channel. Each message is implemented by writing the protocol message to the server followed by reading the server channel to get the reply. Errors in the reply message are turned into system call error returns.<p>
+</a><a name="848931">
+A <em>read</em> or <em>write</em> system call on a file served by <em>devmnt</em> may be translated into more than one message since there is a maximum data size for a Styx message. The system call will return when the specified number of bytes have been transferred or a short reply is returned.<p>
+</a><a name="848932">
+<h3> Styx messages</h3>
+</a><a name="848933">
+A descriptive listing of Styx message pairs by general category is presented in Table &#32;3-1</a>. 
+<Table Border="3">
+<caption><a name="848939">
+<h4> Styx message pairs &#32;</h4>
+</a></caption>
+<tr><td><a name="848943">
+Tattach<p>
+</a><a name="848944">
+Rattach<p>
+</a><td><a name="848946">
+Authenticate the caller, establish <em>fid</em> that points to the root directory of the name space of the machine that was called
+</a>
+<tr><td><a name="848948">
+Tclone<p>
+</a><a name="848949">
+Rclone<p>
+</a><td><a name="848951">
+Create a copy of an existing <em>fid</em>; when done, two <em>fids</em> are now pointing to the same file in the hierarchy
+</a>
+<tr><td><a name="848953">
+Twalk<p>
+</a><a name="848954">
+Rwalk<p>
+</a><td><a name="848956">
+Move <em>fid</em> one step in the file hierarchy
+</a>
+<tr><td><a name="848958">
+Tclunk<p>
+</a><a name="848959">
+Rclunk<p>
+</a><td><a name="848961">
+Close a <em>fid</em> (throw it away). The actual file is unaffected.
+</a>
+<tr><td><a name="848963">
+Tstat<p>
+</a><a name="848964">
+Rstat<p>
+</a><td><a name="848966">
+Return file attributes
+</a>
+<tr><td><a name="848968">
+Twstat <p>
+</a><a name="848969">
+Rwstat<p>
+</a><td><a name="848971">
+Set attributes; usually, an <em>Tstat</em> is first done to get the attributes and then a <em>Twstat</em> is executed with a status buffer altered as needed
+</a>
+<tr><td><a name="848973">
+Topen<p>
+</a><a name="848974">
+Ropen<p>
+</a><td><a name="848976">
+Check file permissions and, if allowable, prepare an existing file for reading or writing
+</a>
+<tr><td><a name="848978">
+Tcreate<p>
+</a><a name="848979">
+Rcreate<p>
+</a><td><a name="848981">
+Create and open a new file
+</a>
+<tr><td><a name="848983">
+Tread<p>
+</a><a name="848984">
+Rread<p>
+</a><td><a name="848986">
+Access contents of file
+</a>
+<tr><td><a name="848988">
+Twrite<p>
+</a><a name="848989">
+Rwrite<p>
+</a><td><a name="848991">
+Write to file
+</a>
+<tr><td><a name="848993">
+Tremove <p>
+</a><a name="848994">
+Rremove<p>
+</a><td><a name="848996">
+Remove the file that the <em>fid</em> is pointing to and <em>clunk</em> the <em>fid</em>
+</a>
+<tr><td><a name="848998">
+Tnop
+</a><a name="848999">
+Rnop
+</a><td><a name="849001">
+No operation; can be used to synchronize the channel between two services
+</a>
+<tr><td><a name="849003">
+Tflush
+</a><a name="849004">
+Rflush
+</a><td><a name="849006">
+Interrupt a pending operation
+</a>
+<tr><td><a name="849009">
+Rerror
+</a><td><a name="849011">
+Indicates that an error has occurred; the <em>Contents</em> segment contains the text of the error generated by the server
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="849012">
+<h3> Styx message structure</h3>
+</a><a name="849017">
+The general structure of Styx messages is given in <a href="proto.htm#849046">Figure &#32;3-1</a>. Each message consists of a sequence of bytes in defined byte order for machine independence. The first byte, <em>Type</em>, is the message type that is one of the enumerated constants defined in <em>styx.h</em>. Message types are typically arranged in pairs, called transactions. T-messages are requests from client to server (<em>Topen, </em>for example) that are matched by corresponding R-messages that are replies from server to client (<em>Ropen</em>, for example). <p>
+</a><a name="849046">
+<h4> General structure of a Styx message<img src="protoa.gif"></h4>
+</a><a name="849047">
+The second field, <em>Tag</em>, is a chosen by the client to identify the message. The client must ensure that no two outstanding messages on the same connection have the same tag. The reply tag will have a value one greater than the request that generated it except in the event of an error reply (<em>Rerror</em>).<p>
+</a><a name="849048">
+The <em>fid</em> field is a file identifier that is part of Styx messages that operate on files. Every file that is manipulated by the operating system is identified by a <em>fid</em>. The <em>Contents</em> field contains one or more parameters.<p>
+</a><a name="849170">
+Each parameter consists of a fixed number of bytes (except the <em>data</em> fields of write requests or read replies). In the message descriptions below, the number of bytes in a field is given in brackets after the field name. The two-, four-, and eight-byte fields may hold unsigned integers represented in little-endian order (least significant byte first). Fields that contain names are 28-byte strings (including a terminal NUL (zero) byte).<p>
+</a><a name="849171">
+Other than the NUL terminator, all characters are legal in file names. Systems may choose to reduce the set of legal characters to reduce syntactic problems, for example to remove slashes from name components, but the protocol has no such restriction. <p>
+</a><a name="849178">
+Inferno names may contain any printable character (that is, any character outside hexadecimal 00-1F and 80-9F) except slash and blank. Messages are transported in byte form to allow machine independence. <p>
+</a><a name="846844">
+<h4> Message Tag</h4>
+</a><a name="846845">
+Each T-message has a <em>tag</em> field, that chosen and used by the client to identify the message. The reply to the message will have the same tag. Clients must arrange that no two outstanding messages on the same connection have the same tag. An exception is the tag <em>NOTAG</em>, value 16rFFFF, meaning 'no tag'. The client can use the <em>NOTAG</em> message, when establishing a connection, to override tag matching in messages.<p>
+</a><a name="846846">
+A client can send multiple T-messages without waiting for the corresponding R-messages, as long as all outstanding T-messages have different tags. The server may delay the response to a request on one fid and respond to later requests on other fids. For example, this may be necessary when the client reads from a file that the server synthesizes from external events such as keyboard input.<p>
+</a><a name="848706">
+<h4> Message Fid </h4>
+</a><a name="848707">
+Most T-messages contain a <em>fid</em>, a 16-bit unsigned integer that the client uses to identify a current file on the server. Fids are like file descriptors in a user process, but they are not restricted to files open for I/O. They are also used when directories being examined, files are accessed by <em>stat</em> (See <a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter 8</a>), and so on. All files being manipulated by the operating system are identified by fids. Fids are chosen by the client.<p>
+</a><a name="848711">
+All requests on a connection share the same fid space. When several clients share a connection, the agent managing the sharing must arrange that no two clients choose the same fid.<p>
+</a><a name="848712">
+The first fid supplied (in an <em>attach</em> message) will be used by the server to refer to the root of the served file tree. The <em>attach</em> identifies the user to the server and may specify a particular file tree provided by the server (for those servers that supply more than one).<p>
+</a><a name="848713">
+A <em>walk</em> message causes the server to change the current file associated with a fid to be a file in the directory that is the old current file. Usually, a client maintains a fid for the root, and navigates by <em>walk</em>'s on a fid <em>clone</em>'d from the root fid.<p>
+</a><a name="846847">
+<h4> Message Qid</h4>
+</a><a name="846848">
+Replies (R-messages) to <em>attach</em>, <em>walk</em>, <em>open</em>, and <em>create</em> requests convey a <em>qid</em> field back to the client. The qid represents the server's unique identification for the file being accessed:<p>
+</a><a name="846849">
+<hr>
+<strong>NOTE:</strong><p>
+<em>Two files on the same server hierarchy are the same if and only if 
+their qids are the same.
+</em>
+<hr></a><a name="846850">
+The client may have multiple fids pointing to a single file on a server and hence having a single qid.<p>
+</a><a name="846851">
+The eight-byte qid fields represent two four-byte unsigned integers, first the qid <em>path</em> then the qid <em>version</em>. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846854">
+path<p>
+</a><td><a name="846856">
+The path is an integer unique among all files in the hierarchy. If a file is deleted and recreated with the same name in the same directory, the old and new path components of the qids should be different. <p>
+</a><a name="846857">
+Directories always have the <em>CHDIR</em> bit (16r80000000) set in their qid path.<p>
+</a>
+<tr><td><a name="846859">
+version<p>
+</a><td><a name="846861">
+The version is a version number of the file. Typically, it is incremented every time the file is modified.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="846862">
+<h3> File Operations</h3>
+</a><a name="846863">
+An existing file can be <em>open</em>'d or a new file may be <em>create</em>'d in the current directory. (See <a href="proto6.htm#847076"><em>open, create - prepare a fid for I/O on a file</em></a>.)<p>
+</a><a name="846867">
+I/O of a given number of bytes (limit 8192) at a given <em>offset</em> on an open file is done by <em>read</em> and <em>write</em>. (See <a href="proto7.htm#847164"><em>read, write - transfer data from and to a file</em></a>.)<p>
+</a><a name="846874">
+A client should <em>clunk</em> any fid that is no longer needed. (See <a href="proto3.htm#847019"><em>clunk - forget about a fid</em></a>.)<p>
+</a><a name="846878">
+The <em>remove</em> transaction deletes files. (See <a href="proto8.htm#847206"><em>remove - remove a file from a server</em></a>.)<p>
+</a><a name="846879">
+The <em>stat</em> transaction retrieves information about the file. The <em>stat</em> field in the reply includes the file's name, access permissions (read, write and execute for owner, group and others), access and modification times, and owner and group identifications (each 28-byte strings). The <em>wstat</em> transaction allows some of a file's properties to be changed. (See <em><a href="md_sys16.htm#845329"></em><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter 8<em></a></em> and <a href="proto9.htm#847231"><em>stat, wstat - inquire or change file attributes</em></a>.)<p>
+</a><a name="846886">
+A request can be aborted with a <em>Tflush</em> request. When a server receives a <em>Tflush</em>, it should not reply to the message with tag <em>oldtag</em> (unless it has already replied), and it should immediately send an <em>Rflush</em>. The client should ignore replies with tag <em>oldtag</em> until it gets the <em>Rflush</em>, at which point <em>oldtag</em> may be reused. (See <a href="proto5.htm#847050"><em>flush - abort a message</em></a>.)<p>
+</a><a name="846890">
+<h3> Directories</h3>
+</a><a name="846891">
+Directories are created by <em>create</em> with <em>CHDIR</em> set in the permissions argument (see <a href="proto9.htm#847231"><em>stat, wstat - inquire or change file attributes</em></a>). The members of a directory can be found with <em>read</em>.<p>
+</a><a name="846895">
+All servers must support requests to <em>walk</em> from the current directory to the directory <em>'..' </em>(dot-dot, meaning parent directory) although, by convention, directories contain no explicit entry for <em>'..'</em> or <em>'.'</em> (dot, current directory). The parent of the root directory of a server's tree is itself.<p>
+</a><a name="846896">
+<h3> Access Permissions</h3>
+</a><a name="846897">
+Each file server maintains a set of user and group names. Each user can be a member of any number of groups.<p>
+</a><a name="846902">
+Every file request has an implicit user id (copied from the original <em>attach</em>) and an implicit set of groups (every group of which the user is a member).<p>
+</a><a name="846903">
+Each file has an associated <em>owner</em> and <em>group</em> id and three sets of permissions: those of the owner, those of the group, and those of 'other' users.<p>
+</a><a name="846905">
+<hr>
+<strong>NOTE:</strong><p>
+<em>When the owner attempts to do something to a file, the owner, 
+group, and other permissions are consulted, and if any of them 
+grant the requested permission, the operation is allowed.<br>
+For someone who is not the owner, but is a member of the file's 
+group, the group and other permissions are consulted.<br>
+For everyone else, only the 'other' permissions are used. 
+</em>
+<hr></a><a name="846908">
+Each set of permissions says whether reading is allowed, whether writing is allowed, and whether executing is allowed. A <em>walk</em> in a directory is regarded as executing the directory, not reading it.<p>
+</a><a name="846909">
+Permissions, and type are stored in the file <em>mode</em>. A set bit indicates that the corresponding permission is granted. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846912">
+bit 31 <p>
+</a><td><a name="846914">
+If bit 31 is set, the file is a directory.<p>
+</a>
+<tr><td><a name="846916">
+bits 8, 7, and 6<p>
+</a><td><a name="846918">
+Owner read/write/execute permissions.<p>
+</a>
+<tr><td><a name="846920">
+bits 5, 4, 3<p>
+</a><td><a name="846922">
+Group read/write/execute permissions.<p>
+</a>
+<tr><td><a name="846924">
+bits 2, 1, and 0<p>
+</a><td><a name="846926">
+Other read/write/execute permissions.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="846927">
+<h3> Header Files</h3>
+</a><a name="846937">
+Header files are located as follows: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846930">
+&lt;lib9.h&gt;<p>
+</a><td><a name="846932">
+<em>&lt;inferno_root&gt;/&lt;systarg&gt; / &lt;objtype&gt; /include/lib9.h</em><p>
+</a>
+<tr><td><a name="846934">
+&lt;styx.h&gt;<p>
+</a><td><a name="846936">
+<em>/include/styx.h</em><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="846938">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="850103">
+<a href="i_modu.htm#840761"><em>Introduction to Limbo Modules</em> in Chapter 7</a><p>
+</a>
+<tr><td><a name="850105">
+<a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em> in Chapter 8</a><p>
+</a>
+<tr><td><a name="850107">
+<a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter 8</a><p>
+</a>
+<tr><td><a name="850111">
+<a href="proto7.htm#847164"><em>read, write - transfer data from and to a file</em></a><p>
+</a>
+<tr><td><a name="850113">
+<em><a href="proto9.htm#847231"></em><em>stat, wstat - inquire or change file attributes</em><em></a></em> <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="index.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:07 -->
+
+</body>
+</html>

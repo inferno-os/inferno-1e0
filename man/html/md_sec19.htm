@@ -1,0 +1,71 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec18.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec20.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845430">
+<center><h1> sh</a>a, md5, sign, verify - <a cryptographic digests; digital signatures; encryption functions: cryptographic digests; encryption functions: digital signatures>cryp<a encryption functions:cryptographic digests; encryption functions:digital signatures>tographic digests and <a digital signatures>digital signatures</h1></center>
+</a><pre><tt>include "keyring.m";
+kr:= load Keyring Keyring-&gt;PATH;
+sha:  fn(buf : array of byte,
+          nu : int,
+       digest: array of byte,
+        state: ref DigestState): ref DigestState;
+md5:  fn(buf : array of byte,
+          n  : int,
+       digest: array of byte,
+        state: ref DigestState): ref DigestState;
+sign:  fn(sk : ref SK,
+         exp : int,
+        state: ref DigestState,
+          ha : string)    : ref Certificate;
+verify:fn(pk : ref PK,
+         cert: ref Certificate,
+        state: ref DigestState): int;
+</tt></pre></p><a name="844784">
+<h2> Description</h2>
+</a><a name="844785">
+<h3> sha (buf, nu, digest, state) and </a>md5 (buf, nu, digest, state)</h3>
+</a><a name="844786">
+ Functions <em>sha</em> and <em>md5</em> are cryptographically secure hash functions that produce output called a message digest. The interface allows <em>sha</em> and <em>md5</em> functions to be called iteratively to perform a single digest on multiple buffers full of data. The <em>state</em> is chained from one call to another in the <em>DigestState</em> adt. The first call returns a newly allocated <em>DigestState</em> which is then used in subsequent calls. When digest is non-<em>nil</em>, the hash is completed and copied into the <em>digest</em> byte array.<p>
+</a><a name="844787">
+For example, a program to read a file and hash it might contain the following inner loop:<p>
+</a><pre><tt>n     := sys-&gt;read(fd, buf, len buf);   
+state := kr-&gt;sha(buf, n, nil, nil);   
+        while((n = sys-&gt;read(fd, buf, len buf)) &gt; 0)
+        kr-&gt;sha(buf, n, nil, state);   
+digest:= array[kr-&gt;SHAdlen] of byte;   
+        kr-&gt;sha(buf, 0, digest, state); 
+</tt></pre></p><a name="844796">
+<strong></strong><p>
+</a><a name="844797">
+The <em>sha</em> function returns a 20-byte hash (<em>kr-&gt;SHAdlen</em>), <br><em>md5</em> a 16-byte one (<em>kr-&gt;MD5dlen</em>).<p>
+</a><a name="844798">
+<h3> sign (sk, exp, state, ha)</h3>
+</a><a name="849513">
+The <em>sign</em> function is used to create a digital signature of a digest from the concatenation of a message, the name of the signer, and an expiration time. The <em>state</em> parameter is the digest state after running <em>sha</em> or <em>md5</em> over the message. The <em>ha</em> parameter is a string defining the hash algorithm to use; it can be '<em>sha</em>' or '<em>md5</em>'. The <em>sign</em> function extends the digest to cover signer's name (taken from the private key, <em>sk</em>) and the expiration time. It then returns a certificate containing the digital signature of the digest, signer name, hash algorithm and signature algorithm. If any parameters are invalid, <em>sign</em> returns the <em>nil</em> value. The signature algorithm is implied by the type of the private key.<p>
+</a><a name="844800">
+<h3> verify (pk, cert, state)</h3>
+</a><a name="844801">
+The <em>verify</em> function uses a public key to verify a certificate. Once again, <em>state</em> is the digest state after running <em>sha</em> or <em>md5</em> over the message.<p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec18.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec20.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

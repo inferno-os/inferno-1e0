@@ -1,0 +1,67 @@
+<html><head><title>Inferno Format Specifications</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="formats.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="formats2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844311">
+<center><h1> db - <a connection service: database>connection service database</h1></center>
+</a>/services/cs/db
+<a name="844314">
+<h2> Description</h2>
+</a><a name="844315">
+The connection service database file is read by the connection server daemon, <em>cs</em>, when it receives a request with a machine name of the form <em>$service</em>.<p>
+</a><a name="844316">
+The file consists of a two column list (separated by tabs and/or blanks) of the form<p>
+</a><a name="844317">
+	$service		hostname<p>
+</a><a name="844318">
+Once the hostname for a given service is identified, the connection server converts the hostname into an internet address.<p>
+</a><a name="844319">
+Blank lines and comments (lines beginning with <em>#</em>) are ignored.<p>
+</a><a name="844320">
+A running connection server daemon notes the modification time of the database file before each use. If the file has changed, the daemon uses the latest definitions.<p>
+</a><a name="844321">
+<h2> Example</h2>
+</a><pre><tt>$MPEG			infernocpu
+$SIGNER			dante
+$FilesERVER			dante
+$MAILSERVER			dante
+
+</tt></pre></p><a name="844343">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845024">
+<a href="cmd7.htm#853204"><em>cs - start connection server daemon</em> in Chapter 5</a><p>
+</a>
+<tr><td><a name="845030">
+<a href="daemons1.htm#844312"><em>cs - connection server daemon</em> in Chapter 6</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="formats.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="formats2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:26 -->
+
+</body>
+</html>

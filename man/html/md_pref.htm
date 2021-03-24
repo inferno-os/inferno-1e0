@@ -1,0 +1,76 @@
+<html><head><title>Limbo Prefab Module</title></head>
+<body bgcolor=white>
+ 
+</a><a name="845277">
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_pref1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845273">
+<p>
+
+<h1>Limbo Prefab Module</h1>
+</a>
+<hr><p><a name="844268">
+<em>The Limbo prefab module prefab.m</em><strong> </strong>contains components for building graphics objects suitable for Interactive Television (ITV) applications using infrared remote controls.<p>
+</a><a name="844298">
+<h2> Prefab Module 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845320">
+<a href="md_pref1.htm#844323"><em>compound - windows for ITV toolkit</em></a><p>
+</a>
+<tr><td><a name="845322">
+<a href="md_pref2.htm#844423"><em>element - menu and display elements for ITV toolkit</em></a><p>
+</a>
+<tr><td><a name="845324">
+<a href="md_pref3.htm#844673"><em>environ - environment for ITV toolkit to provide a graphics framework for a item collections</em></a><p>
+</a>
+<tr><td><a name="845326">
+<a href="md_pref4.htm#844710"><em>style - fonts and colors for IITV toolkit</em></a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="844299">
+<h2> Synopsis</h2>
+</a><pre><tt>include "draw.m";
+include "prefab.m";
+prefab:= load Prefab Prefab-&gt;PATH;
+</tt></pre></p><a name="844305">
+<h2> Description</h2>
+</a><a name="844306">
+Using the <em>Draw</em> module's operations for simple text and images (see <a href="md_draw.htm#844325"><em>Draw Module</em> in Chapter 11</a>), the toolkit can group individual items, treat those groups as units, and then activate the items on command. The other user interface toolkit provides facilities for keyboard- and mouse-driven applications (see <em>tk)</em>.<p>
+</a><a name="844310">
+The objects on the screen are of type <em>Compound</em>, each of which occupies a unique window on the display and contains objects of type <em>Element</em>. An <em>Element</em> may be a single object or a list of further <em>Elements</em> that can be used to build hierarchically structured components.<p>
+</a><a name="844311">
+<em>Prefab</em> defines <em>Environ</em> and <em>Style</em> types that specify the appearance of objects: their colors, fonts, backgrounds, and so on. A <em>Style</em> gives font and color information, while an <em>Environ</em> identifies the <em>Screen</em> upon which the items will be displayed and the <em>Style</em> in which they will be drawn.<p>
+</a><a name="844312">
+Applications should allocate an <em>Element</em> or <em>Compound</em> only through the appropriate member functions as described in the corresponding sections of the manual. Moreover, except where indicated, applications should not modify the data members directly. Although the type definitions make data members visible, the members should be treated as read-only data.<p>
+</a><a name="844313">
+<h2> See Also</h2>
+</a><a name="844320">
+<em><a href="md_draw.htm#844325"></em><em>Draw Module</em> in Chapter 11<em></a> </em>and <a href="md_misc6.htm#844527"><em>ir - infrared remote control</em> in Chapter 15</a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_pref1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:04 -->
+
+</body>
+</html>

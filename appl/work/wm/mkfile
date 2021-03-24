@@ -1,0 +1,78 @@
+<../../../mkconfig
+<../../../$SYSHOST/mkhost
+
+OBJ=\
+	readmail.dis\
+	sendmail.dis\
+	shortcut.dis\
+	wish.dis\
+	winctl.dis\
+
+all:QV:		$OBJ
+clean:QV:
+nuke:QV:
+
+MODULE=\
+	../../../module/bufio.m\
+	../../../module/cci.m\
+	../../../module/daytime.m\
+	../../../module/debug.m\
+	../../../module/draw.m\
+	../../../module/filepat.m\
+	../../../module/html.m\
+	../../../module/keyring.m\
+	../../../module/mpeg.m\
+	../../../module/newns.m\
+	../../../module/pipe.m\
+	../../../module/quicktime.m\
+	../../../module/rand.m\
+	../../../module/readdir.m\
+	../../../module/riff.m\
+	../../../module/security.m\
+	../../../module/sh.m\
+	../../../module/string.m\
+	../../../module/sys.m\
+	../../../module/tk.m\
+	../../../module/tklib.m\
+	../../../module/version.m\
+	../../../module/url.m\
+	../../../module/webget.m\
+	../../../module/wmlib.m\
+	../../../module/workdir.m\
+
+OBJINST=${OBJ:%=../../../dis/wm/%}
+OBJPKG=${OBJ:%=$PREFIX_PKG/dis/wm/%}
+
+$OBJ:	$MODULE
+
+install:V: $OBJ
+	$RM $OBJINST
+	$CP $OBJ ../../../dis/wm
+
+installall:QV: install
+
+uninstall:V:
+	$RM $OBJINST
+
+package:V:	$OBJ\
+		$PREFIX_PKG/dis/wm
+		$RM $OBJPKG
+		$CP $OBJ $PREFIX_PKG/dis/wm
+
+%.install:V:	%.dis
+	cp $stem.dis ../../../dis/wm
+
+clean nuke:V:
+	rm -f *.dis *.sbl
+
+%.dis:	%.b
+	limbo -I../../../module -gw $stem.b
+
+%.s:	%.b
+	limbo -I../../../module -w -G -S $stem.b
+
+$PREFIX_PKG/dis:
+	$MKDIR $target
+
+#sam.dis samstub.dis samtk.dis: samstub.m samterm.m
+

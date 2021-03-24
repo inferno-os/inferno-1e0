@@ -1,0 +1,1399 @@
+\ProvidesPackage{unicode}
+   [1996/09/18 Unicode input]
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+
+\newcount\utcnt
+
+% put char value of tok in param into count register \utcnt,
+% and then subtract 0x80 to get the bits for non-first utf bytes
+\def\utfx#1{\utcnt=\expandafter`#1\advance\utcnt by -"80\relax}
+
+\def\n@chr{\space}
+\DeclareFontEncoding{OT2}{}{}
+\def\cyrillic#1{{\fontencoding{OT2}\fontfamily{cmr}\selectfont #1}}
+
+\ProvideTextCommandDefault{\textonequarter}{\ensuremath{\frac14}}
+\ProvideTextCommandDefault{\textonehalf}{\ensuremath{\frac12}}
+\ProvideTextCommandDefault{\textthreequarters}{\ensuremath{\frac34}}
+\ProvideTextCommandDefault{\textcent}
+   {\TextSymbolUnavailable\textcent}
+\ProvideTextCommandDefault{\textyen}
+   {\TextSymbolUnavailable\textyen}
+\ProvideTextCommandDefault{\textcurrency}
+   {\TextSymbolUnavailable\textcurrency}
+\ProvideTextCommandDefault{\textbrokenbar}
+   {\TextSymbolUnavailable\textbrokenbar}
+\ProvideTextCommandDefault{\textdegree}{\ensuremath{^\circ}}
+\ProvideTextCommandDefault{\textonesuperior}{\ensuremath{^1}}
+\ProvideTextCommandDefault{\texttwosuperior}{\ensuremath{^2}}
+\ProvideTextCommandDefault{\textthreesuperior}{\ensuremath{^3}}
+\ProvideTextCommandDefault{\textordmasculine}{\ensuremath{^o}}
+\ProvideTextCommandDefault{\textordfeminine}{\ensuremath{^a}}
+\ProvideTextCommandDefault{\textplusminus}{\ensuremath{\pm}}
+\ProvideTextCommandDefault{\textmu}{\ensuremath{\mu}}
+\ProvideTextCommandDefault{\textlnot}{\ensuremath{\lnot}}
+\ProvideTextCommandDefault{\texttimes}{\ensuremath{\times}}
+\ProvideTextCommandDefault{\textdiv}{\ensuremath{\div}}
+\ProvideTextCommandDefault{\textplus}{\ensuremath{+}}
+\ProvideTextCommandDefault{\textminus}{\ensuremath{-}}
+\ProvideTextCommandDefault{\textequals}{\ensuremath{=}}
+\ProvideTextCommandDefault{\texttrademark}{\ensuremath{{}^{\rm TM}}}
+
+\catcode`\^^c2=\active
+\catcode`\^^c3=\active
+\catcode`\^^c4=\active
+\catcode`\^^c5=\active
+\catcode`\^^c6=\active
+\catcode`\^^c7=\active
+\catcode`\^^c8=\active
+\catcode`\^^c9=\active
+\catcode`\^^ca=\active
+\catcode`\^^cb=\active
+\catcode`\^^cc=\active
+\catcode`\^^cd=\active
+\catcode`\^^ce=\active
+\catcode`\^^cf=\active
+\catcode`\^^d0=\active
+\catcode`\^^d1=\active
+\catcode`\^^e2=\active
+
+% Latin1, part 1 (omitting control chars) 00A0-00BF
+\def^^c2#1{\utfx#1\advance\utcnt by -"20 %
+\ifcase\utcnt
+\nobreakspace\or			% c2 a0	 
+\textexclamdown\or		% c2 a1	¡
+\textcent\or		% c2 a2	¢
+\pounds\or	% c2 a3	£
+\textcurrency\or		% c2 a4	¤
+\textyen\or			% c2 a5	¥
+\textbrokenbar\or		% c2 a6	¦
+\S\or			% c2 a7	§
+\"{}\or	% c2 a8	¨
+\copyright\or		% c2 a9	©
+\mathordfeminine\or	% c2 aa	ª
+\guillemotleft\or		% c2 ab	«
+\textlnot\or	% c2 ac	¬
+\-\or		% c2 ad	­
+\textregistered\or		% c2 ae	®
+\@tabacckludge={}\or	% c2 af	¯
+\textdegree\or	% c2 b0	°
+\textplusminus\or	% c2 b1	±
+\texttwosuperior\or	% c2 b2	²
+\textthreesuperior\or	% c2 b3	³
+\@tabacckludge'{}\or			% c2 b4	´
+\textmu\or	% c2 b5	µ
+\P\or			% c2 b6	¶
+\textperiodcentered\or	% c2 b7	·
+\c\ \or			% c2 b8	¸
+\textonesuperior\or	% c2 b9	¹
+\textordmasculine\or	% c2 ba	º
+\guillemotright\or		% c2 bb	»
+\textonequarter\or	% c2 bc	¼
+\textonehalf\or	% c2 bd	½
+\textthreequarters\or	% c2 be	¾
+\textquestiondown		% c2 bf	¿
+\else\n@chr\fi}
+
+% Latin1, part 2  00C0-00FF
+\def^^c3#1{\utfx#1%
+\ifcase\utcnt
+\@tabacckludge`A\or		% c3 80	À
+\@tabacckludge'A\or		% c3 81	Á
+\^A\or		% c3 82	Â
+\~A\or		% c3 83	Ã
+\"A\or		% c3 84	Ä
+\AA\or		% c3 85	Å
+\AE\or		% c3 86	Æ
+\c C\or		% c3 87	Ç
+\@tabacckludge`E\or		% c3 88	È
+\@tabacckludge'E\or		% c3 89	É
+\^E\or		% c3 8a	Ê
+\"E\or		% c3 8b	Ë
+\@tabacckludge`I\or		% c3 8c	Ì
+\@tabacckludge'I\or		% c3 8d	Í
+\^I\or		% c3 8e	Î
+\"I\or		% c3 8f	Ï
+\DH\or	% c3 90	Ð
+\~N\or		% c3 91	Ñ
+\@tabacckludge`O\or		% c3 92	Ò
+\@tabacckludge'O\or		% c3 93	Ó
+\^O\or		% c3 94	Ô
+\~O\or		% c3 95	Õ
+\"O\or		% c3 96	Ö
+\texttimes\or	% c3 97	×
+\O\or		% c3 98	Ø
+\@tabacckludge`U\or		% c3 99	Ù
+\@tabacckludge'U\or		% c3 9a	Ú
+\^U\or		% c3 9b	Û
+\"U\or		% c3 9c	Ü
+\@tabacckludge'Y\or		% c3 9d	Ý
+\TH\or	% c3 9e	Þ
+\ss\or		% c3 9f	ß
+\@tabacckludge`a\or		% c3 a0	à
+\@tabacckludge'a\or		% c3 a1	á
+\^a\or		% c3 a2	â
+\~a\or		% c3 a3	ã
+\"a\or		% c3 a4	ä
+\aa\or		% c3 a5	å
+\ae\or		% c3 a6	æ
+\c c\or		% c3 a7	ç
+\@tabacckludge`e\or		% c3 a8	è
+\@tabacckludge'e\or		% c3 a9	é
+\^e\or		% c3 aa	ê
+\"e\or		% c3 ab	ë
+\@tabacckludge`\i\or		% c3 ac	ì
+\@tabacckludge'\i\or		% c3 ad	í
+\^\i\or		% c3 ae	î
+\"\i\or		% c3 af	ï
+\dh\or	% c3 b0	ð
+\~n\or		% c3 b1	ñ
+\@tabacckludge`o\or		% c3 b2	ò
+\@tabacckludge'o\or		% c3 b3	ó
+\^o\or		% c3 b4	ô
+\~o\or		% c3 b5	õ
+\"o\or		% c3 b6	ö
+\textdiv\or	% c3 b7	÷
+\o\or		% c3 b8	ø
+\@tabacckludge`u\or		% c3 b9	ù
+\@tabacckludge'u\or		% c3 ba	ú
+\^u\or		% c3 bb	û
+\"u\or		% c3 bc	ü
+\@tabacckludge'y\or		% c3 bd	ý
+\th\or	% c3 be	þ
+\"y		% c3 bf	ÿ
+\else\n@chr\fi}
+
+% European Latin, part 1  0100-013F
+\def^^c4#1{\utfx#1%
+\ifcase\utcnt
+\@tabacckludge=A\or		% c4 80	Ā
+\@tabacckludge=a\or		% c4 81	ā
+\u A\or		% c4 82	Ă
+\u a\or		% c4 83	ă
+\k A\or	% c4 84	Ą
+\k a\or	% c4 85	ą
+\@tabacckludge'C\or		% c4 86	Ć
+\@tabacckludge'c\or		% c4 87	ć
+\^C\or		% c4 88	Ĉ
+\^c\or		% c4 89	ĉ
+\.C\or		% c4 8a	Ċ
+\.c\or		% c4 8b	ċ
+\v C\or		% c4 8c	Č
+\v c\or		% c4 8d	č
+\v D\or		% c4 8e	Ď
+\v d\or		% c4 8f	ď
+\DH\or	% c4 90	Đ
+\dh\or	% c4 91	đ
+\@tabacckludge=E\or		% c4 92	Ē
+\@tabacckludge=e\or		% c4 93	ē
+\u E\or		% c4 94	Ĕ
+\u e\or		% c4 95	ĕ
+\.E\or		% c4 96	Ė
+\.e\or		% c4 97	ė
+\k E\or	% c4 98	Ę
+\k e\or	% c4 99	ę
+\v E\or		% c4 9a	Ě
+\v e\or		% c4 9b	ě
+\^G\or		% c4 9c	Ĝ
+\^g\or		% c4 9d	ĝ
+\u G\or		% c4 9e	Ğ
+\u g\or		% c4 9f	ğ
+\.G\or		% c4 a0	Ġ
+\.g\or		% c4 a1	ġ
+\c G\or		% c4 a2	Ģ
+\@tabacckludge'g\or		% c4 a3	ģ
+\^H\or		% c4 a4	Ĥ
+\^h\or		% c4 a5	ĥ
+\n@chr\or	% c4 a6	Ħ
+\n@chr\or	% c4 a7	ħ
+\~I\or		% c4 a8	Ĩ
+\~\i\or		% c4 a9	ĩ
+\@tabacckludge=I\or		% c4 aa	Ī
+\@tabacckludge=\i\or		% c4 ab	ī
+\u I\or		% c4 ac	Ĭ
+\u\i\or		% c4 ad	ĭ
+\c I\or		% c4 ae	Į
+\c i\or		% c4 af	į
+\.I\or		% c4 b0	İ
+\i\or		% c4 b1	ı
+\n@chr\or	% c4 b2	Ĳ
+\n@chr\or	% c4 b3	ĳ
+\^J\or		% c4 b4	Ĵ
+\^j\or		% c4 b5	ĵ
+\c K\or		% c4 b6	Ķ
+\c k\or		% c4 b7	ķ
+\n@chr\or	% c4 b8	ĸ
+\@tabacckludge'L\or		% c4 b9	Ĺ
+\@tabacckludge'l\or		% c4 ba	ĺ
+\c L\or		% c4 bb	Ļ
+\c l\or		% c4 bc	ļ
+\v L\or		% c4 bd	Ľ
+\v l\or		% c4 be	ľ
+\n@chr		% c4 bf	Ŀ
+\else\n@chr\fi}
+
+% European Latin, part 2  0140-017E
+\def^^c5#1{\utfx#1%
+\ifcase\utcnt
+\n@chr\or	% c5 80	ŀ
+\L\or		% c5 81	Ł
+\l\or		% c5 82	ł
+\@tabacckludge'N\or		% c5 83	Ń
+\@tabacckludge'n\or		% c5 84	ń
+\c N\or		% c5 85	Ņ
+\c n\or		% c5 86	ņ
+\v N\or		% c5 87	Ň
+\v n\or		% c5 88	ň
+\n@chr\or	% c5 89	ŉ
+\NG\or	% c5 8a	Ŋ
+\ng\or	% c5 8b	ŋ
+\@tabacckludge=O\or		% c5 8c	Ō
+\@tabacckludge=o\or		% c5 8d	ō
+\u O\or		% c5 8e	Ŏ
+\u o\or		% c5 8f	ŏ
+\H O\or		% c5 90	Ő
+\H o\or		% c5 91	ő
+\OE\or		% c5 92	Œ
+\oe\or		% c5 93	œ
+\@tabacckludge'R\or		% c5 94	Ŕ
+\@tabacckludge'r\or		% c5 95	ŕ
+\c R\or		% c5 96	Ŗ
+\c r\or		% c5 97	ŗ
+\v R\or		% c5 98	Ř
+\v r\or		% c5 99	ř
+\@tabacckludge'S\or		% c5 9a	Ś
+\@tabacckludge's\or		% c5 9b	ś
+\^S\or		% c5 9c	Ŝ
+\^s\or		% c5 9d	ŝ
+\c S\or		% c5 9e	Ş
+\c s\or		% c5 9f	ş
+\v S\or		% c5 a0	Š
+\v s\or		% c5 a1	š
+\c T\or		% c5 a2	Ţ
+\c t\or		% c5 a3	ţ
+\v T\or		% c5 a4	Ť
+\v t\or		% c5 a5	ť
+\n@chr\or	% c5 a6	Ŧ
+\n@chr\or	% c5 a7	ŧ
+\~U\or		% c5 a8	Ũ
+\~u\or		% c5 a9	ũ
+\@tabacckludge=U\or		% c5 aa	Ū
+\@tabacckludge=u\or		% c5 ab	ū
+\u U\or		% c5 ac	Ŭ
+\u u\or		% c5 ad	ŭ
+\r U\or	% c5 ae	Ů
+\r u\or	% c5 af	ů
+\H U\or		% c5 b0	Ű
+\H u\or		% c5 b1	ű
+\n@chr\or	% c5 b2	Ų
+\n@chr\or	% c5 b3	ų
+\^W\or		% c5 b4	Ŵ
+\^w\or		% c5 b5	ŵ
+\^Y\or		% c5 b6	Ŷ
+\^y\or		% c5 b7	ŷ
+\"Y\or		% c5 b8	Ÿ
+\@tabacckludge'Z\or		% c5 b9	Ź
+\@tabacckludge'z\or		% c5 ba	ź
+\.Z\or		% c5 bb	Ż
+\.z\or		% c5 bc	ż
+\v Z\or		% c5 bd	Ž
+\v z		% c5 be	ž
+\else\n@chr\fi}
+
+% Extended Latin, part 1  0180-01BF
+\def^^c6#1{\n@chr}
+
+% Extended Latin, part 2  01C0-01F0
+\def^^c7#1{\utfx#1\advance\utcnt by -"0D %
+\ifcase\utcnt
+\v A\or		% c7 8d	Ǎ
+\v a\or		% c7 8e	ǎ
+\v I\or		% c7 8f	Ǐ
+\v\i\or		% c7 90	ǐ
+\v O\or		% c7 91	Ǒ
+\v o\or		% c7 92	ǒ
+\v U\or		% c7 93	Ǔ
+\v u\or		% c7 94	ǔ
+\@tabacckludge={\"U}\or	% c7 95	Ǖ
+\@tabacckludge={\"u}\or	% c7 96	ǖ
+\@tabacckludge'{\"U}\or	% c7 97	Ǘ
+\@tabacckludge'{\"u}\or	% c7 98	ǘ
+\v{\"U}\or	% c7 99	Ǚ
+\v{\"u}\or	% c7 9a	ǚ
+\@tabacckludge`{\"U}\or	% c7 9b	Ǜ
+\@tabacckludge`{\"u}\or	% c7 9c	ǜ
+\n@chr\or	% c7 9d	ǝ
+\@tabacckludge={\"A}\or	% c7 9e	Ǟ
+\@tabacckludge={\"a}\or	% c7 9f	ǟ
+\@tabacckludge={\.A}\or	% c7 a0	Ǡ
+\@tabacckludge={\.a}\or	% c7 a1	ǡ
+\@tabacckludge=\AE\or	% c7 a2	Ǣ
+\@tabacckludge=\ae\or	% c7 a3	ǣ
+\n@chr\or	% c7 a4	Ǥ
+\n@chr\or	% c7 a5	ǥ
+\v G\or		% c7 a6	Ǧ
+\v g\or		% c7 a7	ǧ
+\v K\or		% c7 a8	Ǩ
+\v k\or		% c7 a9	ǩ
+\k O\or	% c7 aa	Ǫ
+\k o\or	% c7 ab	ǫ
+\@tabacckludge={\k O}\or	% c7 ac	Ǭ
+\@tabacckludge={\k o}\or	% c7 ad	ǭ
+\n@chr\or	% c7 ae	Ǯ
+\n@chr\or	% c7 af	ǯ
+\v J		% c7 b0	ǰ
+\else\n@chr\fi}
+
+% Undefined  0200-023F
+\def^^c8#1{\n@chr}
+
+% Standard Phonetic, part 1 (starts at 0250) 0240-027F
+% These translations need ipa style option
+\def^^c9#1{\utfx#1\advance\utcnt by -"10 %
+\ifcase\utcnt
+\inva\or	% c9 90	ɐ
+\scripta\or	% c9 91	ɑ
+\invscripta\or	% c9 92	ɒ
+\hookb\or	% c9 93	ɓ
+\openo\or	% c9 94	ɔ
+\curlyc\or	% c9 95	ɕ
+\taild\or	% c9 96	ɖ
+\hookd\or	% c9 97	ɗ
+\reve\or	% c9 98	ɘ
+\schwa\or	% c9 99	ə
+\er\or		% c9 9a	ɚ
+\niepsilon\or	% c9 9b	ɛ
+\revepsilon\or	% c9 9c	ɜ
+\hookrevepsilon\or	% c9 9d	ɝ
+\closedrevepsilon\or	% c9 9e	ɞ
+\invf\or	% c9 9f	ɟ
+\hookg\or	% c9 a0	ɠ
+\scriptg\or	% c9 a1	ɡ
+\scg\or		% c9 a2	ɢ
+\ipagamma\or	% c9 a3	ɣ
+\babygamma\or	% c9 a4	ɤ
+\invh\or	% c9 a5	ɥ
+\hookh\or	% c9 a6	ɦ
+\hookheng\or	% c9 a7	ɧ
+\bari\or	% c9 a8	ɨ
+\niiota\or	% c9 a9	ɩ
+\sci\or		% c9 aa	ɪ
+\tildel\or	% c9 ab	ɫ
+\latfric\or	% c9 ac	ɬ
+\taill\or	% c9 ad	ɭ
+\lz\or		% c9 ae	ɮ
+\invm\or	% c9 af	ɯ
+\legm\or	% c9 b0	ɰ
+\labdentalnas\or	% c9 b1	ɱ
+\nj\or		% c9 b2	ɲ
+\tailn\or	% c9 b3	ɳ
+\scn\or		% c9 b4	ɴ
+\baro\or	% c9 b5	ɵ
+\n@chr\or	% c9 b6	ɶ
+\closedniomega\or	% c9 b7	ɷ
+\niphi\or	% c9 b8	ɸ
+\invr\or	% c9 b9	ɹ
+\invlegr\or	% c9 ba	ɺ
+\tailinvr\or	% c9 bb	ɻ
+\legr\or	% c9 bc	ɼ
+\tailr\or	% c9 bd	ɽ
+\flapr\or	% c9 be	ɾ
+\n@chr		% c9 bf	ɿ
+\else\n@chr\fi}
+
+% Standard Phonetic, part 2 and Modifier Letters part 1   0280-02BF
+\def^^ca#1{\utfx#1%
+\ifcase\utcnt
+\scr\or		% ca 80	ʀ
+\invscr\or	% ca 81	ʁ
+\tails\or	% ca 82	ʂ
+\esh\or		% ca 83	ʃ
+\n@chr\or	% ca 84	ʄ
+\n@chr\or	% ca 85	ʅ
+\curlyesh\or	% ca 86	ʆ
+\clickt\or	% ca 87	ʇ
+\tailt\or	% ca 88	ʈ
+\baru\or	% ca 89	ʉ
+\niupsilon\or	% ca 8a	ʊ
+\scriptv\or	% ca 8b	ʋ
+\invv\or	% ca 8c	ʌ
+\invw\or	% ca 8d	ʍ
+\invy\or	% ca 8e	ʎ
+\scy\or		% ca 8f	ʏ
+\tailz\or	% ca 90	ʐ
+\curlyz\or	% ca 91	ʑ
+\yogh\or	% ca 92	ʒ
+\curlyyogh\or	% ca 93	ʓ
+\glotstop\or	% ca 94	ʔ
+\revglotstop\or	% ca 95	ʕ
+\invglotstop\or	% ca 96	ʖ
+\clickc\or	% ca 97	ʗ
+\clicko\or	% ca 98	ʘ
+\n@chr\or	% ca 99	ʙ
+\closedrevepsilon\or	% ca 9a	ʚ
+\n@chr\or	% ca 9b	ʛ
+\n@chr\or	% ca 9c	ʜ
+\n@chr\or	% ca 9d	ʝ
+\n@chr\or	% ca 9e	ʞ
+\n@chr\or	% ca 9f	ʟ
+\n@chr\or	% ca a0	ʠ
+\n@chr\or	% ca a1	ʡ
+\n@chr\or	% ca a2	ʢ
+\n@chr\or	% ca a3	ʣ
+\dz\or		% ca a4	ʤ
+\n@chr\or	% ca a5	ʥ
+\n@chr\or	% ca a6	ʦ
+\tesh\or	% ca a7	ʧ
+\n@chr\or	% ca a8	ʨ
+\n@chr\or	% ca a9	ʩ
+\n@chr\or	% ca aa	ʪ
+\n@chr\or	% ca ab	ʫ
+\n@chr\or	% ca ac	ʬ
+\n@chr\or	% ca ad	ʭ
+\n@chr\or	% ca ae	ʮ
+\n@chr\or	% ca af	ʯ
+\n@chr\or	% ca b0	ʰ
+\n@chr\or	% ca b1	ʱ
+\n@chr\or	% ca b2	ʲ
+\n@chr\or	% ca b3	ʳ
+\n@chr\or	% ca b4	ʴ
+\n@chr\or	% ca b5	ʵ
+\n@chr\or	% ca b6	ʶ
+\n@chr\or	% ca b7	ʷ
+\n@chr\or	% ca b8	ʸ
+\n@chr\or	% ca b9	ʹ
+\n@chr\or	% ca ba	ʺ
+\n@chr\or	% ca bb	ʻ
+\n@chr\or	% ca bc	ʼ
+\ain		% ca bd	ʽ
+\else\n@chr\fi}
+
+% Modifier Letters, part 2  02C0-02E9
+\def^^cb#1{\utfx#1%
+\ifcase\utcnt
+\ejective\or	% cb 80	ˀ
+\n@chr\or	% cb 81	ˁ
+\leftp\or	% cb 82	˂
+\rightp\or	% cb 83	˃
+\upp\or		% cb 84	˄
+\downp\or	% cb 85	˅
+\n@chr\or	% cb 86	ˆ
+\n@chr\or	% cb 87	ˇ
+\stress\or	% cb 88	ˈ
+\n@chr\or	% cb 89	ˉ
+\n@chr\or	% cb 8a	ˊ
+\n@chr\or	% cb 8b	ˋ
+\secstress\or	% cb 8c	ˌ
+\n@chr\or	% cb 8d	ˍ
+\n@chr\or	% cb 8e	ˎ
+\n@chr\or	% cb 8f	ˏ
+\length\or	% cb 90	ː
+\halflength\or	% cb 91	ˑ
+\n@chr\or	% cb 92	˒
+\open\or	% cb 93	˓
+\upt\or		% cb 94	˔
+\downt\or	% cb 95	˕
+\n@chr\or	% cb 96	˖
+\n@chr\or	% cb 97	˗
+\n@chr\or	% cb 98	˘
+\n@chr\or	% cb 99	˙
+\overring\or	% cb 9a	˚
+\polishhook\or	% cb 9b	˛
+\n@chr\or	% cb 9c	˜
+\n@chr\or	% cb 9d	˝
+\n@chr\or	% cb 9e	˞
+\n@chr\or	% cb 9f	˟
+\n@chr\or	% cb a0	ˠ
+\n@chr\or	% cb a1	ˡ
+\n@chr\or	% cb a2	ˢ
+\n@chr\or	% cb a3	ˣ
+\reveject\or	% cb a4	ˤ
+\corner		% cb a5	˥
+\else\n@chr\fi}
+
+% General Diacritical Marks, part 1  0300-033F
+\def^^cc#1{\n@chr}
+
+% General Diacritical Marks, part 2 and Greek other  0340-037F
+\def^^cd#1{\n@chr}
+
+% Greek part 1, 0380-03BF
+\def^^ce#1{\utfx#1\advance\utcnt by -"06 %
+\ifcase\utcnt
+\n@chr\or	% ce 86	Ά
+\n@chr\or	% ce 87	·
+\n@chr\or	% ce 88	Έ
+\n@chr\or	% ce 89	Ή
+\n@chr\or	% ce 8a	Ί
+\n@chr\or	% ce 8b	΋
+\n@chr\or	% ce 8c	Ό
+\n@chr\or	% ce 8d	΍
+\n@chr\or	% ce 8e	Ύ
+\n@chr\or	% ce 8f	Ώ
+\n@chr\or	% ce 90	ΐ
+A\or		% ce 91	Α
+B\or		% ce 92	Β
+\ensuremath{\Gamma}\or	% ce 93	Γ
+\ensuremath{\Delta}\or	% ce 94	Δ
+E\or		% ce 95	Ε
+Z\or		% ce 96	Ζ
+H\or		% ce 97	Η
+\ensuremath{\Theta}\or	% ce 98	Θ
+I\or		% ce 99	Ι
+K\or		% ce 9a	Κ
+\ensuremath{\Lambda}\or	% ce 9b	Λ
+M\or		% ce 9c	Μ
+N\or		% ce 9d	Ν
+\ensuremath{\Xi}\or		% ce 9e	Ξ
+O\or		% ce 9f	Ο
+\ensuremath{\Pi}\or		% ce a0	Π
+P\or		% ce a1	Ρ
+\n@chr\or	% ce a2	΢
+\ensuremath{\Sigma}\or	% ce a3	Σ
+T\or		% ce a4	Τ
+\ensuremath{\Upsilon}\or	% ce a5	Υ
+\ensuremath{\Phi}\or		% ce a6	Φ
+\ensuremath{\Chi}\or		% ce a7	Χ
+\ensuremath{\Psi}\or		% ce a8	Ψ
+\ensuremath{\Omega}\or	% ce a9	Ω
+\n@chr\or	% ce aa	Ϊ
+\n@chr\or	% ce ab	Ϋ
+\n@chr\or	% ce ac	ά
+\n@chr\or	% ce ad	έ
+\n@chr\or	% ce ae	ή
+\n@chr\or	% ce af	ί
+\n@chr\or	% ce b0	ΰ
+\ensuremath{\alpha}\or	% ce b1	α
+\ensuremath{\beta}\or	% ce b2	β
+\ensuremath{\gamma}\or	% ce b3	γ
+\ensuremath{\delta}\or	% ce b4	δ
+\ensuremath{\epsilon}\or	% ce b5	ε
+\ensuremath{\zeta}\or	% ce b6	ζ
+\ensuremath{\eta}\or		% ce b7	η
+\ensuremath{\theta}\or	% ce b8	θ
+\ensuremath{\iota}\or	% ce b9	ι
+\ensuremath{\kappa}\or	% ce ba	κ
+\ensuremath{\lambda}\or	% ce bb	λ
+\ensuremath{\mu}\or		% ce bc	μ
+\ensuremath{\nu}\or		% ce bd	ν
+\ensuremath{\xi}\or		% ce be	ξ
+o		% ce bf	ο
+\else\n@chr\fi}
+
+% Greek, part 2  03C0-03F5
+\def^^cf#1{\utfx#1%
+\ifcase\utcnt
+\ensuremath{\pi}\or		% cf 80	π
+\ensuremath{\rho}\or		% cf 81	ρ
+\ensuremath{\varsigma}\or	% cf 82	ς
+\ensuremath{\sigma}\or	% cf 83	σ
+\ensuremath{\tau}\or		% cf 84	τ
+\ensuremath{\upsilon}\or	% cf 85	υ
+\ensuremath{\phi}\or		% cf 86	φ
+\ensuremath{\chi}\or		% cf 87	χ
+\ensuremath{\psi}\or		% cf 88	ψ
+\ensuremath{\omega}\or	% cf 89	ω
+\n@chr\or	% cf 8a	ϊ
+\n@chr\or	% cf 8b	ϋ
+\n@chr\or	% cf 8c	ό
+\n@chr\or	% cf 8d	ύ
+\n@chr\or	% cf 8e	ώ
+\n@chr\or	% cf 8f	Ϗ
+\n@chr\or	% cf 90	ϐ
+\ensuremath{\vartheta}\or	% cf 91	ϑ
+\n@chr\or	% cf 92	ϒ
+\n@chr\or	% cf 93	ϓ
+\n@chr\or	% cf 94	ϔ
+\ensuremath{\varphi}\or	% cf 95	ϕ
+\ensuremath{\varpi}		% cf 96	ϖ
+\else\n@chr\fi}
+
+% Cyrillic, part 1  0400-043F
+\def^^d0#1{\utfx#1%
+\ifcase\utcnt
+~\or	% d0 80	Ѐ
+\cyrillic{\char 19}\or	% d0 81	Ё
+\cyrillic{\char6}\or	% d0 82	Ђ
+\cyrillic{\accent38 G}\or	% d0 83	Ѓ
+\cyrillic{\char5}\or	% d0 84	Є
+\cyrillic{\char22}\or	% d0 85	Ѕ
+\cyrillic{\char4}\or	% d0 86	І
+\cyrillic{\accent32{\char4}}\or	% d0 87	Ї
+\cyrillic{J}\or	% d0 88	Ј
+\cyrillic{\char1}\or	% d0 89	Љ
+\cyrillic{\char0}\or	% d0 8a	Њ
+\cyrillic{\char7}\or	% d0 8b	Ћ
+\cyrillic{\accent22 K}\or	% d0 8c	Ќ
+\cyrillic{\char45}\or	% d0 8d	Ѝ
+\cyrillic{\accent64 U}\or	% d0 8e	Ў
+\cyrillic{\char2}\or	% d0 8f	Џ
+\cyrillic{A}\or	% d0 90	А
+\cyrillic{B}\or	% d0 91	Б
+\cyrillic{V}\or	% d0 92	В
+\cyrillic{G}\or	% d0 93	Г
+\cyrillic{D}\or	% d0 94	Д
+\cyrillic{E}\or	% d0 95	Е
+\cyrillic{\char17}\or	% d0 96	Ж
+\cyrillic{Z}\or	% d0 97	З
+\cyrillic{I}\or	% d0 98	И
+\cyrillic{\char18}\or	% d0 99	Й
+\cyrillic{K}\or	% d0 9a	К
+\cyrillic{L}\or	% d0 9b	Л
+\cyrillic{M}\or	% d0 9c	М
+\cyrillic{N}\or	% d0 9d	Н
+\cyrillic{O}\or	% d0 9e	О
+\cyrillic{P}\or	% d0 9f	П
+\cyrillic{R}\or	% d0 a0	Р
+\cyrillic{S}\or	% d0 a1	С
+\cyrillic{T}\or	% d0 a2	Т
+\cyrillic{U}\or	% d0 a3	У
+\cyrillic{F}\or	% d0 a4	Ф
+\cyrillic{H}\or	% d0 a5	Х
+\cyrillic{C}\or	% d0 a6	Ц
+\cyrillic{Q}\or	% d0 a7	Ч
+\cyrillic{X}\or	% d0 a8	Ш
+\cyrillic{W}\or	% d0 a9	Щ
+\cyrillic{\char95}\or	% d0 aa	Ъ
+\cyrillic{Y}\or	% d0 ab	Ы
+\cyrillic{\char94}\or	% d0 ac	Ь
+\cyrillic{\char3}\or	% d0 ad	Э
+\cyrillic{\char16}\or	% d0 ae	Ю
+\cyrillic{\char23}\or	% d0 af	Я
+\cyrillic{a}\or	% d0 b0	а
+\cyrillic{b}\or	% d0 b1	б
+\cyrillic{v}\or	% d0 b2	в
+\cyrillic{g}\or	% d0 b3	г
+\cyrillic{d}\or	% d0 b4	д
+\cyrillic{e}\or	% d0 b5	е
+\cyrillic{\char25}\or	% d0 b6	ж
+\cyrillic{z}\or	% d0 b7	з
+\cyrillic{i}\or	% d0 b8	и
+\cyrillic{\char26}\or	% d0 b9	й
+\cyrillic{k}\or	% d0 ba	к
+\cyrillic{l}\or	% d0 bb	л
+\cyrillic{m}\or	% d0 bc	м
+\cyrillic{n}\or	% d0 bd	н
+\cyrillic{o}\or	% d0 be	о
+\cyrillic{p}		% d0 bf	п
+\else\n@chr\fi}
+
+% Cyrillic, part 2  0440-047F
+\def^^d1#1{\utfx#1%
+\ifcase\utcnt
+\cyrillic{r}\or	% d1 80	р
+\cyrillic{s}\or	% d1 81	с
+\cyrillic{t}\or	% d1 82	т
+\cyrillic{u}\or	% d1 83	у
+\cyrillic{f}\or	% d1 84	ф
+\cyrillic{h}\or	% d1 85	х
+\cyrillic{c}\or	% d1 86	ц
+\cyrillic{q}\or	% d1 87	ч
+\cyrillic{x}\or	% d1 88	ш
+\cyrillic{w}\or	% d1 89	щ
+\cyrillic{\char127}\or	% d1 8a	ъ
+\cyrillic{y}\or	% d1 8b	ы
+\cyrillic{\char126}\or	% d1 8c	ь
+\cyrillic{\char11}\or	% d1 8d	э
+\cyrillic{\char24}\or	% d1 8e	ю
+\cyrillic{\char31}\or	% d1 8f	я
+\cyrillic{}\or	% d1 90	ѐ
+\cyrillic{\char27}\or	% d1 91	ё
+\cyrillic{\char14}\or	% d1 92	ђ
+\cyrillic{\accent38 g}\or	% d1 93	ѓ
+\cyrillic{\char13}\or	% d1 94	є
+\cyrillic{\char30}\or	% d1 95	ѕ
+\cyrillic{\char12}\or	% d1 96	і
+\cyrillic{\accent32{\char12}}\or	% d1 97	ї
+\cyrillic{j}\or	% d1 98	ј
+\cyrillic{\char9}\or	% d1 99	љ
+\cyrillic{\char8}\or	% d1 9a	њ
+\cyrillic{\char15}\or	% d1 9b	ћ
+\cyrillic{\accent38 k}\or	% d1 9c	ќ
+\S\or		% d1 9d	ѝ
+\cyrillic{\accent64 u}\or	% d1 9e	ў
+\cyrillic{\char10}\or	% d1 9f	џ
+\n@chr\or	% d1 a0	Ѡ
+\n@chr\or	% d1 a1	ѡ
+\n@chr\or	% d1 a2	Ѣ
+\n@chr\or	% d1 a3	ѣ
+\n@chr\or	% d1 a4	Ѥ
+\n@chr\or	% d1 a5	ѥ
+\n@chr\or	% d1 a6	Ѧ
+\n@chr\or	% d1 a7	ѧ
+\n@chr\or	% d1 a8	Ѩ
+\n@chr\or	% d1 a9	ѩ
+\n@chr\or	% d1 aa	Ѫ
+\n@chr\or	% d1 ab	ѫ
+\n@chr\or	% d1 ac	Ѭ
+\n@chr\or	% d1 ad	ѭ
+\n@chr\or	% d1 ae	Ѯ
+\n@chr\or	% d1 af	ѯ
+\n@chr\or	% d1 b0	Ѱ
+\n@chr\or	% d1 b1	ѱ
+\cyrillic{\char21}\or	% d1 b2	Ѳ
+\cyrillic{\char29}\or	% d1 b3	ѳ
+\cyrillic{\char20}\or	% d1 b4	Ѵ
+\cyrillic{\char28}\or	% d1 b5	ѵ
+\else\n@chr\fi}
+
+\def^^e2#1#2{\utfx#1%
+% General Punctuation, part 1  2000-203F
+\ifcase\utcnt
+\utfx#2\ifcase\utcnt
+\enskip\or	% e2 80 80	 
+\quad\or	% e2 80 81	 
+\enskip\or	% e2 80 82	 
+\quad\or	% e2 80 83	 
+\hspace{.33em}\or	% e2 80 84	 
+\hspace{.25em}\or	% e2 80 85	 
+\hspace{.16em}\or	% e2 80 86	 
+\n@chr\or	% e2 80 87	 
+\n@chr\or	% e2 80 88	 
+\hspace{.16em}\or	% e2 80 89	 
+\hspace{.08em}\or	% e2 80 8a	 
+\textcompwordmark\or	% e2 80 8b	​
+\n@chr\or	% e2 80 8c	‌
+\n@chr\or	% e2 80 8d	‍
+\n@chr\or	% e2 80 8e	‎
+\n@chr\or	% e2 80 8f	‏
+-\or	% e2 80 90	‐
+-\or	% e2 80 91	‑
+\textendash\or	% e2 80 92	‒
+\textendash\or	% e2 80 93	–
+\textemdash\or	% e2 80 94	—
+\textemdash\or	% e2 80 95	―
+\n@chr\or	% e2 80 96	‖
+\n@chr\or	% e2 80 97	‗
+\textquoteleft\or	% e2 80 98	‘
+\textquoteright\or	% e2 80 99	’
+\quotesinglbase\or	% e2 80 9a	‚
+\textquoteleft\or	% e2 80 9b	‛
+\textquotedbleft\or	% e2 80 9c	“
+\textquotedbright\or	% e2 80 9d	”
+\quotedblbase\or	% e2 80 9e	„
+\textquoteleft\or	% e2 80 9f	‟
+\dag\or	% e2 80 a0	†
+\ddag\or	% e2 80 a1	‡
+\textbullet\or	% e2 80 a2	•
+\n@chr\or	% e2 80 a3	‣
+\textperiodcentered\or	% e2 80 a4	․
+\textperiodcentered\textperiodcentered\or	% e2 80 a5	‥
+\dots\or	% e2 80 a6	…
+\textperiodcentered\or	% e2 80 a7	‧
+\n@chr\or	% e2 80 a8	 
+\n@chr\or	% e2 80 a9	 
+\n@chr\or	% e2 80 aa	‪
+\n@chr\or	% e2 80 ab	‫
+\n@chr\or	% e2 80 ac	‬
+\n@chr\or	% e2 80 ad	‭
+\n@chr\or	% e2 80 ae	‮
+\n@chr\or	% e2 80 af	 
+\n@chr\or	% e2 80 b0	‰
+\n@chr\or	% e2 80 b1	‱
+\n@chr\or	% e2 80 b2	′
+\n@chr\or	% e2 80 b3	″
+\n@chr\or	% e2 80 b4	‴
+\n@chr\or	% e2 80 b5	‵
+\n@chr\or	% e2 80 b6	‶
+\n@chr\or	% e2 80 b7	‷
+\n@chr\or	% e2 80 b8	‸
+\n@chr\or	% e2 80 b9	‹
+\n@chr\or	% e2 80 ba	›
+\n@chr\or	% e2 80 bb	※
+\n@chr\or	% e2 80 bc	‼
+\n@chr\or	% e2 80 bd	‽
+\n@chr\or	% e2 80 be	‾
+\n@chr\or	% e2 80 bf	‿
+\else\n@chr\fi
+\or
+% General Punctuation, part 2, and Superscripts  2040-207F
+\utfx#2\ifcase\utcnt
+\n@chr\or	% e2 81 80	⁀
+\n@chr\or	% e2 81 81	⁁
+\n@chr\or	% e2 81 82	⁂
+\n@chr\or	% e2 81 83	⁃
+\n@chr\or	% e2 81 84	⁄
+\n@chr\or	% e2 81 85	⁅
+\n@chr\or	% e2 81 86	⁆
+\n@chr\or	% e2 81 87	⁇
+\n@chr\or	% e2 81 88	⁈
+\n@chr\or	% e2 81 89	⁉
+\n@chr\or	% e2 81 8a	⁊
+\n@chr\or	% e2 81 8b	⁋
+\n@chr\or	% e2 81 8c	⁌
+\n@chr\or	% e2 81 8d	⁍
+\n@chr\or	% e2 81 8e	⁎
+\n@chr\or	% e2 81 8f	⁏
+\n@chr\or	% e2 81 90	⁐
+\n@chr\or	% e2 81 91	⁑
+\n@chr\or	% e2 81 92	⁒
+\n@chr\or	% e2 81 93	⁓
+\n@chr\or	% e2 81 94	⁔
+\n@chr\or	% e2 81 95	⁕
+\n@chr\or	% e2 81 96	⁖
+\n@chr\or	% e2 81 97	⁗
+\n@chr\or	% e2 81 98	⁘
+\n@chr\or	% e2 81 99	⁙
+\n@chr\or	% e2 81 9a	⁚
+\n@chr\or	% e2 81 9b	⁛
+\n@chr\or	% e2 81 9c	⁜
+\n@chr\or	% e2 81 9d	⁝
+\n@chr\or	% e2 81 9e	⁞
+\n@chr\or	% e2 81 9f	 
+\n@chr\or	% e2 81 a0	⁠
+\n@chr\or	% e2 81 a1	⁡
+\n@chr\or	% e2 81 a2	⁢
+\n@chr\or	% e2 81 a3	⁣
+\n@chr\or	% e2 81 a4	⁤
+\n@chr\or	% e2 81 a5	⁥
+\n@chr\or	% e2 81 a6	⁦
+\n@chr\or	% e2 81 a7	⁧
+\n@chr\or	% e2 81 a8	⁨
+\n@chr\or	% e2 81 a9	⁩
+\n@chr\or	% e2 81 aa	⁪
+\n@chr\or	% e2 81 ab	⁫
+\n@chr\or	% e2 81 ac	⁬
+\n@chr\or	% e2 81 ad	⁭
+\n@chr\or	% e2 81 ae	⁮
+\n@chr\or	% e2 81 af	⁯
+\n@chr\or	% e2 81 b0	⁰
+\n@chr\or	% e2 81 b1	ⁱ
+\n@chr\or	% e2 81 b2	⁲
+\n@chr\or	% e2 81 b3	⁳
+\n@chr\or	% e2 81 b4	⁴
+\n@chr\or	% e2 81 b5	⁵
+\n@chr\or	% e2 81 b6	⁶
+\n@chr\or	% e2 81 b7	⁷
+\n@chr\or	% e2 81 b8	⁸
+\n@chr\or	% e2 81 b9	⁹
+\n@chr\or	% e2 81 ba	⁺
+\n@chr\or	% e2 81 bb	⁻
+\n@chr\or	% e2 81 bc	⁼
+\n@chr\or	% e2 81 bd	⁽
+\n@chr\or	% e2 81 be	⁾
+\n@chr		% e2 81 bf	ⁿ
+\else\n@chr\fi
+\or
+% Subscripts and Currency, 2080-20AA
+\utfx#2\ifcase\utcnt
+\n@chr\or	% e2 82 80	₀
+\n@chr\or	% e2 82 81	₁
+\n@chr\or	% e2 82 82	₂
+\n@chr\or	% e2 82 83	₃
+\n@chr\or	% e2 82 84	₄
+\n@chr\or	% e2 82 85	₅
+\n@chr\or	% e2 82 86	₆
+\n@chr\or	% e2 82 87	₇
+\n@chr\or	% e2 82 88	₈
+\n@chr\or	% e2 82 89	₉
+\n@chr\or	% e2 82 8a	₊
+\n@chr\or	% e2 82 8b	₋
+\n@chr\or	% e2 82 8c	₌
+\n@chr\or	% e2 82 8d	₍
+\n@chr\or	% e2 82 8e	₎
+\n@chr\or	% e2 82 8f	₏
+\n@chr\or	% e2 82 90	ₐ
+\n@chr\or	% e2 82 91	ₑ
+\n@chr\or	% e2 82 92	ₒ
+\n@chr\or	% e2 82 93	ₓ
+\n@chr\or	% e2 82 94	ₔ
+\n@chr\or	% e2 82 95	ₕ
+\n@chr\or	% e2 82 96	ₖ
+\n@chr\or	% e2 82 97	ₗ
+\n@chr\or	% e2 82 98	ₘ
+\n@chr\or	% e2 82 99	ₙ
+\n@chr\or	% e2 82 9a	ₚ
+\n@chr\or	% e2 82 9b	ₛ
+\n@chr\or	% e2 82 9c	ₜ
+\n@chr\or	% e2 82 9d	₝
+\n@chr\or	% e2 82 9e	₞
+\n@chr\or	% e2 82 9f	₟
+\n@chr\or	% e2 82 a0	₠
+\n@chr\or	% e2 82 a1	₡
+\n@chr\or	% e2 82 a2	₢
+\n@chr\or	% e2 82 a3	₣
+\n@chr\or	% e2 82 a4	₤
+\n@chr\or	% e2 82 a5	₥
+\n@chr\or	% e2 82 a6	₦
+\n@chr\or	% e2 82 a7	₧
+\n@chr\or	% e2 82 a8	₨
+\n@chr\or	% e2 82 a9	₩
+\n@chr		% e2 82 aa	₪
+\else\n@chr\fi
+\or
+% Diacritical Marks for Symbols 20C0-20FF
+\n@chr
+\or
+% Letterlike Symbols, 2100-2138
+\utfx#2\ifcase\utcnt
+\n@chr\or	% e2 84 80	℀
+\n@chr\or	% e2 84 81	℁
+\ensuremath{\mathbb C}\or	% e2 84 82	ℂ
+\n@chr\or	% e2 84 83	℃
+\n@chr\or	% e2 84 84	℄
+\n@chr\or	% e2 84 85	℅
+\n@chr\or	% e2 84 86	℆
+\n@chr\or	% e2 84 87	ℇ
+\n@chr\or	% e2 84 88	℈
+\n@chr\or	% e2 84 89	℉
+\ensuremath{\Game}\or	% e2 84 8a	ℊ
+\n@chr\or	% e2 84 8b	ℋ
+\n@chr\or	% e2 84 8c	ℌ
+\ensuremath{\mathbb H}\or	% e2 84 8d	ℍ
+\n@chr\or	% e2 84 8e	ℎ
+\ensuremath{\hslash}\or	% e2 84 8f		ℏ
+\ensuremath{\mathscr I}\or	% e2 84 90	ℐ
+\n@chr\or	% e2 84 91	ℑ
+\ensuremath{\mathscr L}\or	% e2 84 92	ℒ
+\n@chr\or	% e2 84 93	ℓ
+\n@chr\or	% e2 84 94	℔
+\ensuremath{\mathbb N}\or	% e2 84 95	ℕ
+\n@chr\or	% e2 84 96	№
+\n@chr\or	% e2 84 97	℗
+\n@chr\or	% e2 84 98	℘
+\ensuremath{\mathbb P}\or	% e2 84 99	ℙ
+\ensuremath{\mathbb Q}\or	% e2 84 9a	ℚ
+\ensuremath{\mathscr R}\or	% e2 84 9b	ℛ
+\n@chr\or	% e2 84 9c	ℜ
+\ensuremath{\mathbb R}\or	% e2 84 9d	ℝ
+\n@chr\or	% e2 84 9e	℞
+\n@chr\or	% e2 84 9f		℟
+\n@chr\or	% e2 84 a0	℠
+\n@chr\or	% e2 84 a1	℡
+\texttrademark\or	% e2 84 a2	™
+\n@chr\or	% e2 84 a3	ℓ
+\ensuremath{\mathbb Z}\or	% e2 84 a4	ℤ
+\n@chr\or	% e2 84 a5	℥
+\n@chr\or	% e2 84 a6	Ω
+\ensuremath{\mho}\or	% e2 84 a7	℧
+\n@chr\or	% e2 84 a8	ℨ
+\n@chr\or	% e2 84 a9	℩
+\n@chr\or	% e2 84 aa	K
+\n@chr\or	% e2 84 ab	Å
+\ensuremath{\mathscr B}\or	% e2 84 ac	ℬ
+\n@chr\or	% e2 84 ad	ℭ
+\n@chr\or	% e2 84 ae	℮
+\n@chr\or	% e2 84 af		ℯ
+\ensuremath{\mathscr E}\or	% e2 84 b0	ℰ
+\ensuremath{\mathscr F}\or	% e2 84 b1	ℱ
+\ensuremath{\Finv}\or	% e2 84 b2	Ⅎ
+\n@chr\or	% e2 84 b3	ℳ
+\n@chr\or	% e2 84 b4	ℴ
+\ensuremath{\aleph}\or	% e2 84 b5	ℵ
+\ensuremath{\beth}\or	% e2 84 b6	ℶ
+\ensuremath{\gimel}\or	% e2 84 b7	ℷ
+\ensuremath{\daleth}\or	% e2 84 b8	ℸ
+\n@chr
+\else\n@chr\fi
+\or
+% Number Forms, part 1  2140-217F
+\n@chr
+\or
+% Number Forms, part 2 and Arrows part 1  2180-21BF
+% BUG: some of the following are only defined in lucbr.sty (fallbacks needed)
+% Many \n@chrs have characters in lucida, but no defs are currently in lucbr.sty
+\utfx#2\advance\utcnt by -"10 \ifcase\utcnt
+\ensuremath{\leftarrow}\or	% e2 86 90	←
+\ensuremath{\uparrow}\or	% e2 86 91	↑
+\ensuremath{\rightarrow}\or	% e2 86 92	→
+\ensuremath{\downarrow}\or	% e2 86 93	↓
+\ensuremath{\leftrightarrow}\or	% e2 86 94	↔
+\ensuremath{\updownarrow}\or	% e2 86 95	↕
+\ensuremath{\nwarrow}\or	% e2 86 96	↖
+\ensuremath{\nearrow}\or	% e2 86 97	↗
+\ensuremath{\searrow}\or	% e2 86 98	↘
+\ensuremath{\swarrow}\or	% e2 86 99	↙
+\ensuremath{\nleftarrow}\or	% e2 86 9a	↚
+\ensuremath{\nrightarrow}\or	% e2 86 9b	↛
+\ensuremath{\leadsfrom}\or	% e2 86 9c	↜
+\ensuremath{\leadsto}\or	% e2 86 9d	↝
+\ensuremath{\twoheadleftarrow}\or	% e2 86 9e	↞
+\n@chr\or	% e2 86 9f	↟
+\ensuremath{\twoheadrightarrow}\or	% e2 86 a0	↠
+\n@chr\or	% e2 86 a1	↡
+\ensuremath{\leftarrowtail}\or	% e2 86 a2	↢
+\ensuremath{\rightarrowtail}\or	% e2 86 a3	↣
+\n@chr\or	% e2 86 a4	↤
+\n@chr\or	% e2 86 a5	↥
+\ensuremath{\mapsto}\or	% e2 86 a6	↦
+\n@chr\or	% e2 86 a7	↧
+\n@chr\or	% e2 86 a8	↨
+\ensuremath{\hookleftarrow}\or	% e2 86 a9	↩
+\ensuremath{\hookrightarrow}\or	% e2 86 aa	↪
+\ensuremath{\loopleftarrow}\or	% e2 86 ab	↫
+\ensuremath{\looprightarrow}\or	% e2 86 ac	↬
+\ensuremath{\leftrightsquigarrow}\or	% e2 86 ad	↭
+\ensuremath{\nleftrightarrow}\or	% e2 86 ae	↮
+\n@chr\or	% e2 86 af	↯
+\ensuremath{\Lsh}\or	% e2 86 b0	↰
+\ensuremath{\Rsh}\or	% e2 86 b1	↱
+\n@chr\or	% e2 86 b2	↲
+\n@chr\or	% e2 86 b3	↳
+\n@chr\or	% e2 86 b4	↴
+\n@chr\or	% e2 86 b5	↵
+\ensuremath{\curvearrowleft}\or	% e2 86 b6	↶
+\ensuremath{\curvearrowright}\or	% e2 86 b7	↷
+\n@chr\or	% e2 86 b8	↸
+\n@chr\or	% e2 86 b9	↹
+\ensuremath{\circlearrowleft}\or	% e2 86 ba	↺
+\ensuremath{\circlearrowright}\or	% e2 86 bb	↻
+\ensuremath{\leftharpoonup}\or	% e2 86 bc	↼
+\ensuremath{\leftharpoondown}\or	% e2 86 bd	↽
+\ensuremath{\upharpoonright}\or	% e2 86 be	↾
+\ensuremath{\upharpoonleft}		% e2 86 bf	↿
+\else\n@chr\fi
+\or
+% Arrows, part 2  21C0-21EA
+\utfx#2\ifcase\utcnt
+\ensuremath{\rightharpoonup}\or	% e2 87 80	⇀
+\ensuremath{\rightharpoondown}\or	% e2 87 81	⇁
+\ensuremath{\downharpoonright}\or	% e2 87 82	⇂
+\ensuremath{\downharpoonleft}\or	% e2 87 83	⇃
+\ensuremath{\rightleftarrows}\or	% e2 87 84	⇄
+\n@chr\or	% e2 87 85	⇅
+\ensuremath{\leftrightarrows}\or	% e2 87 86	⇆
+\ensuremath{\leftleftarrows}\or	% e2 87 87	⇇
+\ensuremath{\upuparrows}\or	% e2 87 88	⇈
+\ensuremath{\rightrightarrows}\or	% e2 87 89	⇉
+\ensuremath{\downdownarrows}\or	% e2 87 8a	⇊
+\ensuremath{\leftrightharpoons}\or	% e2 87 8b	⇋
+\ensuremath{\rightleftharpoons}\or	% e2 87 8c	⇌
+\ensuremath{\not\Leftarrow}\or	% e2 87 8d	⇍
+\ensuremath{\not\Leftrightarrow}\or	% e2 87 8e	⇎
+\ensuremath{\not\Rightarrow}\or	% e2 87 8f	⇏
+\ensuremath{\Leftarrow}\or	% e2 87 90	⇐
+\ensuremath{\Uparrow}\or	% e2 87 91	⇑
+\ensuremath{\Rightarrow}\or	% e2 87 92	⇒
+\ensuremath{\Downarrow}\or	% e2 87 93	⇓
+\ensuremath{\Leftrightarrow}\or	% e2 87 94	⇔
+\ensuremath{\Updownarrow}\or	% e2 87 95	⇕
+\n@chr\or	% e2 87 96	⇖
+\n@chr\or	% e2 87 97	⇗
+\n@chr\or	% e2 87 98	⇘
+\n@chr\or	% e2 87 99	⇙
+\ensuremath{\Lleftarrow}\or	% e2 87 9a	⇚
+\ensuremath{\Rrightarrow}\or	% e2 87 9b	⇛
+\ensuremath{\leftsquigarrow}\or	% e2 87 9c	⇜
+\ensuremath{\rightsquigarrow}\or	% e2 87 9d	⇝
+\n@chr\or	% e2 87 9e	⇞
+\n@chr\or	% e2 87 9f	⇟
+\ensuremath{\dashleftarrow}\or	% e2 87 a0	⇠
+\ensuremath{\dashuparrow}\or	% e2 87 a1	⇡
+\ensuremath{\dashrightarrow}\or	% e2 87 a2	⇢
+\ensuremath{\dashdownarrow}\or	% e2 87 a3	⇣
+\n@chr\or	% e2 87 a4	⇤
+\n@chr\or	% e2 87 a5	⇥
+\n@chr\or	% e2 87 a6	⇦
+\n@chr\or	% e2 87 a7	⇧
+\n@chr\or	% e2 87 a8	⇨
+\n@chr\or	% e2 87 a9	⇩
+\n@chr		% e2 87 aa	⇪
+\else\n@chr\fi
+\or
+% Mathematical Operators, part 1  2200-223F
+\utfx#2\ifcase\utcnt
+\ensuremath{\forall}\or	% e2 88 80	∀
+\ensuremath{\complement}\or	% e2 88 81	∁
+\ensuremath{\partial}\or	% e2 88 82	∂
+\ensuremath{\exists}\or	% e2 88 83	∃
+\ensuremath{\nexists}\or	% e2 88 84	∄
+\ensuremath{\emptyset}\or	% e2 88 85	∅
+\ensuremath{\Delta}\or	% e2 88 86	∆
+\ensuremath{\nabla}\or	% e2 88 87	∇
+\ensuremath{\in}\or	% e2 88 88	∈
+\ensuremath{\notin}\or	% e2 88 89	∉
+\ensuremath{\epsilon}\or	% e2 88 8a	∊
+\ensuremath{\ni}\or	% e2 88 8b	∋
+\ensuremath{\notni}\or	% e2 88 8c	∌
+\n@chr\or	% e2 88 8d	∍
+\hbox{\vrule width4pt height 6pt depth 1.5pt}\or	% e2 88 8e	∎
+\ensuremath{\prod}\or	% e2 88 8f	∏
+\ensuremath{\coprod}\or	% e2 88 90	∐
+\ensuremath{\sum}\or	% e2 88 91	∑
+\ensuremath{-}\or	% e2 88 92	−
+\ensuremath{\mp}\or	% e2 88 93	∓
+\ensuremath{\dotplus}\or	% e2 88 94	∔
+\ensuremath{/}\or	% e2 88 95	∕
+\ensuremath{\setminus}\or	% e2 88 96	∖
+\ensuremath{\ast}\or	% e2 88 97	∗
+\ensuremath{\circ}\or	% e2 88 98	∘
+\ensuremath{\bullet}\or	% e2 88 99	∙
+\ensuremath{\surd}\or	% e2 88 9a	√
+\ensuremath{\root 3 of{}}\or	% e2 88 9b	∛
+\ensuremath{\root 4 of{}}\or	% e2 88 9c	∜
+\ensuremath{\propto}\or	% e2 88 9d	∝
+\ensuremath{\infinity}\or	% e2 88 9e	∞
+\n@chr\or	% e2 88 9f	∟
+\ensuremath{\angle}\or	% e2 88 a0	∠
+\ensuremath{\measuredangle}\or	% e2 88 a1	∡
+\ensuremath{\sphericalangle}\or	% e2 88 a2	∢
+\ensuremath{\mid}\or	% e2 88 a3	∣
+\ensuremath{\not\mid}\or	% e2 88 a4	∤
+\ensuremath{\parallel}\or	% e2 88 a5	∥
+\ensuremath{\not\parallel}\or	% e2 88 a6	∦
+\ensuremath{\wedge}\or	% e2 88 a7	∧
+\ensuremath{\vee}\or	% e2 88 a8	∨
+\ensuremath{\cap}\or	% e2 88 a9	∩
+\ensuremath{\cup}\or	% e2 88 aa	∪
+\ensuremath{\int}\or	% e2 88 ab	∫
+\ensuremath{\int\int}\or	% e2 88 ac	∬
+\ensuremath{\int\int\int}\or	% e2 88 ad	∭
+\ensuremath{\oint}\or	% e2 88 ae	∮
+\ensuremath{\oint\oint}\or	% e2 88 af	∯
+\ensuremath{\oint\oint\oint}\or	% e2 88 b0	∰
+\n@chr\or	% e2 88 b1	∱
+\n@chr\or	% e2 88 b2	∲
+\n@chr\or	% e2 88 b3	∳
+\ensuremath{\therefore}\or	% e2 88 b4	∴
+\ensuremath{\because}\or	% e2 88 b5	∵
+\n@chr\or	% e2 88 b6	∶
+\n@chr\or	% e2 88 b7	∷
+\n@chr\or	% e2 88 b8	∸
+\n@chr\or	% e2 88 b9	∹
+\n@chr\or	% e2 88 ba	∺
+\n@chr\or	% e2 88 bb	∻
+\ensuremath{\sim}\or	% e2 88 bc	∼
+\ensuremath{\backsim}\or	% e2 88 bd	∽
+\n@chr\or	% e2 88 be	∾
+\n@chr		% e2 88 bf	∿
+\else\n@chr\fi
+\or
+% Mathematical Operators, part 2  2240-227F
+\utfx#2\ifcase\utcnt
+\ensuremath{\wr}\or	% e2 89 80	≀
+\ensuremath{\notsim}\or	% e2 89 81	≁
+\ensuremath{\eqsim}\or	% e2 89 82	≂
+\ensuremath{\simeq}\or	% e2 89 83	≃
+\ensuremath{\notsimeq}\or	% e2 89 84	≄
+\ensuremath{\cong}\or	% e2 89 85	≅
+\n@chr\or	% e2 89 86	≆
+\ensuremath{\notcong}\or	% e2 89 87	≇
+\ensuremath{\approx}\or	% e2 89 88	≈
+\ensuremath{\notapprox}\or	% e2 89 89	≉
+\ensuremath{\approxeq}\or	% e2 89 8a	≊
+\n@chr\or	% e2 89 8b	≋
+\n@chr\or	% e2 89 8c	≌
+\ensuremath{\asymp}\or	% e2 89 8d	≍
+\ensuremath{\Bumpeq}\or	% e2 89 8e	≎
+\ensuremath{\bumpeq}\or	% e2 89 8f	≏
+\ensuremath{\doteq}\or	% e2 89 90	≐
+\ensuremath{\doteqdot}\or	% e2 89 91	≑
+\ensuremath{\fallingdotseq}\or	% e2 89 92	≒
+\ensuremath{\risingdotseq}\or	% e2 89 93	≓
+\n@chr\or	% e2 89 94	≔
+\n@chr\or	% e2 89 95	≕
+\n@chr\or	% e2 89 96	≖
+\ensuremath{\circeq}\or	% e2 89 97	≗
+\n@chr\or	% e2 89 98	≘
+\n@chr\or	% e2 89 99	≙
+\n@chr\or	% e2 89 9a	≚
+\n@chr\or	% e2 89 9b	≛
+\ensuremath{\triangleq}\or	% e2 89 9c	≜
+\ensuremath{\defineequal}\or	% e2 89 9d	≝
+\n@chr\or	% e2 89 9e	≞
+\n@chr\or	% e2 89 9f	≟
+\ensuremath{\neq}\or	% e2 89 a0	≠
+\ensuremath{\equiv}\or	% e2 89 a1	≡
+\ensuremath{\notequiv}\or	% e2 89 a2	≢
+\n@chr\or	% e2 89 a3	≣
+\ensuremath{\leq}\or	% e2 89 a4	≤
+\ensuremath{\geq}\or	% e2 89 a5	≥
+\ensuremath{\leqq}\or	% e2 89 a6	≦
+\ensuremath{\geqq}\or	% e2 89 a7	≧
+\ensuremath{\lneqq}\or	% e2 89 a8	≨
+\ensuremath{\gneqq}\or	% e2 89 a9	≩
+\ensuremath{\ll}\or	% e2 89 aa	≪
+\ensuremath{\gg}\or	% e2 89 ab	≫
+\ensuremath{\between}\or	% e2 89 ac	≬
+\ensuremath{\notasymp}\or	% e2 89 ad	≭
+\ensuremath{\notless}\or	% e2 89 ae	≮
+\ensuremath{\notgreater}\or	% e2 89 af	≯
+\ensuremath{\nleqslant}\or	% e2 89 b0	≰
+\ensuremath{\ngeqslant}\or	% e2 89 b1	≱
+\ensuremath{\lesssim}\or	% e2 89 b2	≲
+\ensuremath{\gtrsim}\or	% e2 89 b3	≳
+\ensuremath{\not\lesssim}\or	% e2 89 b4	≴
+\ensuremath{\not\gtrsim}\or	% e2 89 b5	≵
+\ensuremath{\not\lessgtr}\or	% e2 89 b6	≶
+\ensuremath{\not\gtrless}\or	% e2 89 b7	≷
+\n@chr\or	% e2 89 b8	≸
+\n@chr\or	% e2 89 b9	≹
+\ensuremath{\prec}\or	% e2 89 ba	≺
+\ensuremath{\succ}\or	% e2 89 bb	≻
+\ensuremath{\preceq}\or	% e2 89 bc	≼
+\ensuremath{\succeq}\or	% e2 89 bd	≽
+\ensuremath{\precsim}\or	% e2 89 be	≾
+\ensuremath{\succsim}		% e2 89 bf	≿
+\else\n@chr\fi
+\or
+% Mathematical Operators, part 3  2280-22BF
+\utfx#2\ifcase\utcnt
+\ensuremath{\notprec}\or	% e2 8a 80	⊀
+\ensuremath{\notsucc}\or	% e2 8a 81	⊁
+\ensuremath{\subset}\or	% e2 8a 82	⊂
+\ensuremath{\supset}\or	% e2 8a 83	⊃
+\ensuremath{\notsubset}\or	% e2 8a 84	⊄
+\ensuremath{\notsupset}\or	% e2 8a 85	⊅
+\ensuremath{\subseteq}\or	% e2 8a 86	⊆
+\ensuremath{\supseteq}\or	% e2 8a 87	⊇
+\ensuremath{\notsubseteq}\or	% e2 8a 88	⊈
+\ensuremath{\notsupseteq}\or	% e2 8a 89	⊉
+\ensuremath{\varsubsetneq}\or	% e2 8a 8a	⊊
+\ensuremath{\varsupsetneq}\or	% e2 8a 8b	⊋
+\n@chr\or	% e2 8a 8c	⊌
+\n@chr\or	% e2 8a 8d	⊍
+\ensuremath{\uplus}\or	% e2 8a 8e	⊎
+\ensuremath{\sqsubset}\or	% e2 8a 8f	⊏
+\ensuremath{\sqsupset}\or	% e2 8a 90	⊐
+\ensuremath{\sqsubseteq}\or	% e2 8a 91	⊑
+\ensuremath{\sqsupseteq}\or	% e2 8a 92	⊒
+\ensuremath{\sqcap}\or	% e2 8a 93	⊓
+\ensuremath{\sqcup}\or	% e2 8a 94	⊔
+\ensuremath{\oplus}\or	% e2 8a 95	⊕
+\ensuremath{\ominus}\or	% e2 8a 96	⊖
+\ensuremath{\otimes}\or	% e2 8a 97	⊗
+\ensuremath{\oslash}\or	% e2 8a 98	⊘
+\ensuremath{\odot}\or	% e2 8a 99	⊙
+\ensuremath{\circledcirc}\or	% e2 8a 9a	⊚
+\ensuremath{\circledast}\or	% e2 8a 9b	⊛
+\n@chr\or	% e2 8a 9c	⊜
+\ensuremath{\circleddash}\or	% e2 8a 9d	⊝
+\ensuremath{\boxplus}\or	% e2 8a 9e	⊞
+\ensuremath{\boxminus}\or	% e2 8a 9f	⊟
+\ensuremath{\boxtimes}\or	% e2 8a a0	⊠
+\ensuremath{\boxdot}\or	% e2 8a a1	⊡
+\ensuremath{\vdash}\or	% e2 8a a2	⊢
+\ensuremath{\dashv}\or	% e2 8a a3	⊣
+\ensuremath{\top}\or	% e2 8a a4	⊤
+\ensuremath{\bot}\or	% e2 8a a5	⊥
+\ensuremath{\vdash}\or	% e2 8a a6	⊦
+\ensuremath{\models}\or	% e2 8a a7	⊧
+\ensuremath{\vDash}\or	% e2 8a a8	⊨
+\ensuremath{\Vdash}\or	% e2 8a a9	⊩
+\ensuremath{\Vvdash}\or	% e2 8a aa	⊪
+\n@chr\or	% e2 8a ab	⊫
+\ensuremath{\notvdash}\or	% e2 8a ac	⊬
+\ensuremath{\notmodels}\or	% e2 8a ad	⊭
+\ensuremath{\nVdash}\or	% e2 8a ae	⊮
+\ensuremath{\nVDash}\or	% e2 8a af	⊯
+\n@chr\or	% e2 8a b0	⊰
+\n@chr\or	% e2 8a b1	⊱
+\ensuremath{\triangleleft}\or	% e2 8a b2	⊲
+\ensuremath{\triangleright}\or	% e2 8a b3	⊳
+\n@chr\or	% e2 8a b4	⊴
+\n@chr\or	% e2 8a b5	⊵
+\ensuremath{\original}\or	% e2 8a b6	⊶
+\ensuremath{\image}\or	% e2 8a b7	⊷
+\ensuremath{\multimap}\or	% e2 8a b8	⊸
+\n@chr\or	% e2 8a b9	⊹
+\ensuremath{\intercal}\or	% e2 8a ba	⊺
+\n@chr\or	% e2 8a bb	⊻
+\n@chr\or	% e2 8a bc	⊼
+\n@chr\or	% e2 8a bd	⊽
+\n@chr\or	% e2 8a be	⊾
+\n@chr		% e2 8a bf	⊿
+\else\n@chr\fi
+\or
+% Mathematical Operators, part 4  22C0-22F1
+\utfx#2\ifcase\utcnt
+\ensuremath{\bigwedge}\or	% e2 8b 80	⋀
+\ensuremath{\bigvee}\or	% e2 8b 81	⋁
+\ensuremath{\bigcap}\or	% e2 8b 82	⋂
+\ensuremath{\bigcup}\or	% e2 8b 83	⋃
+\ensuremath{\diamond}\or	% e2 8b 84	⋄
+\ensuremath{\cdot}\or	% e2 8b 85	⋅
+\ensuremath{\star}\or	% e2 8b 86	⋆
+\ensuremath{\divideontimes}\or	% e2 8b 87	⋇
+\ensuremath{\bowtie}\or	% e2 8b 88	⋈
+\ensuremath{\ltimes}\or	% e2 8b 89	⋉
+\ensuremath{\rtimes}\or	% e2 8b 8a	⋊
+\ensuremath{\leftthreetimes}\or	% e2 8b 8b	⋋
+\ensuremath{\rightthreetimes}\or	% e2 8b 8c	⋌
+\ensuremath{\backsimeq}\or	% e2 8b 8d	⋍
+\ensuremath{\curlyvee}\or	% e2 8b 8e	⋎
+\ensuremath{\curlywedge}\or	% e2 8b 8f	⋏
+\ensuremath{\Subset}\or	% e2 8b 90	⋐
+\ensuremath{\Supset}\or	% e2 8b 91	⋑
+\ensuremath{\Cap}\or	% e2 8b 92	⋒
+\ensuremath{\Cup}\or	% e2 8b 93	⋓
+\ensuremath{\pitchfork}\or	% e2 8b 94	⋔
+\n@chr\or	% e2 8b 95	⋕
+\ensuremath{\lessdot}\or	% e2 8b 96	⋖
+\ensuremath{\gtrdot}\or	% e2 8b 97	⋗
+\ensuremath{\lll}\or	% e2 8b 98	⋘
+\ensuremath{\ggg}\or	% e2 8b 99	⋙
+\ensuremath{\lesseqgtr}\or	% e2 8b 9a	⋚
+\ensuremath{\gtreqless}\or	% e2 8b 9b	⋛
+\ensuremath{\lneq}\or	% e2 8b 9c	⋜
+\ensuremath{\gneq}\or	% e2 8b 9d	⋝
+\ensuremath{\curlyeqprec}\or	% e2 8b 9e	⋞
+\ensuremath{\curlyeqsucc}\or	% e2 8b 9f	⋟
+\ensuremath{\npreceq}\or	% e2 8b a0	⋠
+\ensuremath{\nsucceq}\or	% e2 8b a1	⋡
+\ensuremath{\notsqsubseteq}\or	% e2 8b a2	⋢
+\ensuremath{\notsqsupseteq}\or	% e2 8b a3	⋣
+\n@chr\or	% e2 8b a4	⋤
+\n@chr\or	% e2 8b a5	⋥
+\ensuremath{\lnsim}\or	% e2 8b a6	⋦
+\ensuremath{\gnsim}\or	% e2 8b a7	⋧
+\ensuremath{\precnsim}\or	% e2 8b a8	⋨
+\ensuremath{\succnsim}\or	% e2 8b a9	⋩
+\ensuremath{\ntriangleleft}\or	% e2 8b aa	⋪
+\ensuremath{\ntriangleright}\or	% e2 8b ab	⋫
+\ensuremath{\ntrianglelefteq}\or	% e2 8b ac	⋬
+\ensuremath{\ntrianglerighteq}\or	% e2 8b ad	⋭
+\ensuremath{\vdots}\or	% e2 8b ae	⋮
+\ensuremath{\cdots}\or	% e2 8b af	⋯
+\ensuremath{\diagup}\or	% e2 8b b0	⋰
+\ensuremath{\diagdown}		% e2 8b b1	⋱
+\else\n@chr\fi
+\or
+% Miscellaneous Technical 2300-232C
+\utfx#2\ifcase\utcnt
+\n@chr\or	% e2 8c 80	⌀
+\n@chr\or	% e2 8c 81	⌁
+\n@chr\or	% e2 8c 82	⌂
+\n@chr\or	% e2 8c 83	⌃
+\n@chr\or	% e2 8c 84	⌄
+\n@chr\or	% e2 8c 85	⌅
+\n@chr\or	% e2 8c 86	⌆
+\n@chr\or	% e2 8c 87	⌇
+\ensuremath{\lceil}\or	% e2 8c 88	⌈
+\ensuremath{\rceil}\or	% e2 8c 89	⌉
+\ensuremath{\lfloor}\or	% e2 8c 8a	⌊
+\ensuremath{\rfloor}\or	% e2 8c 8b	⌋
+\n@chr\or	% e2 8c 8c	⌌
+\n@chr\or	% e2 8c 8d	⌍
+\n@chr\or	% e2 8c 8e	⌎
+\n@chr\or	% e2 8c 8f	⌏
+\n@chr\or	% e2 8c 90	⌐
+\n@chr\or	% e2 8c 91	⌑
+\n@chr\or	% e2 8c 92	⌒
+\n@chr\or	% e2 8c 93	⌓
+\n@chr\or	% e2 8c 94	⌔
+\n@chr\or	% e2 8c 95	⌕
+\n@chr\or	% e2 8c 96	⌖
+\n@chr\or	% e2 8c 97	⌗
+\n@chr\or	% e2 8c 98	⌘
+\n@chr\or	% e2 8c 99	⌙
+\n@chr\or	% e2 8c 9a	⌚
+\n@chr\or	% e2 8c 9b	⌛
+\n@chr\or	% e2 8c 9c	⌜
+\n@chr\or	% e2 8c 9d	⌝
+\n@chr\or	% e2 8c 9e	⌞
+\n@chr\or	% e2 8c 9f	⌟
+\n@chr\or	% e2 8c a0	⌠
+\n@chr\or	% e2 8c a1	⌡
+\ensuremath{\frown}\or	% e2 8c a2	⌢
+\ensuremath{\smile}\or	% e2 8c a3	⌣
+\n@chr\or	% e2 8c a4	⌤
+\n@chr\or	% e2 8c a5	⌥
+\n@chr\or	% e2 8c a6	⌦
+\n@chr\or	% e2 8c a7	⌧
+\n@chr\or	% e2 8c a8	⌨
+\ensuremath{\langle}\or	% e2 8c a9	〈
+\ensuremath{\rangle}\or	% e2 8c aa	〉
+\n@chr\or	% e2 8c ab	⌫
+\n@chr		% e2 8c ac	⌬
+\else\n@chr\fi
+\else\n@chr\fi}

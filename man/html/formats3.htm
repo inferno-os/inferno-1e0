@@ -1,0 +1,68 @@
+<html><head><title>Inferno Format Specifications</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="formats2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="formats4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844382">
+<center><h1> image - <a external format:for images>external format for images</h1></center>
+</a><a name="844385">
+<h2> Description</h2>
+</a><a name="844386">
+An image is a rectangular array of pixels.<p>
+</a><a name="844387">
+There are two formats for storing Inferno images in files. The simpler but deprecated format is identical with the bitmap file format used in Plan 9. The other is a compressed format for more efficient storage and transmission.<p>
+</a><a name="844388">
+The function <em>Display.readimage</em> will handle either format implicitly; however, the <em>Display.writeimage</em> function produces only the compressed form. See <a href="md_draw2.htm#844537"><em>display - connection to draw device</em> in Chapter 11</a>. <p>
+</a><a name="844392">
+<h3> Uncompressed Format </h3>
+</a><a name="844394">
+An uncompressed image file starts with 5 decimal strings: <em>ldepth</em>, <em>r.min.x</em>, <em>r.min.y</em>, <em>r.max.x</em>, and <em>r.max.y</em>. Each number is right-justified and blank padded in 11 characters, followed by a blank.<p>
+</a><a name="844395">
+The number of bits in the image's pixels is <em>1&lt;&lt;ldepth</em>.<p>
+</a><a name="844396">
+The <em>x</em> coordinates of the rectangle range from <em>r.min.x</em> to <em>r.max.x-1</em>, left to right; <em>y</em> coordinates range from <em>r.min.y</em> to <em>r.max.y-1</em>, top to bottom.<p>
+</a><a name="844397">
+The rest of the file contains the <em>r.max.y-r.min.y</em> rows of pixel data. A <em>row</em> consists of the byte containing pixel <em>r.min.x</em> and all the bytes up to and including the byte containing pixel <em>r.max.x-1</em>.<p>
+</a><a name="844399">
+A pixel with x-coordinate = <em>x</em> in an image with <em>ldepth</em> = <em>ld</em> will appear as <img src="formatsa.gif"> contiguous bits in a byte, with the pixel's high order bit starting at the byte's bit number <img src="formata1.gif">, where bits within a byte are numbered 0 to 7 from the high order to the low order bit. <p>
+</a><a name="844406">
+<h3> Compressed Format </h3>
+</a><a name="844407">
+A compressed image file begins with the 11 bytes <em>'compressed\n'</em>, immediately followed by 5 decimal strings giving the image's <em>ldepth</em> and rectangle, as above. The rest of the file is a string of compression blocks, each encoding a number of rows of the image's pixel data.<p>
+</a><a name="844408">
+Compression blocks are at most 6024 bytes long, so that they fit comfortably in a single Styx message. Since a compression block must encode a whole number of rows, there is a limit (about 5825 bytes) to the width of images that may be encoded. Most wide images are in subfonts, which, at 1 bit per pixel (the usual case for fonts), can be 46600 pixels wide.<p>
+</a><a name="844409">
+A compression block begins with two decimal strings of twelve bytes each. The first number is one more than the <em>y</em> coordinate of the last row in the block. The second is the number of bytes of compressed data in the block, not including the two decimal strings. This number must not be larger than 6000.<p>
+</a><a name="844410">
+Pixels are encoded using a version of Lempel &amp; Ziv's sliding window scheme LZ77.<p>
+</a><a name="844411">
+The compression block is a string of variable-length code words encoding substrings of the pixel data. A <em>code word</em> either gives the substring directly or indicates that it is a copy of data occurring previously in the pixel stream.<p>
+</a><a name="844412">
+In a code word where the first byte has the high-order bit set, the rest of the byte indicates the length of a substring encoded directly. Values from 0 to 127 encode lengths from 1 to 128 bytes. Subsequent bytes are the literal pixel data.<p>
+</a><a name="844413">
+If the high-order bit is zero, the next 5 bits encode the length of a substring copied from previous pixels. Values from 0 to 31 encode lengths from 3 to 34 bytes. The bottom two bits of the first byte and the 8 bits of the next byte encode an offset backward from the current position in the pixel data at which the copy is to be found. Values from 0 to 1023 encode offsets from 1 to 1024. The encoding may be prescient, with the length larger than the offset. The new data is identical to the data at the given offset, even though the two strings overlap.<p>
+</a><a name="844414">
+<h2> See Also</h2>
+</a><a name="844415">
+For the best description of Lempel &amp; Ziv's sliding window scheme LZ77 see J. A. Storer &amp; T. G. Szymanski <em>Data Compression via Textual Substitution</em>, JACM 29 #4, pp. 928-951.<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="formats2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="formats4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:26 -->
+
+</body>
+</html>

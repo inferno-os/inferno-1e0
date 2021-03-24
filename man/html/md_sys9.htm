@@ -1,0 +1,169 @@
+<html><head><title>Limbo<br>System Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys10.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844990">
+<center><h1> open, create - <a opening file, for reading/writing; creating:file for reading/writing; creating:or opening file for reading/writing; file operations: opening file for reading/writing; file operations:creating:file for reading/writing>open/create a file for reading or writing</h1></center>
+</a><pre><tt>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+open:  fn(file: string, omode: int)      : ref FD;
+create:fn(file: string, omode, perm: int): ref FD;
+</tt></pre></p><a name="844998">
+<h2> Description</h2>
+</a><a name="844999">
+<h3> open (file, omode) </h3>
+</a><a name="845000">
+The <em>open</em> function opens the <em>file</em> for I/O and returns an associated file descriptor. The <em>omode</em> argument is one of 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845003">
+OREAD<p>
+</a><td><a name="845005">
+open for reading<p>
+</a>
+<tr><td><a name="845007">
+OWRITE<p>
+</a><td><a name="845009">
+open for writing<p>
+</a>
+<tr><td><a name="845011">
+ORDWR<p>
+</a><td><a name="845013">
+open for reading and writing<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+ the following:<p>
+</a><a name="845014">
+The following values may be OR'ed with the above values for additional actions: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845017">
+OTRUNC <p>
+</a><td><a name="845019">
+Truncate the file before opening it; this requires write permission even if <em>omode</em> is <em>OREAD</em>.<p>
+</a>
+<tr><td><a name="845021">
+ORCLOSE<p>
+</a><td><a name="845023">
+Remove the file on closure.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845024">
+The <em>open</em> function returns <em>nil</em> if the file does not exist or the user does not have permission to open it as requested (see <a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em></a> for a description of permissions).<p>
+</a><a name="845028">
+<h3> create (file, omode, perm)</h3>
+</a><a name="845029">
+The <em>create</em> function creates a new <em>file</em> or prepares to rewrite an existing <em>file</em>. The function opens it according to <em>omode</em> as described for <em>open</em>, and returns an associated file descriptor.<p>
+</a><a name="847291">
+If the file is new, the owner is set to the <em>user</em> <em>id</em> of the creating process group, the group to that of the containing directory. Also the permissions to <em>perm</em> are <em>AND'ed</em> with the permissions of the containing directory. See the section - <a href="proto6.htm#847117"><em>The create Transaction</em> in Chapter &#32;3</a> of <em>open</em>.<p>
+</a><a name="847298">
+If the file already exists, it is truncated to 0 length, and the permissions, owner, and group remain unchanged.<p>
+</a><a name="846582">
+<h4> file mode bits in perm 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846559">
+16r80000000 <p>
+</a><td><a name="846561">
+Directory. <br>The <em>Sys</em> module defines this as <em>CHDIR</em>.<p>
+</a>
+<tr><td><a name="846563">
+8r400<p>
+</a><td><a name="846565">
+Read permission by owner.<p>
+</a>
+<tr><td><a name="846567">
+8r200<p>
+</a><td><a name="846569">
+Write permission by owner.<p>
+</a>
+<tr><td><a name="846571">
+8r100<p>
+</a><td><a name="846573">
+Execute permission (search on directory) by owner<p>
+</a>
+<tr><td><a name="846575">
+8r070<p>
+</a><td><a name="846577">
+Read, write, execute (search) by group.<p>
+</a>
+<tr><td><a name="846579">
+8r007<p>
+</a><td><a name="846581">
+Read, write, execute (search) by others.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+ </h4>
+</a><a name="845038">
+The created file will be a directory if the <em>CHDIR</em> bit is set in <em>omode</em>.<p>
+</a><a name="845039">
+The <em>create</em> function returns <em>nil</em> if the path up to the last element of file <em>cannot</em> be evaluated, if the user does not have write permission in the final directory, or if the file already exists and does not permit the access defined by <em>omode</em>.<p>
+</a><a name="845040">
+If the file is new and the directory in which it is created is a union directory (see <a href="md_sys.htm#847453"><em>Limbo System Module</em></a>), then the directory where the file is created depends on the structure of the union: see <a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em></a>.<p>
+</a><a name="845047">
+<h2> Caveat</h2>
+</a><a name="845048">
+There is no explicit close routine; when the last reference to the file descriptor is released, the system closes the associated file.<p>
+</a><a name="850394">
+For devices and network protocols where shutdown must be guaranteed, write a <em>hangup</em> message to the associated control file and use the return value of the <em>write</em> to verify closure. For example, see <a href="devices.htm#"><em>ip - TCP, UDP network protocols over IP</em> in Chapter &#32;2</a>.<p>
+</a><a name="845053">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="851065">
+<a href="md_sys.htm#847453"><em>Limbo System Module</em></a><p>
+</a>
+<tr><td><a name="851067">
+<a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em></a><p>
+</a>
+<tr><td><a name="851069">
+<a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em></a><p>
+</a>
+<tr><td><a name="851071">
+<a href="proto6.htm#847076"><em>open, create - prepare a fid for I/O on a file</em> in Chapter &#32;3</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys10.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:35 -->
+
+</body>
+</html>

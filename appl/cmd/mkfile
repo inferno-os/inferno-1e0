@@ -1,0 +1,111 @@
+<../../mkconfig
+<../../$SYSHOST/mkhost
+
+OBJ=\
+	auplay.dis\
+	auhdr.dis\
+	bind.dis\
+	cat.dis\
+	cd.dis\
+	changelogin.dis\
+#	changepass.dis\
+	chmod.dis\
+	cmp.dis\
+	cook.dis\
+	cp.dis\
+	date.dis\
+	diff.dis\
+	du.dis\
+	echo.dis\
+	getauthinfo.dis\
+	gettar.dis\
+	grep.dis\
+#	init.dis\
+#	irtest.dis\
+	kill.dis\
+	ls.dis\
+	lstar.dis\
+#	manufacture.dis\
+	mathcalc.dis\
+	mkdir.dis\
+	mount.dis\
+	mv.dis\
+	netstat.dis\
+	nsbuild.dis\
+	os.dis\
+	p.dis\
+	ps.dis\
+	puttar.dis\
+	pwd.dis\
+	raw2iaf.dis\
+#	rcmd.dis\
+	rm.dis\
+	sh.dis\
+	sleep.dis\
+#	stack.dis\
+#	tail.dis\
+#	tclsh.dis\
+	time.dis\
+	unicode.dis\
+	unmount.dis\
+	wav2iaf.dis\
+	wc.dis\
+#	wish.dis\
+	yacc.dis\
+
+all:V:	$OBJ
+
+auhdr.dis: auplay.dis
+	cp auplay.dis auhdr.dis
+
+MODULE= ../../module/sys.m\
+	../../module/draw.m\
+	../../module/string.m\
+	../../module/prefab.m\
+	../../module/ir.m\
+	../../module/srv.m\
+	../../module/tk.m\
+	../../module/daytime.m\
+	../../module/keyring.m\
+	../../module/security.m\
+	../../module/bufio.m\
+	../../module/readdir.m\
+	../../module/regex.m\
+	../../module/newns.m\
+	../../module/sh.m\
+	../../module/workdir.m\
+	../../module/filepat.m\
+	../../module/pipe.m\
+
+OBJINST=${OBJ:%=../../dis/%}
+OBJPKG=${OBJ:%=$PREFIX_PKG/dis/%}
+
+$OBJ:	$MODULE
+
+install:V: $OBJ
+	$RM $OBJINST
+	$CP $OBJ ../../dis
+
+uninstall:V:
+	$RM $OBJINST
+
+package:V:	$OBJ\
+		$PREFIX_PKG/dis
+	$RM $OBJPKG
+	$CP $OBJ $PREFIX_PKG/dis
+
+%.install:V:	%.dis
+	cp $stem.dis ../../dis
+
+nuke \
+clean:V:
+	$RM *.dis *.sbl
+
+%.dis:	%.b
+	limbo -I../../module -gw $stem.b
+
+%.s:	%.b
+	limbo -I../../module -wG -S $stem.b
+
+$PREFIX_PKG/dis:
+	$MKDIR $target

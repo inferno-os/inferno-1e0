@@ -1,0 +1,52 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec10.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="851641">
+<center><h1> ge</a>nSK, genSKfromPK, sktopk, </a>dhparams - <a generating cryptographic keys>generate keys</h1></center>
+</a><pre><tt>include "keyring.m";
+kr:= load Keyring Keyring-&gt;PATH;
+genSK:      fn(algname, owner: string, length: int): ref SK; 
+genSKfromPK:fn(pk: ref PK, owner: string)          : ref SK;
+sktopk:     fn(sk: ref SK)                         : ref PK;
+dhparams:   fn(nbits: int)         : (ref IPint, ref IPint);
+</tt></pre></p><a name="844639">
+<h2> Description</h2>
+</a><a name="844640">
+<h3> genSK (algname, owner, length) </h3>
+</a><a name="844641">
+Although we call it a private key, the <kbd>SK</kbd> adt contains both the private and public parts of a public key. The <em>genSK</em> function generates this key pair. The <em>algname</em> parameter is the name of the algorithm to use; in the current implementation, only '<kbd>elgamal</kbd>'<kbd> </kbd>is possible. The <em>owner</em> parameter is the user name to be associated with the key. The <em>length</em> parameter specifies the length of the key modulus in bits. The <em>nil</em> value is returned if an unknown algorithm has been specified.<p>
+</a><a name="844642">
+<h3> genSKfromPK (pk, owner)</h3>
+</a><a name="844643">
+The <em>genSKfromPK</em> function generates a private key that has the same system parameters as the public key, <em>pk</em>. The function is used to generate new keys that are of the same complexity as old keys.<p>
+</a><a name="844644">
+<h3> sktopk (sk)</h3>
+</a><a name="844645">
+The <em>sktopk</em> function extracts the public part of private key.<p>
+</a><a name="844646">
+<h3> dhparams (nbits)</h3>
+</a><a name="852617">
+The <em>dhparams</em> function creates <a Diffie-Hellman:parameters>Diffie-Hellman parameters. The second <em>IPint</em> returned is an <em>nbits</em> long prime number that serves as the modulus. The first <em>IPint</em> is a primitive root in the integer field defined by that modulus.<p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec10.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

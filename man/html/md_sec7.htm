@@ -1,0 +1,65 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec6.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec8.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="852227">
+<center><h1> connect, secret - <a module: interface to: Secure Sockets Layer device>interface to the Secure Sockets Layer device</h1></center>
+</a><pre><tt>bind '#D' /n/ssl
+
+include "sys.m";
+include "security.m";
+SSL : module {
+     PATH:	con "/dis/lib/ssl.dis";
+  connect:	fn(fd: ref Sys-&gt;FD):	(string, ref Sys-&gt;Connection);
+   secret:	fn(c: ref Sys-&gt;Connection,
+		 secretin, secretout: array of byte): string;
+</tt></pre></p><a name="852238">
+<h2> Description'</h2>
+</a><a name="852240">
+The <kbd></a>SSL</kbd> module provides an interface to the secure sockets layer device. It assumes that device has already been bound to<kbd>/n/ssl</kbd>, its conventional location in the name space.<p>
+</a><a name="852241">
+The interfaces are:<p>
+</a><a name="852242">
+<h3> connect(fd)</h3>
+</a><a name="852243">
+Push file descriptor <em>fd</em> into <kbd>/n/ssl/</kbd><em>n</em><kbd>/data</kbd> and return resulting (secure) connection. The value for <em>n</em> is obtained internally from <kbd>/n/ssl/clone</kbd>. The string returned describes errors encountered, if any. If that string is non-<kbd>nil</kbd>, the connection is invalid.<p>
+</a><a name="852244">
+<h3> secret(c, secretin, secretout)</h3>
+</a><a name="852245">
+Write non-null strings <em>secretin</em> and <em>secretout</em> to <kbd>/n/ssl/</kbd><em>n</em><kbd>/secretin</kbd> and <kbd>/n/ssl/</kbd><em>n</em><kbd>/secretout</kbd>, respectively. The value of <em>n</em> is obtained from the <kbd>Connection</kbd> adt, <em>c</em>. The string returned describes errors encountered, if any; otherwise it is <kbd>nil</kbd>.<p>
+</a><a name="852255">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852711">
+<a href="devices8.htm#844978"><em>ssl - secure sockets layer device</em> in Chapter &#32;2</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec6.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec8.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

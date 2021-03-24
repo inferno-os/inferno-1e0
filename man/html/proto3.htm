@@ -1,0 +1,46 @@
+<html><head><title>Inferno<br>Communications Protocol, Styx</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="847019">
+<center><h1> clunk - <a fid: ignoring>forget about a fid</h1></center>
+</a><pre><tt>Tclunk <em>tag</em> [2] <em>fid</em> [2]
+Rclunk <em>tag</em> [2] <em>fid</em> [2]
+</tt></pre></p><a name="847025">
+<h2> Description</h2>
+</a><a name="847026">
+The <em>clunk</em> request informs the file server that the current file represented by <em>fid</em> is no longer needed by the client. The actual file is not removed on the server.<p>
+</a><a name="847027">
+Once a fid has been clunked, the same fid can be reused in a new <em>clone</em> request.<p>
+</a><a name="847028">
+Even if the <em>clunk</em> returns an error, the <em>fid</em> is no longer valid.<p>
+</a><a name="847029">
+<h2> Entry Points</h2>
+</a><a name="847030">
+A <em>clunk</em> message is generated when a file descriptor is closed (usually by the garbage collector) and indirectly by other actions such as failed <strong>open</strong> calls.<p>
+</a><a name="847031">
+<h2> See Also</h2>
+</a><a name="847035">
+<a href="md_sys9.htm#844990"><em>open, create - open/create a file for reading or writing</em> in Chapter 8</a> <p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:07 -->
+
+</body>
+</html>

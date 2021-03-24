@@ -1,0 +1,176 @@
+<html><head><title>Limbo Draw Module</title></head>
+<body bgcolor=white>
+
+</a><a name="840761"> 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec21.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="840760">
+<p>
+
+<h1>Limbo Draw Module</h1>
+</a>
+<hr><p><a name="844325">
+<h2> Draw Module 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846414">
+<a href="md_draw1.htm#844416"><em>context - graphics environment</em></a><p>
+</a>
+<tr><td><a name="846416">
+<a href="md_draw2.htm#844537"><em>display - connection to draw device</em></a><p>
+</a>
+<tr><td><a name="846420">
+<a href="md_draw4.htm#844718"><em>font - character images for Unicode text</em></a><p>
+</a>
+<tr><td><a name="846422">
+<a href="md_draw5.htm#844772"><em>Image - pictures and drawing</em></a><p>
+</a>
+<tr><td><a name="846424">
+<a href="md_draw6.htm#845001"><em>point - coordinate position</em></a><p>
+</a>
+<tr><td><a name="846426">
+<a href="md_draw7.htm#845060"><em>pointer - state of a pointer device such as a mouse</em></a><p>
+</a>
+<tr><td><a name="846468">
+<a href="md_draw8.htm#845088"><em>rectangle - rectangular portion of the plane</em></a><p>
+</a>
+<tr><td><a name="846428">
+<a href="md_draw9.htm#845163"><em>screen - type to define the abstract data structures for the windows on a display</em></a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="844326">
+<h2> Synopsis</h2>
+</a><pre><tt>include "draw.m";
+draw:=  load Draw Draw-&gt;PATH;
+</tt></pre></p><a name="844331">
+<h2> Description</h2>
+</a><a name="844332">
+Inferno's <em>Draw</em> module provides basic graphics facilities, defining drawing contexts, images, character fonts, and rectangular geometric operations. See <a href="md_pref.htm#845277"><em>Limbo Prefab Module</em> in Chapter &#32;12</a> and <a href="md_tk2.htm#844291"><em>Tk -graphics toolkit</em> in Chapter &#32;13</a> for higher level operations, such as windows and menu handling.<p>
+</a><a name="844339">
+<h3> Pixels</h3>
+</a><a name="844340">
+Images are defined on a rectangular region of an integer plane with a picture element, or <em>pixel</em>, at each grid point. Pixel values are integers with 1, 2, 4, or 8 bits per pixel, and all pixels in a given image have the same size, or <em>depth</em>. Some operations allow images with different depths to be combined, for example to do masking.<p>
+</a><a name="844341">
+When an image is displayed, the value of each pixel determines the color of the display. For color displays, Inferno uses a fixed color map for each display depth (see <a href="formats4.htm#844417"><em>rgbv - color map</em> in Appendix &#32;A</a>), and the application is responsible for mapping its desired colors to the values available. Facilities exist to convert from red, green, blue triplets to pixel values.<p>
+</a><a name="844387">
+<h3> Terminology 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844347">
+Point<p>
+</a><td><a name="844349">
+The graphics plane is defined on an integer grid, with each <kbd>(</kbd><em>x, &#32;y</em><kbd>)</kbd> coordinate identifying the upper left corner of the corresponding pixel. The plane's origin, <kbd>(</kbd><em>0, &#32;0</em><kbd>)</kbd>, resides at the upper left corner of the screen; <em>x</em> and <em>y</em> coordinates increase to the right and down. The abstract data type <em>Point</em> defines a coordinate position.<p>
+</a>
+<tr><td><a name="844351">
+Rect<p>
+</a><td><a name="844353">
+The type <em>Rect</em> defines a rectangular region of the plane. It comprises two <em>Points</em>, <em>min</em> and <em>max</em>, and specifies the region defined by pixels with coordinates greater than or equal to min and strictly less than max, in both <em>x</em> and <em>y</em>. This <em>half-open </em>property allows rectangles that share an edge to have equal coordinates on the edge.<p>
+</a>
+<tr><td><a name="844355">
+Display<p>
+</a><td><a name="844357">
+The type <em>Display</em> represents a physical display, corresponding to a single connection to a <em>draw</em> device. Besides the image of the display itself, the <em>Display</em> type also stores references to off-screen images, fonts, and so on. The contents of such images are stored in the display device, not in the client of the display, which affects how they are allocated and used. See <a href="md_draw5.htm#844772"><em>Image - pictures and drawing</em></a>.<p>
+</a>
+<tr><td><a name="844362">
+Screen<p>
+</a><td><a name="844364">
+The <em>Screen</em> type is used to manage a set of windows on an image, typically but not necessarily that of a display. Screens and hence windows may be built recursively upon windows for subwindowing or even on off-screen images. <p>
+</a>
+<tr><td><a name="844366">
+Image<p>
+</a><td><a name="844368">
+The <em>Image</em> type provides basic operations on groups of pixels. Through a few simple operations, especially the draw image combination operator (see <a href="md_draw5.htm#844772"><em>Image - pictures and drawing</em></a>), the Image type provides the building blocks for <em>Display</em>, <em>Screen</em>, and <em>Font</em>.<p>
+</a>
+<tr><td><a name="844373">
+Font<p>
+</a><td><a name="844375">
+A <em>Font</em> defines which character image to draw for each character code value. Although all character drawing operations ultimately use the draw primitive on the underlying images, <em>Fonts</em> provide convenient and efficient management of display text. Inferno uses the 16-bit Unicode character encoding, so <em>Fonts</em> are managed hierarchically to control their size and to make common subsets such as ASCII or Greek efficient in practice. (See <a href="md_draw4.htm#844718"><em>font - character images for Unicode text</em></a>, <a href="formats5.htm#844478"><em>UTF, Unicode, ASCII - character set and format</em> in Appendix &#32;A</a>, and <a href="formats2.htm#844345"><em>font, subfont - external format for character fonts and subfonts</em> in Appendix &#32;A</a>)<p>
+</a>
+<tr><td><a name="844380">
+Context<p>
+</a><td><a name="844382">
+A <em>Context</em> provides an interface to the system graphics and interactive devices. The system creates this context when it starts an application.<p>
+</a>
+<tr><td><a name="844384">
+Pointer<p>
+</a><td><a name="844386">
+The <em>Pointer</em> type conveys information for pointing devices, such as mice or trackballs. <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h3>
+</a><a name="844388">
+<h3> More about Images</h3>
+</a><a name="844389">
+An image occupies a rectangle, <em>Image.r</em>, of the graphics plane. A second rectangle, <em>Image.clipr</em>, defines a clipping region for the image. Typically, the clipping rectangle is the same as the basic image, but they may differ. For example, the clipping region may be made smaller and centered on the basic image to define a protected border.<p>
+</a><a name="844390">
+The pixel depth of an <em>Image</em> is stored as a logarithm called <em>Image.ldepth</em>; pixels with 1, 2, 4, and 8 bits correspond to <em>ldepth</em> values 0, 1, 2, and 3.<p>
+</a><a name="844391">
+An image may be marked for replication. When set, the boolean <em>Image.repl</em> causes the image to behave as if replicated across the entire integer plane, thus tiling the destination graphics area with copies of the source image. When replication is turned on, the clipping rectangle limits the extent of the replication and may even usefully be disjoint from <em>Image.r</em>. See <a href="md_draw5.htm#844772"><em>Image - pictures and drawing</em></a> for examples.<p>
+</a><a name="844395">
+The <em>Image</em> member functions provide facilities for drawing text and geometric objects, manipulating windows, and so on.<p>
+</a><a name="846746">
+Objects of type <em>Display</em>, <em>Font</em>, <em>Screen</em>, and <em>Image</em> must be allocated by the member functions. If such objects are created with a regular Limbo definition, they will not behave properly and may generate run-time errors.<p>
+</a><a name="844397">
+There are no routines to free for graphics objects. Instead Limbo's garbage collection frees them automatically. In Limbo, references can be  eliminated  by assigning <em>nil</em> to reference variables, returning from functions whose local variables hold references, and so on.<p>
+</a><a name="844398">
+<h2> Return Values</h2>
+</a><a name="844399">
+Most drawing operations operate asynchronously, so they have no error return. Functions that allocate objects return <em>nil</em> for failure. In such cases the system error string may be interrogated (such as by the <em>%r</em> print format) for more information.<p>
+</a><a name="844400">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846354">
+<a href="md_misc6.htm#844527"><em>ir - infrared remote control</em> in Chapter &#32;15</a><p>
+</a>
+<tr><td><a name="846356">
+<a href="md_pref.htm#845277"><em>Limbo Prefab Module</em> in Chapter &#32;12</a><p>
+</a>
+<tr><td><a name="846358">
+<a href="md_tk2.htm#844291"><em>Tk -graphics toolkit</em> in Chapter &#32;13</a><p>
+</a>
+<tr><td><a name="846360">
+<a href="formats2.htm#844345"><em>font, subfont - external format for character fonts and subfonts</em> in Appendix &#32;A</a><p>
+</a>
+<tr><td><a name="846362">
+<a href="formats3.htm#844382"><em>image - external format for images</em> in Appendix &#32;A</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec21.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:56 -->
+
+</body>
+</html>

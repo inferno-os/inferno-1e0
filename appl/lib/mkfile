@@ -1,0 +1,128 @@
+<../../mkconfig
+<../../$SYSHOST/mkhost
+
+OBJ=\
+	bufio.dis\
+	cci.dis\
+	countersigner.dis\
+	createsignerkey.dis\
+	cs.dis\
+	db.dis\
+	daytime.dis\
+	debug.dis\
+	devpointer.dis\
+	filepat.dis\
+	hash.dis\
+	html.dis\
+	imageremap.dis\
+	ir.dis\
+	irsage.dis\
+	irsim.dis\
+	gamer.dis\
+	login.dis\
+	logind.dis\
+	mpeg.dis\
+	newns.dis\
+	password.dis\
+	pipe.dis\
+	quicktime.dis\
+	rand.dis\
+	random.dis\
+	readdir.dis\
+	readgif.dis\
+	readjpg.dis\
+	regex.dis\
+	riff.dis\
+	signer.dis\
+	srv.dis\
+	ssl.dis\
+	string.dis\
+	tcl_calc.dis\
+	tcl_core.dis\
+	tcl_inthash.dis\
+	tcl_io.dis\
+	tcl_list.dis\
+	tcl_modhash.dis\
+	tcl_stack.dis\
+	tcl_strhash.dis\
+	tcl_string.dis\
+	tcl_symhash.dis\
+	tcl_tk.dis\
+	tcl_utils.dis\
+	tklib.dis\
+	url.dis\
+	verify.dis\
+	virgil.dis\
+	virgild.dis\
+	volume.dis\
+	wmlib.dis\
+	workdir.dis\
+
+all:V:	$OBJ
+
+MODULE= \
+	../../module/bufio.m\
+	../../module/cci.m\
+	../../module/daytime.m\
+	../../module/db.m\
+	../../module/debug.m\
+	../../module/devpointer.m\
+	../../module/draw.m\
+	../../module/filepat.m\
+	../../module/hash.m\
+	../../module/html.m\
+	../../module/imagefile.m\
+	../../module/ir.m\
+	../../module/keyring.m\
+	../../module/newns.m\
+	../../module/rand.m\
+	../../module/string.m\
+	../../module/mpeg.m\
+	../../module/pipe.m\
+	../../module/prefab.m\
+	../../module/quicktime.m\
+	../../module/readdir.m\
+	../../module/regex.m\
+	../../module/riff.m\
+	../../module/security.m\
+	../../module/sh.m\
+	../../module/srv.m\
+	../../module/sys.m\
+	../../module/tklib.m\
+	../../module/url.m\
+	../../module/volume.m\
+	../../module/wmlib.m\
+
+OBJINST=${OBJ:%=../../dis/lib/%}
+OBJPKG=${OBJ:%=$PREFIX_PKG/dis/lib/%}
+
+$OBJ:	$MODULE
+
+install:V: $OBJ
+	$RM $OBJINST
+	$CP $OBJ ../../dis/lib
+
+uninstall:V:
+	$RM $OBJINST
+
+%.install:V:	%.dis
+	$RM ../../dis/lib/$stem.dis
+	$CP $stem.dis ../../dis/lib
+
+package:V:	$OBJ\
+		$PREFIX_PKG/dis/lib
+	$RM $OBJPKG
+	$CP $OBJ $PREFIX_PKG/dis/lib
+
+nuke \
+clean:V:
+	$RM *.dis *.sbl
+
+%.dis:	%.b
+	limbo -I../../module -gw $stem.b
+
+%.s:	%.b
+	limbo -I../../module -wG -S $stem.b
+
+$PREFIX_PKG/dis/lib:
+	$MKDIR $target

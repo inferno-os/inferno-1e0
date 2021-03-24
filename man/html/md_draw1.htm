@@ -1,0 +1,165 @@
+<html><head><title>Limbo<br>Draw Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844416">
+<center><h1> context - <a graphics: environment>graphics environment</h1></center>
+</a><pre><tt>include "draw.m";
+draw:= load Draw Draw-&gt;PATH;
+Context: adt
+{
+  screen:  ref Screen;
+  display: ref Display;
+  cir:     chan of int;
+  ckbd:    chan of int;
+  cptr:    chan of ref Pointer;
+  ctoappl: chan of int;
+  ctomux:  chan of int;
+};
+</tt></pre></p><a name="844432">
+<h2> Description</h2>
+</a><a name="844433">
+The <em>Context</em> abstract data type encapsulates the data types and channels used by an interactive application. A reference to the <em>Context</em> is passed as the first argument to an application when it begins execution:<p>
+</a><pre><tt>include "draw.m"; 
+Command: module 
+{
+     init:  fn(nil: ref Draw-&gt;Context; nil: list of string);
+};
+
+</tt></pre></p><a name="844441">
+Most programs do not create a <em>Context</em> but inherit one from their parent, typically a shell or window system.<p>
+</a><a name="844457">
+<h3> General Interfaces 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844444">
+screen<p>
+</a><td><a name="844446">
+The <em>Screen</em> adt to which the application is connected; can be <em>nil</em>. See <a href="md_draw9.htm#845163"><em>screen - type to define the abstract data structures for the windows on a display</em></a>.<p>
+</a>
+<tr><td><a name="844451">
+display<p>
+</a><td><a name="844453">
+The <em>Display</em> adt to which the application is connected; can be <em>nil</em>. See <a href="md_draw2.htm#844537"><em>display - connection to draw device</em></a>.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h3>
+</a><a name="844525">
+<h3> MUX Interfaces 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844460">
+cir<p>
+</a><td colspan=2 rowspan=1><a name="844462">
+A channel of type <em>int</em> that delivers events from an infrared remote control device, if one is present. See the following discussion  and <em>ir</em> for more information.<p>
+</a>
+<tr><td><a name="844466">
+ckbd<p>
+</a><td colspan=2 rowspan=1><a name="844468">
+A channel of type <em>int</em> that delivers keystrokes from a keyboard.<p>
+</a>
+<tr><td><a name="844472">
+cptr<p>
+</a><td colspan=2 rowspan=1><a name="844474">
+A channel of type <em>ref</em> Pointer that delivers events from a pointing device such as a mouse. <p>
+</a>
+<tr><td><a name="844478">
+ctoappl<p>
+</a><td colspan=2 rowspan=1><a name="844480">
+A channel of type <em>int</em> that delivers control messages to the application from the Mux application multiplexer. One message is defined: <p>
+</a>
+<tr><td><a name="844484">
+<p>
+</a><td><a name="844486">
+MAtop <p>
+</a><td><a name="844488">
+Requests the application to make its set of windows fully visible.<p>
+</a>
+<tr><td><a name="844490">
+ctomux<p>
+</a><td colspan=2 rowspan=1><a name="844492">
+A channel of type <em>int</em> used by the application to send messages to the Mux regarding the application's use of system devices. The defined messages are:<p>
+</a>
+<tr><td><a name="844496">
+<p>
+</a><td><a name="844498">
+AMstartir<p>
+</a><td><a name="844500">
+The application is ready to accept IR-data on the <em>cir</em> channel.<p>
+</a>
+<tr><td><a name="844502">
+<p>
+</a><td><a name="844504">
+AMstartkbd<p>
+</a><td><a name="844506">
+The application is ready to accept keyboard data on the <em>ckbd</em> channel.<p>
+</a>
+<tr><td><a name="844508">
+<p>
+</a><td><a name="844510">
+AMstartptr<p>
+</a><td><a name="844512">
+The application is ready to accept <em>Pointer</em> data on the <em>cptr</em> channel.<p>
+</a>
+<tr><td><a name="844514">
+<p>
+</a><td><a name="844516">
+AMnewpin<p>
+</a><td><a name="844518">
+The application needs a PIN.<p>
+</a>
+<tr><td><a name="844520">
+<p>
+</a><td><a name="844522">
+AMexit<p>
+</a><td><a name="844524">
+An application should send this message before it exits, to allow Mux to recover resources.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h3>
+</a><a name="844534">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846557">
+<a href="md_misc6.htm#844527"><em>ir - infrared remote control</em> in Chapter &#32;15</a> <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_draw.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_draw2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:56 -->
+
+</body>
+</html>

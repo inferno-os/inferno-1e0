@@ -1,0 +1,186 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis15.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis17.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845071">
+<center><h1> wmlib - <a window manager toolkit>window manager toolkit</h1></center>
+</a><pre><tt>include	 "wmlib.m";
+wmlib:= load Wmlib Wmlib-&gt;PATH;
+Resize,
+Hide,
+Help,
+OK:          con 1 &lt;&lt; iota;
+Appl:        con Resize | Hide;
+init:        fn();
+titlebar: fn(t: ref Tk-&gt;Toplevel,title: string, buts: int)
+                                       : chan of string;
+titlectl:    fn(t: ref Tk-&gt;Toplevel, request: string);
+taskbar:     fn(t: ref Tk-&gt;Toplevel, name:    string)
+                                       : string;
+getfilename: fn(screen: ref Draw-&gt;Screen,
+                parent: ref Tk-&gt;Toplevel,
+                title, pat, dir: string)      : string;
+geom:        fn(t: ref Tk-&gt;Toplevel)          : string;
+snarfput:    fn(buf: string);
+snarfget:    fn(): string;
+</tt></pre></p><a name="845096">
+<h2> Description</h2>
+</a><a name="845097">
+The <em>Wmlib</em> module provides routines for making and updating windows controlled by <em>wm</em>.<p>
+</a><a name="845098">
+<h3> init ( )</h3>
+</a><a name="845099">
+The <em>init</em> function must be called once to initialize the internal state of <em>wmlib</em>.<p>
+</a><a name="845100">
+<h3> titlebar (t, title, buts)</h3>
+</a><a name="845101">
+The <em>titlebar</em> function creates a collection of widgets, rooted at .<em>Wm_t</em>, which can be packed in the <em>Toplevel t</em><em> </em>to create a managed title bar. The title bar consists of a label, <em>.Wm_t.title,</em> and the buttons specified by the bit mask <em>buts</em>. The<em> .Wm_t.title </em>label is initialized with the string <em>title</em>, and can be reconfigured to change the title of the window. An exit button is always created in the title bar; the buttons defined by the constants <em>Resize</em>, <em>Hide</em>, <em>Help</em>, and <em>OK</em> are optional. Most applications should use the buttons defined by the constant <em>Appl</em>, which is <em>Resize|Hide</em>.<p>
+</a><a name="849471">
+An application is informed of Tk events by a channel that is returned by <em>titlebar</em>. (See <a href="md_tk2.htm#844291"><em>Tk -graphics toolkit</em> in Chapter &#32;13</a>). Messages received on it should be processed by the application. The messages that may arrive on the returned channel are: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="849477">
+exit<p>
+</a><td><a name="849479">
+The <strong>Exit</strong> button was activated. The window should be closed.<p>
+</a>
+<tr><td><a name="849481">
+ok<p>
+</a><td><a name="849483">
+The <strong>OK</strong> button was activated. The window should be closed.<p>
+</a>
+<tr><td><a name="849485">
+help<p>
+</a><td><a name="849487">
+The <strong>Help</strong> button was activated.<p>
+</a>
+<tr><td><a name="849489">
+task<p>
+</a><td><a name="849491">
+The <strong>Hide</strong> button was activated. The window can be hidden by sending a <em>task</em> request via the <em>titlectl</em> function.<p>
+</a>
+<tr><td><a name="849493">
+size<p>
+</a><td><a name="849495">
+The <strong>Resize</strong> button was pressed.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845127">
+In some cases the appropriate response is to make the received message the <em>request</em> argument to the <em>titlectl</em> function. <p>
+</a><a name="845129">
+<h3> titlectl (t, request)</h3>
+</a><a name="845130">
+The <kbd>titlectl </kbd>function performs a variety of operations according to the string passed in argument <em>request</em>. The supported requests are: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845133">
+move and size<p>
+</a><td><a name="845135">
+The <em>titlectl</em> function communicates with wm to obtain new position (size) parameters and relays the new configuration to Tk.<p>
+</a>
+<tr><td><a name="845137">
+exit<p>
+</a><td><a name="845139">
+The<kbd> </kbd><em>titlectl</em> function terminates the current process and all members of its process group.<p>
+</a>
+<tr><td><a name="845141">
+task<p>
+</a><td><a name="845143">
+The<kbd> </kbd>titlectl<kbd> </kbd>function unmaps the <em>Toplevel</em>, make an entry in the task bar, and suspend the current process. Later, selecting the task bar entry will remap the <em>Toplevel</em> and allow the process to resume.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845144">
+<h3> taskbar (t, name)</h3>
+</a><a name="845145">
+The <em>taskbar</em> function changes the name displayed in the title bar and the window's name when it is in the task bar.<p>
+</a><a name="845151">
+<h3> getfilename (screen, parent, title, pat, dir)</h3>
+</a><a name="845152">
+The <em>getfilename</em> function makes a dialog box for selecting a file. It is displayed on screen near <em>parent</em>. The <em>dir</em> argument gives the directory where the file search should begin. Only files that match pattern <em>pat</em> are displayed. The rules for defining match patters are described in <a href="md_misc4.htm#846214"><em>filepat: expand, match - file pattern matching</em></a>.<p>
+</a><a name="845153">
+The returned string is the name of the selected file, or the empty string if no file was selected.<p>
+</a><a name="845154">
+<h3> geom (t)</h3>
+</a><a name="845155">
+The <em>geom</em> function returns a string with the coordinates for a child window.<p>
+</a><a name="845156">
+<h3> snarfget ( ) and snarfput (buf)</h3>
+</a><a name="845157">
+The <em>snarfget</em> and <em>snarfput</em> functions retrieve and replace the contents of the window manager's snarf buffer. <p>
+</a><a name="845167">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845160">
+/chan/wm<p>
+</a><td><a name="845162">
+Interface with <em>wm</em> for the <em>titlectl</em> function's handling of <em>move</em> and <em>size</em> requests.<p>
+</a>
+<tr><td><a name="845164">
+/chan/snarf<p>
+</a><td><a name="845166">
+Interface with <em>wm</em> for the <em>snarfget</em> and <em>snarfput</em> functions.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="845168">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="849061">
+<a href="md_draw1.htm#844416"><em>context - graphics environment</em> in Chapter &#32;11</a><p>
+</a>
+<tr><td><a name="849066">
+<a href="md_tk2.htm#844291"><em>Tk -graphics toolkit</em> in Chapter &#32;13</a><p>
+</a>
+<tr><td><a name="849071">
+<a href="md_tk3.htm#844348"><em>tklib: tkquote, is_err, tkcmds, dialog, getstring, notice, mktabs, tabsctl - Tk user interface functions</em> in Chapter &#32;13</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="849022">
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_mis15.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_mis17.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

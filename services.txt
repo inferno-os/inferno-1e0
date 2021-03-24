@@ -1,0 +1,11 @@
+#############################################################################
+# Assignment of inferno port numbers
+styx		6666/tcp			# Main file service
+mpeg		6667/tcp			# Mpeg stream
+rstyx		6668/tcp			# Remote invocation
+infdb		6669/tcp			# Database connection
+infweb		6670/tcp	infweb		# inferno web server
+infsigner	6671/tcp	infsigner	# inferno signing services
+infcsigner	6672/tcp	infcsigner	# inferno signing services
+inflogin	6673/tcp	inflogin	# inferno login service
+virgil		2202/udp	virgild		# inferno info

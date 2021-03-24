@@ -1,0 +1,62 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec6.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="852988">
+<center><h1> certtostr, pktostr, sktostr, strtocert, strtopk, strtosk -<a encryption functions: key conversion>encryption key conversion functions</h1></center>
+</a><pre><tt>include "keyring.m"
+keyring:= load Keyring Keyring-&gt;PATH;
+strtocert: fn(s: string)         : ref Certificate;
+certtostr: fn(c: ref Certificate): string;
+strtopk:   fn(s: string)         : ref PK;
+pktostr:   fn(pk: ref PK)        : string;
+strtosk:   fn(s: string)         : ref SK;
+sktostr:   fn(sk: ref SK)        : string;
+</tt></pre></p><a name="844611">
+<h2> Description</h2>
+</a><a name="844612">
+Certificates, public keys, and private keys are passed over networks and between applications using a Unicode representation. This collection of functions provide a means to convert adts supplied by the system to and from their portable textual representation. These routines are typically used as part of an I/O package for implementing security.<p>
+</a><a name="844613">
+<h3> strtocert (s)</h3>
+</a><a name="844614">
+The <em>strtocert</em> function takes a string argument containing a user name, hash algorithm, a certifying authority and an expiration time. Fields are separated by a newline. The return value is a <em>ref Certificate</em>. If the string is of improper format, the result is <em>nil</em>.<p>
+</a><a name="844615">
+<h3> certtostr (c)</h3>
+</a><a name="844616">
+The <em>certtostr</em> function performs the inverse operation of the <em>strtocert</em> function. It takes as an argument a <em>ref Certificate</em> and produces a text string suitable for communication over a network.<p>
+</a><a name="844617">
+<h3> strtopk (s) and strtosk (pk)</h3>
+</a><a name="844618">
+The <em>strtopk</em> and <em>strtosk</em> functions take as their arguments a string representing the public and private key adts respectively. The string argument must contain an algorithm name, a user name and the key. Fields are separated by a newline. The result for <em>strtopk</em> is a <em>ref PK</em> and for <em>strtosk</em> a <em>ref SK</em>. If the string is of improper format the result is <em>nil</em>.<p>
+</a><a name="844619">
+<h3> pktostr (pk) and sktostr (sk)</h3>
+</a><a name="844620">
+The <em>pktostr</em> and <em>sktostr</em> functions perform the inverse operations of the <kbd>strtopk</kbd> and <kbd>strtosk</kbd> functions, respectively.<p>
+</a><a name="844621">
+They take a <em>ref PK</em> or <em>ref SK</em> and produce a text string.<p>
+</a><a name="844622">
+<h2> Diagnostics</h2>
+</a><a name="844623">
+The functions return the <em>nil</em> value if an error is encountered.<p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec6.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

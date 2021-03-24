@@ -1,0 +1,235 @@
+<html><head><title>Inferno Devices</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="i_modu8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="840760">
+<p>
+</a><a name="845389">
+<h1>Inferno Devices</h1>
+</a>
+<hr><p><a name="847796">
+The Inferno devices described in this chapter include: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="847932">
+<a href="devices1.htm#849009"><em>audio - interface to audio devices</em></a><p>
+</a>
+<tr><td><a name="847937">
+<a href="devices2.htm#845920"><em>cmd - interface to host operating system commands</em></a><p>
+</a>
+<tr><td><a name="847942">
+<a href="devices3.htm#844391"><em>cons - console device</em></a><p>
+</a>
+<tr><td><a name="847947">
+<a href="devices4.htm#844616"><em>draw - graphics device</em></a><p>
+</a>
+<tr><td><a name="847953">
+<a href="devices5.htm#845813"><em>ip - TCP, UDP network protocols over IP</em></a><p>
+</a>
+<tr><td><a name="847957">
+<a href="devices6.htm#844745"><em>prog - interface to running programs</em></a><p>
+</a>
+<tr><td><a name="847962">
+<a href="devices7.htm#844961"><em>root - the root file system</em></a><p>
+</a>
+<tr><td><a name="847967">
+<a href="devices8.htm#844978"><em>ssl - secure sockets layer device</em></a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+ <p>
+</a><a name="846468">
+Hardware devices are controlled in Inferno by a file system. This is an extension of a Unix concept in which devices such as disks are part of the file system. In Inferno, each device driver is a kernel-resident file system. <p>
+</a><a name="848323">
+Simple device drivers serve a single-level directory that can contain only a few files. For example, each UART can be represented by a <em>data</em> file and <em>control</em> file. A more complex device driver such as an Ethernet driver can be represented by a two-level file tree (<a href="devices.htm#846503">Figure &#32;2-1</a>) to provide the following:<p>
+</a><ul><a name="846484">
+<li>device control and configuration<p>
+</a><a name="846485">
+<li>user-level protocols<p>
+</a><a name="846486">
+<li>diagnostic interfaces<p>
+</a></ul><a name="846503">
+<h4> Example Ethernet file tree<img src="devicesa.gif"></h4>
+</a><a name="846589">
+The top directory contains a <em>clone</em> file and a directory for each connection numbered 1 to <em>n</em>. Each connection directory corresponds to an Ethernet packet type. Opening the clone file finds an unused connection directory and opens the <em>ctl</em> file. Reading the control file returns the ASCII connection number, which can be used to construct the name of the proper connection directory. <p>
+</a><a name="847408">
+A kernel device driver is a <em>server</em> in the sense of the Inferno file protocol, Styx, with the messages implemented by local rather than remote procedure calls. (See <a href="proto.htm#846658"><em>Inferno Communications Protocol, Styx</em> in Chapter &#32;3</a>.)<p>
+</a><a name="847413">
+<h2> Advantages of Devices as File System</h2>
+</a><a name="846559">
+The representation of a device as a set of files using strings for communication has several advantages:<p>
+</a><ul><a name="846546">
+<li>avoids byte order problems<p>
+</a><a name="846549">
+<li>ensures a uniform representation for devices on the same computer or even devices that are accessed remotely<p>
+</a><a name="846550">
+<li>represents dissimilar devices by the same set of files permitting a common set of tools to serve several networks or interfaces<p>
+</a></ul><a name="844320">
+<h2> Pathname Resolution</h2>
+</a><a name="847426">
+Each Inferno device implements a file tree that can be attached to a name space for access by applications. The interface to all devices is via the Inferno file system interface. Each device is represented by a set of files that is implemented by a device driver. <p>
+</a><a name="847424">
+An Inferno device implements a file tree for client processes. A file name beginning with a pound sign, such as <em>#c</em>, names the root of a file tree implemented by a particular <em>kernel</em> device driver identified by the character after the pound sign. Such names are usually bound to conventional locations in the name space. For example, after<p>
+</a><pre><tt>   sys-&gt;bind<kbd>("#c", "/dev"</kbd>, sys-&gt;MREPL)
+
+</tt></pre></p><a name="844325">
+an <em>ls</em> of <em>/dev</em> will show that the files provided by the console device were added to the list of devices in <em>/dev</em>.<p>
+</a><a name="844330">
+When a system call is passed a file name beginning with <em>#,</em> it looks at the next character, and if that is a valid device character, it performs an <strong>attach</strong> operation on the corresponding device to get a connection representing the root of that device's file tree. If there are any characters after the device character but before the next slash character ( <em>/ ) </em>or end of string, those characters are passed as parameter <em>aname</em> to the attach. (See <a href="proto1.htm#846967"><em>attach, nop - messages to initiate activity</em> in Chapter &#32;3</a>.)<p>
+</a><a name="847663">
+Each kernel device has a conventional place at which a device is bound to the name space. The device synopses in the following pages include an Inferno shell <strong>bind</strong> command to put the device in the conventional place. Most of these binds are done automatically by the system when it initializes.<p>
+</a><a name="847664">
+File names beginning with #, specify the root of a file tree that is implemented by a kernel device driver. The character following the pound sign identifies the particular device driver. <a href="devices.htm#847319">Table &#32;2-1</a> lists some of the standard Inferno device characters.<p>
+</a><a name="847319">
+<h4> Kernel Device Drivers 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="847970">
+<kbd>/</kbd><p>
+</a><td><a name="847972">
+Root file system, used to construct bootstrap name space<p>
+</a>
+<tr><td><a name="847974">
+<kbd>s</kbd><p>
+</a><td><a name="847976">
+Limbo file channel server<p>
+</a>
+<tr><td><a name="847978">
+<kbd>F</kbd><p>
+</a><td><a name="847980">
+Key file system, used for storing private keys, etc.<p>
+</a>
+<tr><td><a name="847982">
+<kbd>M</kbd><p>
+</a><td><a name="847984">
+Mount driver, used to import remote file systems<p>
+</a>
+<tr><td><a name="847986">
+<kbd>C</kbd><p>
+</a><td><a name="847988">
+Command execution<p>
+</a>
+<tr><td><a name="847990">
+<kbd>r</kbd><p>
+</a><td><a name="847992">
+Real-time clock device, controls real-time clock and NVRAM access<p>
+</a>
+<tr><td><a name="847994">
+<kbd>I</kbd><p>
+</a><td><a name="847996">
+Internet protocol device, used to implement IP communications<p>
+</a>
+<tr><td><a name="847998">
+<kbd>V</kbd><p>
+</a><td><a name="848000">
+Television, provides control for ITV applications<p>
+</a>
+<tr><td><a name="848002">
+<kbd>U</kbd><p>
+</a><td><a name="848004">
+Host Operating System file system<p>
+</a>
+<tr><td><a name="848006">
+<kbd>D</kbd><p>
+</a><td><a name="848008">
+Secure sockets layer, provides encryption support<p>
+</a>
+<tr><td><a name="848010">
+<kbd>d</kbd><p>
+</a><td><a name="848012">
+Draw device, implements raster graphics on a remote display<p>
+</a>
+<tr><td><a name="848014">
+<kbd>c</kbd><p>
+</a><td><a name="848016">
+Console device, controls console I/O, keyboard and mouse processing<p>
+</a>
+<tr><td><a name="848018">
+<kbd>p</kbd><p>
+</a><td><a name="848020">
+Prog device, provides query and control of status of Inferno processes<p>
+</a>
+<tr><td><a name="848022">
+<kbd>t</kbd><p>
+</a><td><a name="848024">
+Serial communications device, used to implement serial communications<p>
+</a>
+<tr><td><a name="848026">
+<kbd>l</kbd><p>
+</a><td><a name="848028">
+Ethernet device, used to implement Ethernet communications<p>
+</a>
+<tr><td><a name="848030">
+<kbd>E</kbd><p>
+</a><td><a name="848032">
+MPEG device, controls streaming for MPEG devices<p>
+</a>
+<tr><td><a name="848034">
+<kbd>A</kbd><p>
+</a><td><a name="848036">
+Digital audio input /output, provides access to stereo audio ports<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="847235">
+<hr>
+<strong>NOTE:</strong><p>
+<em>Note: This table provides a summary of the most common 
+characters. Other standard device characters are being added.
+</em>
+<hr></a><a name="847238">
+The kernel maintains a table that maps these device characters to device-specific operations for each type of device supported by the kernel. A kernel device driver is a server in the sense of the Styx protocol, with the messages implemented as local rather than remote procedure calls.<p>
+</a><a name="844377">
+<h3> Convention for Numeric Data</h3>
+</a><a name="844378">
+Unless otherwise noted, numeric data returned from status and other types of files, are returned in the following standard 12-character decimal format: right-adjusted numerals with leading blanks to fill the field to 11 characters, followed by a blank. There is no trailing newline.<p>
+</a><a name="844380">
+<h3> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="849113">
+<em><a href="i_modu.htm#840761"></em><em>Introduction to Limbo Modules</em> in Chapter &#32;7<em></a></em><p>
+</a>
+<tr><td><a name="849115">
+<a href="proto.htm#846658"><em>Inferno Communications Protocol, Styx</em> in Chapter &#32;3</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h3>
+</a><a name="849106">
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="i_modu8.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="devices1.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:54:10 -->
+
+</body>
+</html>

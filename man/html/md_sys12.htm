@@ -1,0 +1,78 @@
+<html><head><title>Limbo<br>System Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys11.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys13.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845197">
+<center><h1> read, write, stream - <a reading: or writing files>read, write, or stream file</h1></center>
+</a><pre><tt>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+read:  fn(fd: ref FD, buf: array of byte, nbytes: int): int;
+write: fn(fd: ref FD, buf: array of byte, nbytes: int): int;
+stream:fn(src, dst: ref FD, bufsiz: int):               int;
+</tt></pre></p><a name="845206">
+<h2> Description</h2>
+</a><a name="845207">
+<h3> read (fd, buf, nbytes)</h3>
+</a><a name="845208">
+The <em>read</em> function reads <em>nbytes</em> bytes of data from the current offset in the file associated with <em>fd</em> into array <em>buf</em>.<p>
+</a><a name="845209">
+The file offset is advanced by the number of bytes read so that subsequent reads will obtain the next data from the file.<p>
+</a><a name="845210">
+It is not guaranteed that all <em>nbytes</em> bytes will be read. For example, if the file refers to the console, at most one line will be returned. The number of bytes read is returned as the functional value of <em>read</em>. A return value of 0 is conventionally interpreted as end of file.<p>
+</a><a name="845211">
+<h3> write (fd, buf, nbytes)</h3>
+</a><a name="845212">
+The <em>write</em> function writes<em> nbytes</em> bytes of data from array <em>buf</em> to the file associated with <em>fd</em> at the current file offset.<p>
+</a><a name="845213">
+The offset is advanced by the number of bytes written so that subsequent writes will deposit data after the previously written data.<p>
+</a><a name="845214">
+The number of bytes actually written is returned by <em>write</em>. It should be regarded as an error if this is not the same as requested.<p>
+</a><a name="845215">
+<h3> stream (src, dst, bufsiz)</h3>
+</a><a name="845216">
+The <em>stream</em> function continually reads data from <em>src</em>, using a buffer of<em> bufsiz </em>bytes<em>,</em> and writes the data to <em>dst</em>. It copies data until a read fails (returning zero bytes or an error) or a write fails (returning a count that does not match the request). The <em>stream</em> function returns the number of bytes actually copied. The implementation may be more efficient than a <em>read / write</em> loop in the application, but is otherwise equivalent to calling <em>read</em> and <em>write</em> directly.<p>
+</a><a name="845217">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="851089">
+<a href="md_sys.htm#847453"><em>Limbo System Module</em></a><p>
+</a>
+<tr><td><a name="851091">
+<a href="md_sys6.htm#844821"><em>dup - duplicate an open file descriptor</em></a><p>
+</a>
+<tr><td><a name="851093">
+<a href="md_sys9.htm#844990"><em>open, create - open/create a file for reading or writing</em></a><p>
+</a>
+<tr><td><a name="851095">
+<a href="md_misc1.htm#845966"><em>bufio - buffered input/output module</em> in Chapter &#32;15</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys11.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys13.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:35 -->
+
+</body>
+</html>

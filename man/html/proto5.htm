@@ -1,0 +1,50 @@
+<html><head><title>Inferno<br>Communications Protocol, Styx</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto6.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="847050">
+<center><h1> flush - <a aborting messages; messages:aborting>abort a message</h1></center>
+</a><pre><tt>Tflush <em>tag</em> [2] <em>oldtag</em> [2]
+Rflush <em>tag</em> [2]
+</tt></pre></p><a name="847056">
+<h2> Description</h2>
+</a><a name="847057">
+When the response to a request is no longer needed, such as when a user interrupts a process doing a <strong>read</strong>, a <em>Tflush</em> request is sent to the server to purge the pending response. The message being flushed is identified by <em>oldtag</em>. The semantics of flush depend on messages arriving in order.<p>
+</a><a name="847061">
+The server must answer the flush message immediately. If it recognizes <em>oldtag</em> as the tag of a pending transaction, it should abort any pending response and discard that tag. In either case, it should respond with an <em>Rflush</em> echoing the <em>tag</em> (not <em>oldtag</em>) of the <em>Tflush</em> message. The response to a <em>Tflush</em> message should never be an <em>Rerror</em> message.<p>
+</a><a name="847062">
+When the client sends the <em>Tflush</em>, it should disregard all messages received with tag <em>oldtag</em> until the corresponding <em>Rflush</em> is received, at which point <em>oldtag</em> may be recycled for subsequent messages.<p>
+</a><a name="847063">
+The following exceptional conditions are handled correctly by the above specification:<p>
+</a><ul><a name="847064">
+<li> sending multiple flushes for a single tag<p>
+</a><a name="847065">
+<li> flushing a <em>Tflush</em><p>
+</a><a name="847066">
+<li> flushing an invalid tag<p>
+</a></ul><a name="847067">
+<h2> See Also</h2>
+</a><a name="847071">
+<em><a href="md_sys12.htm#845197"></em><em>read, write, stream - read, write, or stream file</em> in Chapter 8<em></a></em><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="proto4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="proto6.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:07 -->
+
+</body>
+</html>

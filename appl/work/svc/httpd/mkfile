@@ -1,0 +1,72 @@
+<../../../../mkconfig
+<../../../../$SYSHOST/mkhost
+
+OBJ=\
+	cache.dis\
+	content.dis\
+	date.dis\
+	echo.dis\
+	httpd.dis\
+	imagemap.dis\
+	parse.dis\
+	query.dis\
+	redirect.dis\
+	stats.dis\
+	alarm.dis\
+	
+
+all:V:	$OBJ
+
+MODULE=\
+	cache.m\
+	cgi.m\
+	content.m\
+	date.m\
+	httpd.m\
+	parser.m\
+	query.m\
+	redirect.m\
+	alarm.m\
+
+LOGS=\
+	httpd.debug\
+	httpd.log\
+	httpd.rewrite\
+	httpd.suff\
+	
+
+OBJINST=${OBJ:%=../../../../dis/svc/httpd/%}
+LOGINST=${LOGS:%=../../../../services/httpd/%}
+OBJPKG=${OBJ:%=$PREFIX_PKG/dis/svc/httpd/%}
+
+$OBJ:	$MODULE
+
+install:V: $OBJ
+	$RM $OBJINST $LOGINST
+	$CP $OBJ ../../../../dis/svc/httpd
+	$CP $LOGS ../../../../services/httpd
+	chmod 644 ../../../../services/httpd/httpd.log
+
+uninstall:V:
+	$RM $OBJINST $LOGINST
+
+package:V:	$OBJ\
+		$PREFIX_PKG/dis/svc/httpd
+		$RM $OBJPKG
+		$CP $OBJ $PREFIX_PKG/dis/svc/httpd
+
+%.install:V:	%.dis
+	cp $stem.dis ../../../../dis/svc/httpd
+
+clean nuke:V:
+	$RM *.dis *.sbl
+
+%.dis:	%.b
+	limbo -I../../../../module -gw $stem.b
+
+%.s:	%.b
+	limbo -I../../../../module -w -G -S $stem.b
+
+$PREFIX_PKG/dis:
+	$MKDIR $target
+

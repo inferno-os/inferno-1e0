@@ -1,0 +1,13 @@
+#	Shell Commands
+
+!IF "$(OS)"=="Windows_NT"
+DELTREE =	rd /s/q
+DEL	=	del
+DELFLAGS=	/q/f
+!ELSE
+DELTREE =	deltree /Y
+DEL	=	deltree	
+DELFLAGS=	/Y	
+!ENDIF
+
+RANLIB=		rem

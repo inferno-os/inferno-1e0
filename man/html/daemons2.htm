@@ -1,0 +1,101 @@
+<html><head><title>Inferno <br>Daemons</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="daemons3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844441">
+<center><h1> httpd, echo, stats - <a HTTP server>HTTP server</h1></center>
+</a><pre><tt>httpd [ -c <em>cachesize</em> ] [ -D ]
+echo  <em>meth</em> <em>vers</em> <em>uri</em> <em>search</em> 
+stats <em>meth</em> <em>vers</em> <em>uri</em> <em>search
+</em></tt></pre></p><a name="844448">
+<h2> Description</h2>
+</a><a name="844449">
+<h3> httpd</h3>
+</a><a name="844450">
+The <em>httpd</em> program is an HTTP daemon, serving version 1.0 of the HTTP protocol. It is usually executed in response to an incoming call on TCP port 80, the HTTP port.<p>
+</a><a name="844452">
+The <em>httpd program supports</em> only the GET and HEAD methods of the HTTP protocol. The Content-type (default application/octet-stream) and Content-encoding (default binary) of a file are determined by looking for suffixes of the file name in <em>/http/logs/http.suff</em>.<p>
+</a><a name="844453">
+If the requested URI begins with <em>/magic/</em>, the <em>httpd</em> program loads the module associated with the remaining part of the URI.<p>
+</a><a name="844463">
+<h4> Options 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844456">
+-c cachesize <p>
+</a><td><a name="844458">
+The <em>-c</em> flag is used to set the size of the daemon's cache. The default is a five megabyte cache.<p>
+</a>
+<tr><td><a name="844460">
+-D<p>
+</a><td><a name="844462">
+If the<em> -D</em> flag is set, debugging information is written to the file<em> /httpd/httpd.debug</em>. By default, there is no debugging.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h4>
+</a><a name="844464">
+<h3> echo</h3>
+</a><a name="844465">
+The<em> echo </em>program is a trivial server that just returns the method, URI, any search, and the headers sent by the client.<p>
+</a><a name="844466">
+<h3> stats </h3>
+</a><a name="844467">
+The <em>stats</em> program is an example that queries the cache and returns information to the user about pages stored in the cache.<p>
+</a><a name="844487">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846085">
+/services/httpd/logs/httpd.debug<p>
+</a><td><a name="846087">
+Logfile for debugging information.<p>
+</a>
+<tr><td><a name="846089">
+/services/httpd/logs/httpd.log<p>
+</a><td><a name="846091">
+<em>httpd</em> logfile.<p>
+</a>
+<tr><td><a name="846093">
+/services/httpd/logs/httpd.rewrite<p>
+</a><td><a name="846095">
+File to redirect specific URI requests.<p>
+</a>
+<tr><td><a name="846097">
+/services/httpd/logs/httpd.suff<p>
+</a><td><a name="846099">
+File of recognizable suffixes and their content type.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="daemons1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="daemons3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:31 -->
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec11.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec13.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="854689">
+<center><h1> ge</a>tstring, putstring, </a>getbytearray, </a>putbytearray, puterror- <a delimited I/O>delimited I/O</h1></center>
+</a><pre><tt>include "keyring.m"
+keyring:= load Keyring Keyring-&gt;PATH;
+getstring:   fn(fd: ref Sys-&gt;FD)  : (string, string);
+putstring:   fn(fd: ref Sys-&gt;FD, s: string): int;
+getbytearray:fn(fd: ref Sys-&gt;FD)  : (array of byte, string);
+putbytearray: fn(fd: ref Sys-&gt;FD,a: array of byte, n: int):
+                                                   int;
+puterror:     fn(fd: ref Sys-&gt;FD,    s: string): int;
+</tt></pre></p><a name="844665">
+<h2> Description</h2>
+</a><a name="844666">
+This collection of routines provides delimited I/O for strings, byte arrays and error strings over arbitrary networks.<p>
+</a><a name="844667">
+<h3> getstring (fd)</h3>
+</a><a name="850612">
+The <em>getstring</em> function reads a text string from the file descriptor supplied as its argument. The return value is a tuple of the form <em>(result, error)</em>. If successful, the error string is <em>nil</em>.<p>
+</a><a name="850613">
+<h3> putstring (fd, s)</h3>
+</a><a name="844670">
+The <em>putstring</em> function writes the string supplied as its second argument to the file descriptor supplied as its first argument. It returns the number of bytes written to the network or -1 if an error occurred. Messages sent by <em>putstring</em> are truncated to 4096 bytes in length.<p>
+</a><a name="844671">
+<h3> getbytearray (fd)</h3>
+</a><a name="844672">
+The <em>getbytearray</em> function reads an array of bytes from the file descriptor supplied as its argument and returns a tuple of the form <em>(result, error)</em>. If successful the error string is <em>nil</em>.<p>
+</a><a name="844673">
+<h3> putbytearray (fd, arr, n)</h3>
+</a><a name="844674">
+The <em>putbytearray</em> function writes an array of bytes supplied as its second argument to the file descriptor supplied as its first argument. It returns the number of bytes written to the network or -1 if an error occurred. Messages sent by <em>putbytearray</em> are truncated to 4096 bytes in length.<p>
+</a><a name="844675">
+<h3> puterror (fd, s)</h3>
+</a><a name="844676">
+The <em>puterror</em> function writes an error string supplied as its second argument to the file descriptor supplied as its first argument. This function can be used in place of <em>putstring</em> or <em>putbytearray</em> to cause the corresponding <em>getstring</em> or <em>getbytearray</em> to fail, yielding the error string. The error string may not be longer than <em>ERRLEN</em> bytes.<p>
+</a><a name="844677">
+<h2> Diagnostics</h2>
+</a><a name="844678">
+The <em>putstring</em>, <em>putbytearray</em>, and <em>puterror</em> functions return -1 if there is an I/O error. The <em>getstring</em> and <em>getbytearray</em> functions return a string indicating the cause of the error in the second element of the tuple that forms their return value.<p>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec11.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec13.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

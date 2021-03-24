@@ -1,0 +1,87 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd6.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd8.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853204">
+<center><h1> cs - <a starting: connection server daemon; daemon: connection server>start connection server daemon</h1></center>
+</a><kbd>lib/cs
+</kbd><a name="844850">
+<h2> Description</h2>
+</a><a name="844852">
+The <em></a>cs</em> command does the following:<p>
+</a><ol>
+<a name="851480">
+<li>Creates a file named <em>cs</em> in the<em> /net </em>directory 
+</a><a name="851481">
+<li>Spawns a daemon process also named <em>cs</em>
+</a><a name="851482">
+<li>Terminates while daemon <em>cs</em> continues execution, monitoring read and write requests to the <em>/net/cs</em> file. 
+</a><a name="851483">
+Once the daemon process is running, application programs can write host names to <em>/net/cs</em> and read that same file to obtain the corresponding internet address. The requests can also symbolically name a service (for example, <em>$MAILSERVER</em>) that the daemon resolves by reference to the <em>/services/cs/db</em> file.<p>
+</a><a name="844853">
+The daemon process persists until explicitly terminated. If the daemon is terminated, the interface file <em>/net/cs</em> cannot be opened. The interface file, <em>/net/cs</em>, persists until unmounted from <em>/net</em>.<p>
+</a></ol>
+<a name="844854">
+<h2> Options</h2>
+</a><a name="844855">
+The <em>cs</em> command has no options or arguments.<p>
+</a><a name="844865">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844858">
+/net/cs<p>
+</a><td><a name="844860">
+Application interface to connection server daemon<p>
+</a>
+<tr><td><a name="844862">
+/services/cs/db<p>
+</a><td><a name="844864">
+Connection server service database<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="853230">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="853997">
+<em><a href="formats1.htm#844311">db - connection service database</em> in Appendix &#32;A<em></a></em><p>
+</a>
+<tr><td><a name="854003">
+<em><a href="daemons1.htm#844312">cs - connection server daemon</em> in Chapter &#32;6<em></a></em><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd6.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd8.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

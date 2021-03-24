@@ -1,0 +1,85 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc6.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844477">
+<center><h1> imagefile - <a processing external image file formats>processing external image file formats</h1></center>
+</a><pre><tt>include "imagefile.m";
+gifreader := load RImagefile RImagefile-&gt;READGIFPATH;
+jpgreader := load RImagefile RImagefile-&gt;READJPGPATH;
+imageremap:= load Imageremap Imageremap-&gt;PATH;
+Rawimage: adt
+{
+  r        : Draw-&gt;Rect;
+  cmap     : array of byte;
+  nchans   : int;
+  chans    : array of array of byte;
+  chandesc : int;
+  fields   : int;  #defined by format
+};
+remap      : fn(i: ref RImagefile-&gt;Rawimage,
+                d: ref Draw-&gt;Display,
+          errdiff: int)          
+                 : (ref Draw-&gt;Image, string);
+</tt></pre></p><a name="844500">
+<h2> Description</h2>
+</a><a name="844501">
+The <em>Rawimage</em> adt of module <em>RImagefile</em> defines an internal representation and routines for reading images such as GIF and JPEG files. To read a set of files of a given format, load the appropriate module, pass its <em>init</em> function an instance of a <em>Bufio</em> module, and pass <em>read</em> an <em>Iobuf</em> for each file. The <em>read</em> function returns a tuple, a <em>ref</em> <em>Rawimage</em> that holds the image and an error string. If the <em>Rawimage</em> is <em>nil</em>, the error string will report the reason. Files, particularly GIF files, are often incorrectly encoded but yield usable pictures, so even if a <em>Rawimage</em> is returned, the error string may still report problems.<p>
+</a><a name="844502">
+The <em>Rawimage</em> is always defined as one or more bytes per pixel, with <em>nchans</em> channels of data stored in the array <em>chans</em>. The <em>chandesc</em> field, described in this section, specifies the contents of <em>chans</em>. The rectangle <em>r</em> describes the shape of the picture.<p>
+</a><a name="844506">
+The <em>Rawimage</em> type can be converted to a regular <em>Image</em> (see <a href="md_draw5.htm#844772"><em>Image - pictures and drawing</em> in Chapter &#32;11</a>) by calling function <em>remap</em> in the <em>Imageremap</em> module. The <em>remap</em> function is passed the <em>Rawimage</em>, a <em>Display</em> on which to create the image, and a flag that specifies whether to apply Floyd-Steinberg error diffusion code to the result for smoother rendering of colors at the cost of some noise in the image.<p>
+</a><a name="844507">
+Remapping is defined by the <em>RImagefile</em> itself. The field <em>chandesc</em> specifies the type of the various <em>chans</em> of data. The file readers set <em>chandesc</em> as appropriate for the format of the file.  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844510">
+CRGB<p>
+</a><td><a name="844512">
+3-color RGB image with no color map<p>
+</a>
+<tr><td><a name="844514">
+CY<p>
+</a><td><a name="844516">
+monotone (luminance-only, grey-scale) image with no color map<p>
+</a>
+<tr><td><a name="844518">
+CRGB1<p>
+</a><td><a name="844520">
+single-channel image with RGB color map in <em>cmap</em><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+ <p>
+</a><a name="844522">
+These functions are split into separate modules to give applications control over the memory they need to process images.<p>
+</a><a name="844523">
+<h2> Notes</h2>
+</a><a name="844524">
+The JPEG reader handles only the Baseline sequential format as defined by the JFIF 1.02 file exchange format. Functions to write these formats are unimplemented.<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc4.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc6.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="848752">
+<center><h1> daytime: text, filet, gmt, local, now, time, tm2epoch - <a time conversions>time conversions</h1></center>
+</a><pre><tt>include "daytime.m";
+daytime:= load Daytime Daytime-&gt;PATH;
+Tm: adt
+{
+  sec:     int;
+  min:     int;
+  hour:    int;
+  mday:    int;
+  mon:     int;
+  year:    int;
+  wday:    int;
+  yday:    int;
+  zone:    string;
+  tzoff:   int;
+};
+text:     fn(tm: ref Tm)    : string;
+filet:    fn(now, file: int): string;
+gmt:      fn(tim: int)      : ref Tm;
+local:    fn(tim: int)      : ref Tm;
+now:      fn()              : int;
+time:     fn()              : string;
+tm2epoch: fn(tm: ref Tm)    : int;
+</tt></pre></p><a name="846136">
+<h2> Description</h2>
+</a><a name="846137">
+These routines perform time conversions relative to the epoch <em>00:00:00 GMT, Jan. 1, 1970</em>. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846140">
+text (<em>tm</em>)<p>
+</a><td><a name="846142">
+The <em>text</em> function converts a time adt referenced by <em>tm</em> from local or GMT time to a string in the format: Tue Aug 16 17:03:52 CDT 1977<p>
+</a>
+<tr><td><a name="846144">
+filet (<em>now</em>, <em>file</em>)<p>
+</a><td><a name="846146">
+The <em>filet</em> function converts the file time <em>file</em> from seconds since the epoch to local time as a string in the format: Aug 16 17:03 if the file is less than 6 months old or Aug 16 1977 if the file is older than 6 months.<p>
+</a>
+<tr><td><a name="846148">
+gmt (<em>tim</em>)<p>
+</a><td><a name="846150">
+The <em>gmt</em> function converts seconds since the epoch contained in <em>tim</em> to a time adt in Greenwich Mean Time (GMT).<p>
+</a>
+<tr><td><a name="846152">
+local (<em>tim</em>)<p>
+</a><td><a name="846154">
+The <em>local</em> function converts seconds since the epoch contained in <em>tim</em> to a time adt in local time.<p>
+</a>
+<tr><td><a name="846156">
+now ( )<p>
+</a><td><a name="846158">
+The <em>now</em> function returns the time in seconds since the epoch. This functions works by reading file<kbd> </kbd><em>/dev/time</em> to get the time in microseconds since the epoch.<p>
+</a>
+<tr><td><a name="846160">
+time ( )<p>
+</a><td><a name="846162">
+The <em>time</em> function returns the local time as a string in the format: <em>Tue Aug 16 17:03:52 CDT 1977</em><p>
+</a>
+<tr><td><a name="846164">
+tm2epoch (<em>tm</em>)<p>
+</a><td><a name="846166">
+The <em>tm2epoch</em> function converts a time adt referenced by <em>tm</em> from local or GMT time to seconds since the epoch.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="846167">
+<h2> Caveat</h2>
+</a><a name="846168">
+The sign bit of a Limbo integer holding a time will turn on 68 years from the epoch.<p>
+</a><a name="846169">
+"GMT" is used rather than "UTC" as in other operating systems. There is no serious treatment of leap seconds, instead the epoch is implicitly shifted. Existing practice also dictate the following conventions: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846172">
+year=96<p>
+</a><td><a name="846174">
+means 1996<p>
+</a>
+<tr><td><a name="846176">
+mday=1<p>
+</a><td><a name="846178">
+means first day of the month<p>
+</a>
+<tr><td><a name="846180">
+wday=0<p>
+</a><td><a name="846182">
+means Sunday<p>
+</a>
+<tr><td><a name="846184">
+mon=0<p>
+</a><td><a name="846186">
+means January<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

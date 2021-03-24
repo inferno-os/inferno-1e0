@@ -1,0 +1,28 @@
+\ProvidesPackage{brutus}
+   [1996/09/18 Inferno's Brutus environments]
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+
+% Added example environment for doing in-line examples.
+\def\example{\let\\\@centercr
+  \def\@itemlabel{}\let\makelabel\@mklab \@nmbrlistfalse \leftmargin 2em\relax
+  \@trivlist\small
+  \parskip\parsep \parindent\listparindent
+  \advance\linewidth -\leftmargin
+  \advance\@totalleftmargin \leftmargin
+  \parshape \@ne \@totalleftmargin \linewidth
+  \item\relax}
+\let\endexample\endlist
+
+% And nofill, like example but no indentations
+\def\nofill{\let\\\@centercr
+  \def\@itemlabel{}\let\makelabel\@mklab \@nmbrlistfalse \leftmargin 0pt\relax
+  \@trivlist
+  \parskip\parsep \parindent\listparindent
+  \item\relax}
+\let\endnofill\endlist
+
+% And itemized list with labelwidth set to width of arg
+\def\itemizew#1{\list{}{\settowidth\labelwidth{#1}\leftmargin\labelwidth
+	\addtolength\leftmargin\labelsep
+	\def\makelabel##1{##1\hss}}}
+\let\enditemizew\endlist

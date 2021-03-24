@@ -1,0 +1,89 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="850801">
+<center><h1> au</a>th, rea</a>dauthinfo, wr</a>iteauthinfo - <a authenticating: connection>authenticate a connection</h1></center>
+</a><pre><tt>include "sys.m";
+include "keyring.m";
+kr:= load Keyring Keyring-&gt;PATH;
+auth: fn(fd: ref Sys-&gt;FD, info: ref Authinfo, setid: int)
+                              : (string, array of byte);
+readauthinfo: fn(filename: string)     : ref Authinfo;
+writeauthinfo:fn(filename: string, info: ref Authinfo): int;
+</tt></pre></p><a name="844555">
+<h2> Description</h2>
+</a><a name="844556">
+<h3> auth (fd, info, setid) </h3>
+</a><a name="844557">
+The <em>auth</em> function performs mutual authentication over a network connection, usually between a client and a server. The <em>auth</em> function is symmetric, that is, each party runs it on their end of the connection. The <em>Authinfo</em> adt, <em>info</em>, contains the public key of a certifying authority (<em>PKca</em>), the private key of the user (<em>SKu</em>), the public key (<em>PKu</em>) of the user signed by the certifying authority (<em>CERTu</em>), and <a Diffie-Hellman parameters>Diffie-Hellman parameters (<em>alpha</em>, <em>p</em>). <p>
+</a><a name="844558">
+The <em>auth</em> function returns a string and a byte array. If the byte array is <em>nil</em> then the authentication has failed and the string is an error message. If the byte array is non-<em>nil</em>, then it represents a secret shared by the two communicating parties. In this case the string is the name of the party at the other end of the connection.<p>
+</a><a name="844559">
+If the authentication is successful and the argument <em>setid</em> is non-zero then <em>auth</em> attempts to write the id of the party at the other end of the connection into <em>/dev/user</em> (see <a href="devices3.htm#844391"><em>cons - console device</em> in Chapter &#32;2</a>). No error is generated if this does not succeed. If the authentication is not successful and <em>setid</em> is non-zero, <em>auth</em> writes '<em>none</em>' into <em>/dev/user</em>.<p>
+</a><a name="844563">
+The authentication protocol is based on the Station-to-Station protocol. In the following the parties are labeled 0 and 1. Sig0(<em>x</em>) is <em>x</em> signed with 0's private key.<p>
+</a><pre><tt>0 -&gt; 1  alpha**r0 mod p, CERTu0, PKu0   
+1 -&gt; 0  alpha**r1 mod p, CERTu1, PKu1   
+0 -&gt; 1  sig0(alpha**r0 mod p, alpha**r1 mod p)   
+1 -&gt; 0  sig1(alpha**r0 mod p, alpha**r1 mod p) 
+
+</tt></pre></p><a name="844570">
+At this point both 0 and 1 share the secret <em>alpha**(r0*r1)</em> which is returned in the byte array.<p>
+</a><a name="844571">
+<h3> readauthinfo (filename)</h3>
+</a><a name="844572">
+The <em>readauthinfo</em> function reads an <em>Authinfo</em> adt from a file. It returns <em>nil</em> if there is a read or conversion error, a reference to the adt otherwise.<p>
+</a><a name="844573">
+<h3> writeauthinfo (filename, info)</h3>
+</a><a name="844574">
+The <em>writeauthinfo</em> function writes an <em>Authinfo</em> adt to a file. It returns -1 if the write operation fails, 0 otherwise.<p>
+</a><a name="852964">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852967">
+/usr/&lt;user&gt;/keyring<p>
+</a><td><a name="852969">
+The conventional directory for storing <em>Authinfo</em> files<p>
+</a>
+<tr><td><a name="852971">
+/usr/&lt;user&gt;/keyring/default<p>
+</a><td><a name="852973">
+The file normally used by server programs<p>
+</a>
+<tr><td><a name="852975">
+/usr/&lt;user&gt;/keyring/$server <p>
+</a><td><a name="852977">
+The files normally used by clients where <em>$server</em> is the network name of the server being called, for example, <p>
+</a><pre><tt>tcp!<em>server_name
+</em></tt></pre></p>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

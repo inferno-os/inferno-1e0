@@ -1,0 +1,89 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec14.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec16.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="847464">
+<center><h1> logind - <a daemon for ,logging-in>login daemon</h1></center>
+</a><pre><tt>lib/logind
+</tt></pre></p><a name="847469">
+<h2> Description</h2>
+</a><a name="852742">
+Started by <em>lib/srv</em> (see <a href="daemons3.htm#844491"><em>srv - start server daemons</em> in Chapter &#32;6</a>) to service request on the <em>inflogin</em> port and provide a identity authentication (that is, '<em>signer'</em>) service. Ultimately the client receives authentication information (a <em>certificate</em>) that can be used to establish identity with other hosts who are willing to honor certificates from this signer.<p>
+</a><a name="847474">
+The signer constructs the certificate from:<p>
+</a><ul><a name="847475">
+<li>The contents of the signer's <em>/keydb/signerkey</em> file. <br>(This file is generated if it does not exist)<p>
+</a><a name="847476">
+<li>The id string and password supplied from the client. This is used to access the <em>/keydb/password</em> file via the <em>Password</em> module. (See <a href="md_sec10.htm#852622"><em>get, put - read and write password entries in the password file</em></a>).<p>
+</a><a name="847480">
+The protocol involves an exchange of information between the client and server. The client side of this exchange can be managed by the <em>Login</em> module. See <a href="md_sec14.htm#844720"><em>login, getauthinfo - get an Authinfo adt from a certificate authority</em></a> for a description of the module and the protocol.<p>
+</a><a name="847487">
+Client and server communicate over the Secure Socket Layer Device (see <a href="devices8.htm#844978"><em>ssl - secure sockets layer device</em></a>).<p>
+</a></ul><a name="851719">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="851724">
+/keydb<p>
+</a>
+<tr><td><a name="851733">
+/keydb/signerkey<p>
+</a>
+<tr><td><a name="851726">
+/keydb/password<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="847521">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852748">
+<a href="md_sec6.htm#845673"><em>changelogin - command to create/update the password file</em></a><p>
+</a>
+<tr><td><a name="852754">
+<a href="md_sec14.htm#844720"><em>login, getauthinfo - get an Authinfo adt from a certificate authority</em></a><p>
+</a>
+<tr><td><a name="852758">
+<a href="devices8.htm#844978"><em>ssl - secure sockets layer device</em></a><p>
+</a>
+<tr><td><a name="852763">
+<a href="devices8.htm#844978"><em>ssl - secure sockets layer device</em> in Chapter &#32;2</a><p>
+</a>
+<tr><td><a name="852769">
+<a href="daemons3.htm#844491"><em>srv - start server daemons</em> in Chapter &#32;6</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec14.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec16.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<../../../mkconfig
+<../../../$SYSHOST/mkhost
+
+OBJ=\
+	runappl.dis\
+	rundemo.dis\
+	runerr.dis\
+	runprofile.dis\
+	slideshow.dis\
+	startdemo.dis\
+
+all:V:	$OBJ
+
+MODULE=\
+	../../../module/bufio.m\
+	../../../module/draw.m\
+	../../../module/keyring.m\
+	../../../module/security.m\
+	../../../module/string.m\
+	../../../module/sys.m\
+	../../../module/tklib.m\
+	../../../module/tk.m\
+	../../../module/wmlib.m\
+	
+OBJINST=${OBJ:%=../../../demo/dsp/%}
+OBJPKG=${OBJ:%=$PREFIX_PKG/demo/dsp/%}
+
+$OBJ:	$MODULE
+
+install:V: $OBJ
+	$RM $OBJINST
+	$CP $OBJ ../../../demo/dsp
+
+installall:QV: install
+
+uninstall:V:
+	$RM $OBJINST
+
+package:V:	$OBJ\
+		$PREFIX_PKG/demo/dsp
+		$RM $OBJPKG
+		$CP $OBJ $PREFIX_PKG/demo/dsp
+
+%.install:V:	%.dis
+	cp $stem.dis ../../../demo/dsp
+
+clean nuke:V:
+	rm -f *.dis *.sbl
+
+%.dis:	%.b
+	limbo -I../../../module -gw $stem.b
+
+%.s:	%.b
+	limbo -I../../../module -w -G -S $stem.b
+
+$PREFIX_PKG/demo/dsp:
+	$MKDIR $target

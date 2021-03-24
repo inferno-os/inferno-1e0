@@ -1,0 +1,238 @@
+<html><head><title>Limbo<br>Prefab Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_pref1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_pref3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844423">
+<center><h1> element - <a menu elements for ITV toolkit; display elements for ITV toolkit; ITV (Interactive Television) toolkit:menu elements for; ITV (Interactive Television) toolkit:display elements for>menu and display elements for ITV toolkit</h1></center>
+</a><pre><tt>include "draw.m";
+include "prefab.m";
+prefab:= load Prefab Prefab-&gt;PATH;
+
+# types of Elements
+EIcon:      con 0;
+EText:      con 1;
+ETitle:     con 2;
+EHorizontal:con 3;
+EVertical:  con 4;
+ESeparator: con 5;
+
+# first arg to Element.adjust: size of elements
+Adjpack:   con 10;   # leave alone, pack tightly
+Adjequal:  con 11;   # make equal
+Adjfill:   con 12;   # make equal, filling available space
+
+# second arg: position of element within space
+Adjleft:   con 20;
+Adjup:     con 20;
+Adjcenter: con 21;
+Adjright:  con 22;
+Adjdown:   con 22;
+
+Layout: adt
+{
+ font:   ref Draw-&gt;Font;
+ color:  ref Draw-&gt;Image;
+ text:   string;
+ icon:   ref Draw-&gt;Image;
+ mask:   ref Draw-&gt;Image;
+ tag:    string;
+};
+
+Element: adt
+{
+ kind:   int;
+ r:      Draw-&gt;Rect;
+ environ:ref Environ; 
+ tag:    string; 
+       
+ 
+# different fields defined for different kinds of Elements
+ kids:   cyclic list of ref Element; # children of elists
+ str:   string;          # text in an EText element
+ mask:  ref Draw-&gt;Image; # part of Eicon, ESeparator
+ image: ref Draw-&gt;Image; # part of Eicon, ESeparator, EText,
+                             Etitle
+ font:  ref Draw-&gt;Font;  # part of EText, Etitle
+ 
+ icon:   fn(env: ref Environ,
+                r: Draw-&gt;Rect, icon, mask: ref Draw-&gt;Image)
+                                          :ref Element;
+ text:   fn(env: ref Environ, text: string,
+                r:  Draw-&gt;Rect, kind: int):ref Element;
+ layout: fn(env: ref Environ, lay: list of Layout,
+                r:  Draw-&gt;Rect, kind: int):ref Element;
+ elist:  fn(env: ref Environ, elem: ref Element, kind: int)
+                                          :ref Element;
+ separator:fn(env:ref Environ, r: Draw-&gt;Rect,
+              icon, mask: ref Draw-&gt;Image):ref Element;
+ append:     fn(elist:self ref Element, elem:   
+                               ref Element): int;
+ adjust:    fn(elem:self ref Element, equal: int, dir: int);
+ clip:      fn(elem:self ref Element, r: Draw-&gt;Rect);
+ scroll:    fn(elem:self ref Element, d: Draw-&gt;Point);
+ translate: fn(elem:self ref Element, d: Draw-&gt;Point);
+ show:      fn(elist:self ref Element, elem: ref Element):
+                                 int;
+};
+</tt></pre></p><a name="844494">
+<h2> Description</h2>
+</a><a name="844495">
+<em>Elements</em> are the building blocks of the ITV toolkit. They represent and display text and pictures that can be grouped in arbitrary two-dimensional menus to be walked by an infrared remote control. <em>Elements</em> are packaged within <em>Compounds</em> for display (see <a href="md_pref1.htm#844323"><em>compound - windows for ITV toolkit</em></a>).<p>
+</a><a name="844501">
+<h3> environ</h3>
+</a><a name="844503">
+This specifies the element's environment.<p>
+</a><a name="844505">
+<h3> image</h3>
+</a><a name="844507">
+If the element needs an Image <em>object</em> (see <em>kind</em> in this section), this member specifies it.<p>
+</a><a name="844510">
+<h3> kind</h3>
+</a><a name="844512">
+The Prefab module defines six <em>Element</em> varieties, each labeled by a defined constant in the kind member.<p>
+</a><a name="844518">
+<h4> EIcon</h4>
+</a><a name="844520">
+An image.<p>
+</a><a name="844524">
+<h4> EHorizontal</h4>
+</a><a name="844526">
+A horizontal list of elements.<p>
+</a><a name="844530">
+<h4> ESeparator</h4>
+</a><a name="844532">
+An Image object, like an <em>EIcon</em>, but intended to fill space in a list, rather than to serve as an element of the list. Separators are ignored when selecting or highlighting list elements.<p>
+</a><a name="844536">
+<h4> EText</h4>
+</a><a name="844538">
+A single line of text. Text for this element will be drawn with <em>Style.textfont</em> and <em>Style.textcolor</em>.<p>
+</a><a name="844542">
+<h4> ETitle</h4>
+</a><a name="844544">
+A single line of text, usually giving the title of a Compound object. <em>Text</em> for this element will be drawn with <em>Style.titlefont</em> and <em>Style.titlecolor</em>.<p>
+</a><a name="844548">
+<h4> EVertical</h4>
+</a><a name="844550">
+A vertical list of elements.<p>
+</a><a name="844553">
+<h3> mask</h3>
+</a><a name="844555">
+When an element contains an Image <em>object</em>, the <em>Image.draw</em> function will be used to display it on the screen. The mask <em>image</em> is used as an argument to <em>Image.draw</em>. See <a href="md_draw.htm#844325"><em>Draw Module</em> in Chapter 11</a>.<p>
+</a><a name="844560">
+<h3> r</h3>
+</a><a name="844562">
+All <em>Elements</em> are rectangular, occupying the position on the display specified by <em>r.min</em>. The size of the element also depends on <em>r</em>. During creation, if the rectangle is degenerate (has zero size), the element takes its size from the sizes of its components. For example, the image size for icons and text width for strings. Otherwise, the element's size matches the rectangle.<p>
+</a><a name="844564">
+<h3> tag</h3>
+</a><a name="844566">
+The <em>tag</em> of an element serves two purposes: it allows an element to be labeled with arbitrary invisible text, and it provides a mechanism to control which elements of a list may be selected. The tag <em>field</em> of an element may be modified freely after the element is created. (See Compound.tagselect in <em>prefab-compound.</em>)<p>
+</a><a name="844568">
+<h3> icon (env, r, icon, mask)</h3>
+</a><a name="844571">
+Build one EIcon <em>element</em> to be drawn with the <em>icon</em> and <em>mask</em>. The rectangle, <em>r</em>, gives the element's position and size.<p>
+</a><a name="844573">
+<h3> text (env, text, r, kind)</h3>
+</a><a name="844576">
+Build a textual element or a list of textual elements. The <em>kind</em> parameter may be <em>EText</em> or <em>ETitle</em>, determining the style of the drawn <em>text</em>. The resulting <em>Element</em> object may be a single element or a <em>EVertical</em> list of the appropriate kind, if the text occupies more than one line. The text is folded as necessary to accommodate the available horizontal space; newlines in the text cause line breaks. The width of the text is determined by <em>r</em>, but if <em>r</em> has no width, it will be set by the text itself. The height of the Element is also determined by <em>r</em>. If the height of <em>r</em> is zero, the Element will be made as tall as necessary. If<em> r</em> is not tall enough, the rest of the text may be made visible by calls to <em>Element.scroll</em>. Thus one may choose a specific size or let the <em>text</em> determine the size by setting <em>r</em> suitably.<p>
+</a><a name="844578">
+<h3> layout (env, lay, r, kind)</h3>
+</a><a name="844581">
+Like <em>Element.text</em> but builds a structure using the contents of the list of <em>Layout</em> adts. The <em>Layout</em> adt allows construction of a more general form of textual display by providing fine control over the font and color in which to display text and the inclusion of images as textual elements. It also allows setting of the <em>tag</em> for each component of the resulting element or list of elements. If the <em>Layout</em> has a non-nil<em> image </em>field, it is taken as a description of a picture to be incorporated in the text as an <em>EIcon</em> element (and the <em>text</em> field is ignored); otherwise the <em>text</em> field specifies the text to be drawn in the indicated <em>font</em> and <em>color</em>. As with <em>Element.text</em>, <em>Element.layout</em> does all the geometry management, including text line breaking and folding.<p>
+</a><a name="844583">
+<h3> elist (env, elem, kind)</h3>
+</a><a name="844585">
+Start a list of Element objects. The <em>kind</em> may be <em>EHorizontal</em> or <em>EVertical</em>, specifying the orientation of the list. Parameter <em>elem</em> will be the first element of the list. It may be <em>nil</em>, which creates an empty list of the requested orientation. Subsequent <em>Element.append</em> calls build the list.<p>
+</a><a name="844587">
+<h3> separator (env, r, icon, mask)</h3>
+</a><a name="844590">
+Build one <em>ESeparator</em> element to be drawn with the <em>icon</em> and <em>mask</em>. The rectangle, <em>r</em>, gives the element's position and size.<p>
+</a><a name="844592">
+<h3> elist.append (elem)</h3>
+</a><a name="844594">
+Append one <em>Element</em>, <em>elem</em>, to an existing list, <em>elist</em>. The new element will appear after those already there, either to the right for <em>EHorizontal</em> or below for <em>EVertical</em> lists.<p>
+</a><a name="844595">
+<h3> elem.adjust (spacing, dir)</h3>
+</a><a name="844596">
+Format the list so its elements abut. The list-building functions such as <em>append</em> attempt to build a sensible geometry. Alternatively, one can build a list using degenerate geometry and then let <em>adjust</em> compute the geometry for the whole list. For example, one could place all the elements at (0, 0) and then call <em>adjust</em> to decide where the elements belong.<p>
+</a><a name="844599">
+<h4> spacing</h4>
+</a><a name="844601">
+specifies how the elements fit together<p>
+</a><a name="844607">
+Adjequal<p>
+</a><a name="845151">
+Makes them all equal sized in the dimension of the list, but only as big as the largest element. For example, if the element is a horizontal list, all elements will be as wide as the widest item. If the list is too big for the allocated space, only some will be visible. <p>
+</a><a name="844613">
+Adjfill<p>
+</a><a name="844615">
+Makes them all of equal size in the dimension of the list, expanding the elements to fit the space of the list's <em>Element.r</em>. If the list is too big for the allocated space, only some will be visible. <p>
+</a><a name="844619">
+Adjpack<p>
+</a><a name="844621">
+Packs elements as tightly as possible, using the default size of each element and setting their rectangles against one another.<p>
+</a><a name="844623">
+<h4> dir </h4>
+</a><a name="844625">
+controls how each element is placed in its allotted space<p>
+</a><a name="844631">
+Adjcenter<p>
+</a><a name="844633">
+Place each element in the middle of its space.<p>
+</a><a name="844637">
+Adjdown<p>
+</a><a name="844639">
+In a vertical list, move each element to the bottom.<p>
+</a><a name="844643">
+Adjleft<p>
+</a><a name="844645">
+In a horizontal list, move each element to the left.<p>
+</a><a name="844649">
+Adjright<p>
+</a><a name="844651">
+In a horizontal list, move each element to the right.<p>
+</a><a name="844655">
+Adjup<p>
+</a><a name="844657">
+In a vertical list, move each element to the top.<p>
+</a><a name="844658">
+<h3> elem.clip(r)</h3>
+</a><a name="844659">
+The drawing model for <em>Element</em> objects is that they occupy some space in the plane, which may be larger or smaller than the space occupied by its constituent text, icons, sub-elements, and so on. The <em>clip</em> function sets the rectangle of <em>elem</em> to <em>r</em>, without changing its internal geometry. Any space made newly visible by this will be filled in by the list's <em>Style.elemcolor</em>. For example, if <em>e</em> is an icon element just large enough to display its image, <em>e.clip</em>(<em>e.r.inset</em>(-<em>2</em>)) will make a two-pixel-wide border around the icon when it is drawn. As another example, lists are scrolled by leaving their clip rectangle intact while translating the list elements' coordinates.<p>
+</a><a name="844660">
+<h3> elem.scroll(d)</h3>
+</a><a name="844661">
+Argument <em>d</em> is a <em>Point</em>, representing a vector; <em>elem</em> is an <em>Element</em> to be scrolled. The <em>scroll</em> function leaves the element's <em>r</em> alone and translates all the constituent pieces of the list by <em>d</em>, causing a different portion of <em>elem</em> to be visible in its rectangle.<p>
+</a><a name="844662">
+<h3> elem.translate(d)</h3>
+</a><a name="844663">
+Like <em>elem.scroll</em>(<em>d</em>), but moves <em>r</em> too, thus translating the entire <em>Element</em> rather than just the visible part within a fixed rectangle.<p>
+</a><a name="844664">
+<h3> elist.show(elem)</h3>
+</a><a name="844665">
+The <em>show</em> function does nothing if <em>elem</em> is not a list. If it is a list, the list is scrolled so <em>elem</em>, which must be a member of the list, is visible through<kbd> </kbd><em>elist.r</em>. <p>
+</a><a name="844666">
+The geometry of elements and the membership of lists may be modified only through the provided functions. The Limbo-visible structure is intended to be read-only. Tags, text, and images may be modified freely by the application. There is no way to recalculate the geometry if the components of an textual or image icon change size.<p>
+</a><a name="844667">
+<em>Element</em> objects are not drawn explicitly, and they are not drawn after any <em>Element</em> operation. They are made visible only by calls to <em>Compound.draw</em>, described in <a href="md_pref1.htm#844323"><em>compound - windows for ITV toolkit</em></a>.<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_pref1.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_pref3.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:04 -->
+
+</body>
+</html>

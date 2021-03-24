@@ -1,0 +1,75 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844438">
+<center><h1> devpointer - <a I/O interface, for pointer device>I/O interface for the pointer device</h1></center>
+</a><pre><tt>include "draw.m";   #for Draw-&gt;Pointer
+include "devpointer.m";
+ptr:= load Devpointer Devpointer-&gt;PATH;
+Devpointer: module
+{
+  PATH:    con "/dis/lib/devpointer.dis";
+   Size:   con 1+3*12;	# 'm' plus 3 12-byte decimal integers
+   init:   fn(file: string, posn: 
+                chan of ref Draw-&gt;Pointer): int;
+  bytes2ptr: fn(buf: array of byte)    : ref Draw-&gt;Pointer;
+  ptr2bytes: fn(ptr: ref Draw-&gt;Pointer): array of byte;
+};
+</tt></pre></p><a name="844455">
+<h2> Description</h2>
+</a><a name="844456">
+<h3> init (file, posn) </h3>
+</a><a name="844457">
+The <em>init</em> function spawns a thread to continually read the pointer device specified by <em>file</em> and sends a <em>Pointer</em> adt (see <a href="md_draw7.htm#845060"><em>pointer - state of a pointer device such as a mouse</em> in Chapter &#32;11</a>) over the channel specified by <em>posn</em>. If <em>file</em> is <em>nil</em>, the default device is <em>/dev/pointer</em>.<p>
+</a><a name="844461">
+<h3> bytes2ptr (buf)</h3>
+</a><a name="844462">
+The <em>bytes2ptr</em> function converts the array of bytes in <em>buf</em> to a <em>Pointer</em> and returns a reference to it. The <em>buf</em> array should consist of exactly <em>Size</em> bytes and be in the format returned by <em>/dev/pointer</em>.<p>
+</a><a name="844463">
+<h3> ptr2bytes (ptr)</h3>
+</a><a name="844464">
+The <em>ptr2bytes</em> function provides an inverse transformation of the <em>bytes2ptr</em> function.<p>
+</a><a name="844465">
+<h2> Files</h2>
+</a><a name="844466">
+<kbd>/dev/pointer</kbd><p>
+</a><a name="844467">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="848764">
+<a href="md_draw7.htm#845060"><em>pointer - state of a pointer device such as a mouse</em> in Chapter &#32;11</a><p>
+</a>
+<tr><td><a name="848766">
+<a href="devices.htm#"><em>draw - graphics device</em> in Chapter &#32;2</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc2.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc4.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

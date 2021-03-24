@@ -1,0 +1,82 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="846214">
+<center><h1> filepat: expand, match - <a file pattern matching; file operations: matching patterns>file pattern matching</h1></center>
+</a><a name="846218">
+<h2> Synopsis</h2>
+</a><pre><tt>include "filepat.m";
+filepat:= load Filepat Filepat-&gt;PATH;
+expand:   fn(pat: string)      : list of string;
+match:    fn(pat, name: string): int;
+</tt></pre></p><a name="846234">
+<h2> Description 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846227">
+expand (<em>pat</em>)<p>
+</a><td><a name="846229">
+The <em>expand</em> function builds a list of file names in alphabetical order that matches the pattern <em>pat</em>. The pattern is tokenized using<em> / </em>as a delimiter.<p>
+</a>
+<tr><td><a name="846231">
+match (<em>pat</em>, <em>name</em>)<p>
+</a><td><a name="846233">
+The <em>match</em> function returns the length of name <em>if</em> it matches the pattern <em>pat</em>. Otherwise, it returns 0.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="846235">
+The <em>pat</em> passed to <em>match</em> and each token of <em>pat</em> passed to <em>expand</em> may include combinations of the special characters <em>*</em>, <em>?</em>, <em>[</em>, and <em>]</em>.<p>
+</a><a name="846236">
+The asterisk <em>*</em> matches a string of zero or more characters.<p>
+</a><a name="846237">
+The query <em>?</em> matches any single character.<p>
+</a><a name="846238">
+The notation <em>[s]</em>, where <em>s</em> is a non-empty string, matches any single character in <em>s</em>. A range of characters can be expressed by a string <em>s</em> of the form <em>c</em><sub>start</sub><em>-c</em><sub>end</sub>. The notation <em>[^s]</em>, where <em>s</em> is a non-empty string, matches any single character not in <em>s</em>. The characters <em>*</em>, <em>?</em>, and <em>[</em> lose their special meaning if they occur in <em>s</em>. <p>
+</a><a name="846239">
+If any character is preceded by the character <em>\</em>, that character loses any special meaning and is interpreted literally.<p>
+</a><a name="846240">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="848826">
+<a href="md_mis10.htm#846431"><em>readdir - read directory and sort files</em></a><p>
+</a>
+<tr><td><a name="848821">
+<em><a href="md_sys17.htm#845462"></em><em>tokenize - split string into words</em> in Chapter &#32;8<em></a> </em><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

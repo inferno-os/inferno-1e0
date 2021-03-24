@@ -1,0 +1,157 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec13.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec15.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844720">
+<center><h1> lo</a>gin, getauthinfo - <a Authinfo adt from certificate authority, getting>get an Authinfo adt from a certificate authority</h1></center>
+</a><pre><tt>include "keyring.m";
+<pre><tt>include "security.m";
+lg:= load Login Login-&gt;PATH;
+login:       fn(id, password, dest: string):
+                   (string, ref Keyring-&gt;Authinfo);
+getauthinfo: fn(ctxt: ref Draw-&gt;Context, keyname, path:
+                    string): ref Keyring-&gt;Authinfo;
+</tt></pre></p><a name="844730">
+<h2> Description</h2>
+</a><a name="849374">
+The <em>login</em> module provides routines to communicate with a Certifying Authority (CA) in order to create a <em>Keyring-&gt;Authinfo</em> adt. It does this assuming a password has already been established between the user and the CA. <p>
+</a><a name="849376">
+The password is used by the encrypted key exchange protocol described in this section to establish a secure channel between the user and CA. The description uses the following notation:  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="849379">
+ivec<p>
+</a><td><a name="849381">
+an 8 - byte random number chosen for this conversation<p>
+</a>
+<tr><td><a name="849383">
+sha<p>
+</a><td><a name="849385">
+the 20 - byte secure hash (SHA-1) of the password<p>
+</a>
+<tr><td><a name="849387">
+key<p>
+</a><td><a name="849389">
+an 8 - byte secret formed as follows:<p>
+</a><a name="853028">
+<p>
+</a><a name="853022">
+<kbd>key[0] = ivec[0]^sha[0]^sha[8]^sha[16]   </kbd><p>
+</a><a name="853023">
+<kbd>key[1] = ivec[1]^sha[1]^sha[9]^sha[17] </kbd><p>
+</a><a name="853024">
+<kbd>...   </kbd><p>
+</a><a name="853025">
+<kbd>key[5] = ivec[5]^sha[5]^sha[13];   </kbd><p>
+</a><a name="853026">
+<kbd>key[6] = ivec[6]^sha[6]^sha[14];   </kbd><p>
+</a><a name="853020">
+<kbd>key[7] = ivec[7]^sha[7]^sha[15]; </kbd><p>
+</a>
+<tr><td><a name="849415">
+alpha<p>
+</a><td><a name="849417">
+a Diffie-Hellman base used system wide<p>
+</a>
+<tr><td><a name="849419">
+p<p>
+</a><td><a name="849421">
+a Diffie-Hellman modulus used system wide <p>
+</a>
+<tr><td><a name="849423">
+key (<em>m</em>)<p>
+</a><td><a name="849425">
+<em>m</em> encrypted using the RC4 algorithm with <em>key</em><p>
+</a>
+<tr><td><a name="849427">
+Rx<p>
+</a><td><a name="849429">
+a random number of the same order as <em>p</em>.<p>
+</a>
+<tr><td><a name="849431">
+secret<p>
+</a><td><a name="849433">
+the Diffie-Hellman secret <em>alpha**(r0*r1) mod p</em><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="849434">
+<p>
+</a><a name="852899">
+In the following protocol, the notation <em>user --&gt; CA xxx </em>means that a user sends the message <em>xxx</em> to the certifying authority (<em>CA</em>). At any point in the exchange, either party can send an error instead of a message to terminate the protocol.<p>
+</a><pre><tt><kbd>user --&gt; CA  name   
+</kbd><kbd>CA --&gt; user  ACK
+</kbd><kbd>     
+</kbd><kbd>user --&gt; CA  ivec   
+</kbd><kbd>CA --&gt; user  key(alpha**r0 mod p), alpha, p
+</kbd>
+<kbd>user --&gt; CA  alpha**r1 mod p
+</kbd><kbd>CA --&gt; user  CA's public key, SHA(CA's public key + secret)
+</kbd>
+<kbd>user --&gt; CA  user's public key, SHA(user's public key + secret)
+</kbd><kbd>CA --&gt; user  user's public key certificate
+</kbd>
+</tt></pre></p><a name="849450">
+The complexity of this protocol is intended to shield the password. To start a clear text attack against the password, one needs to first attack the Diffie-Hellman exponential to determine <em>alpha**r0 mod p</em>. <p>
+</a><a name="852904">
+The values <em>alpha</em> and <em>p</em> are sent unprotected, though the user code does a few sanity checks on the values it receives. <p>
+</a><a name="852910">
+The role of <em>ivec</em> is to foil any replay attacks by someone spoofing the CA. <p>
+</a><a name="852911">
+<h3> login (id, password, dest) </h3>
+</a><a name="844732">
+The <em></a>login</em> function is used to get a signed certificate from the certifying authority, CA, using the protocol described in <a href="md_sec14.htm#844720"><em>login, getauthinfo - get an Authinfo adt from a certificate authority</em> in Chapter &#32;9</a>. The <em>dest</em> parameter is the network address of the CA. The user, <em>id</em>, must have previously received the <em>password</em> from the CA for this to work.<p>
+</a><a name="844737">
+If <em>login</em> fails, the string returned will be an error message. If it succeeds, the string will be the <em>nil</em> value and an <em>Authinfo</em> abstract data type is returned. This adt can be used with the <em>auth</em> function (see <a href="md_sec4.htm#850801"><em>auth, readauthinfo, writeauthinfo - authenticate a connection</em></a>) to authenticate future connections.<p>
+</a><a name="844741">
+<h3> getauthinfo (ctxt, keyname, path)</h3>
+</a><a name="844742">
+The <em>getauthinfo</em> function is a Tk user interface to <em>login</em>. It will first try to read the file, <em>path</em>, for the <em>Authinfo</em> adt (see the description of the <em>readauthfinfo</em> function on <a href="md_sec4.htm#850801"><em>auth, readauthinfo, writeauthinfo - authenticate a connection</em></a>). If path is <em>nil</em>, it is set to<kbd> /usr/$user/keyring/keyname</kbd>. If the read succeeds, then that adt is returned.   If it fails, a Tk window will be opened to allow the user to enter an id, password, and the network address of the certificate authority to use. The default CA is the <em>$SIGNER</em> listed in the file <em>/services/cs/db</em>.<p>
+</a><a name="844746">
+If requested by the checkbox in the interface, <em>getauthinfo</em> will save the adt in the file, <em>path</em>. This allows the <em>Authinfo</em> to be kept across re-boots. If the box is not checked, <em>getauthinfo</em> will use the system <em>file2chan</em> function (see <a href="md_sys7.htm#844846"><em>file2chan - create file connected to Limbo channel</em> in Chapter &#32;8</a>) to create a temporary file, <em>path</em>, that will disappear if unmounted, or when the system is re-booted.<p>
+</a><a name="844750">
+The <em>login</em> protocol uses TCP port 6673 with the symbolic name <em>inflogin</em>.<p>
+</a><a name="844751">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852727">
+<a href="md_sec4.htm#850801"><em>auth, readauthinfo, writeauthinfo - authenticate a connection</em></a> <p>
+</a>
+<tr><td><a name="852729">
+<a href="md_sys7.htm#844846"><em>file2chan - create file connected to Limbo channel</em> in Chapter &#32;8</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec13.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec15.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd14.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd16.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853338">
+<center><h1> ls - <a listing directory contents>list contents of directory</h1></center>
+</a><pre><tt></tt></pre></p><strong>
+</strong><a name="852362">
+<h2> Description</h2>
+</a><a name="845100">
+For each directory argument, <em></a>ls</em> lists to the standard output the contents of the directory. For each file argument, <em>ls</em> repeats its name and any other information requested. When no argument is given, the current directory is listed. <p>
+</a><a name="851514">
+If a named file does not exist, an error message is sent to the standard error.<p>
+</a><a name="845101">
+<h2> Options</h2>
+</a><a name="845141">
+There are a number format/content options: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="851696">
+-d<p>
+</a><td><a name="851698">
+List directory names.<p>
+</a>
+<tr><td><a name="851700">
+-l<p>
+</a><td><a name="851702">
+List in long format, giving mode (see <a href="cmd15.htm#845142"><em>The Long Format</em></a>)<p>
+</a>
+<tr><td><a name="851704">
+-p<p>
+</a><td><a name="851706">
+Print only the final path element of each file name.<p>
+</a>
+<tr><td><a name="851708">
+-q<p>
+</a><td><a name="851710">
+Include the <em>qid</em> (see <a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter &#32;8</a>) of each file. <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="849274">
+By default, the output is sorted alphabetically by name. Sorting options are as follows: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="851720">
+-r<p>
+</a><td><a name="851722">
+Reverse the order of sort.<p>
+</a>
+<tr><td><a name="851724">
+-s<p>
+</a><td><a name="851726">
+Sort by size.<p>
+</a>
+<tr><td><a name="851728">
+-t<p>
+</a><td><a name="851730">
+Sort by time modified (latest first) <p>
+</a>
+<tr><td><a name="851732">
+-u<p>
+</a><td><a name="851734">
+Sort by time of last access<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845142">
+<h3> The Long Format </h3>
+</a><a name="845252">
+The information given with the <em>-l </em>format consists of eight fields: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845145">
+mode<p>
+</a><td colspan=2 rowspan=1><a name="845147">
+The <em>mode</em> field contains ten characters. The first character is <p>
+</a>
+<tr><td><a name="845151">
+<p>
+</a><td><a name="845153">
+d<p>
+</a><td><a name="845155">
+if the entry is a directory;<p>
+</a>
+<tr><td><a name="845157">
+<p>
+</a><td><a name="845159">
+-<p>
+</a><td><a name="845161">
+if the entry is a plain file.<p>
+</a>
+<tr><td><a name="845163">
+ <p>
+</a><td colspan=2 rowspan=1><a name="845165">
+The remaining nine characters are interpreted as three sets of three bits each. <p>
+</a><a name="854672">
+The first set refers to owner (<em>uid</em>) permissions. <p>
+</a><a name="854673">
+The next set to permissions to those in the same user-group (<em>gid</em>). <p>
+</a><a name="854674">
+The last set refers to permissions for all others.<p>
+</a>
+<tr><td><a name="845169">
+<p>
+</a><td colspan=2 rowspan=1><a name="845171">
+Within each set the three characters indicate permission respectively to read, to write, or to execute the file as a program.<p>
+</a>
+<tr><td><a name="845175">
+<p>
+</a><td colspan=2 rowspan=1><a name="845177">
+For a directory, `execute' permission means permission to search the directory for a specified file.<p>
+</a>
+<tr><td><a name="845181">
+<p>
+</a><td colspan=2 rowspan=1><a name="845183">
+The permissions are indicated as follows:<p>
+</a>
+<tr><td><a name="845187">
+<p>
+</a><td><a name="845189">
+r<p>
+</a><td><a name="845191">
+if the file is readable;<p>
+</a>
+<tr><td><a name="845193">
+<p>
+</a><td><a name="845195">
+w<p>
+</a><td><a name="845197">
+if the file is writable;<p>
+</a>
+<tr><td><a name="845199">
+<p>
+</a><td><a name="845201">
+x<p>
+</a><td><a name="845203">
+if the file is executable;<p>
+</a>
+<tr><td><a name="845205">
+<p>
+</a><td><a name="845207">
+-<p>
+</a><td><a name="845209">
+if none of the above permissions is granted.<p>
+</a>
+<tr><td><a name="845211">
+devtype<p>
+</a><td colspan=2 rowspan=1><a name="845213">
+The <em>device type</em> for the file, a single character representing the root of a file tree implemented by a particular kernel device driver.<p>
+</a>
+<tr><td><a name="845217">
+device number<p>
+</a><td colspan=2 rowspan=1><a name="845219">
+A number provided by the file system server.<p>
+</a>
+<tr><td><a name="845223">
+uid<p>
+</a><td colspan=2 rowspan=1><a name="845225">
+The user identity string.<p>
+</a>
+<tr><td><a name="845229">
+gid<p>
+</a><td colspan=2 rowspan=1><a name="845231">
+The group identity string.<p>
+</a>
+<tr><td><a name="845235">
+size<p>
+</a><td colspan=2 rowspan=1><a name="845237">
+The size of the file in bytes. <p>
+</a>
+<tr><td><a name="845241">
+modification time<p>
+</a><td colspan=2 rowspan=1><a name="851524">
+The modification time of the file formatted per      <em>Daytime-&gt;filet:</em><kbd> <br></kbd>files less than 6 months old - <br>   appear with month, day-of-month, and time-of-day<br>files over 6 months old - <br>   show appear with month, day-of-month, and year<p>
+</a>
+<tr><td><a name="845247">
+name<p>
+</a><td colspan=2 rowspan=1><a name="845249">
+The file name.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845253">
+<h2> Notes</h2>
+</a><a name="845254">
+The sorting options correspond to the <em>sortkey</em> options of the <em>readdir</em> module. See <a href="md_mis10.htm#846431"><em>readdir - read directory and sort files</em> in Chapter &#32;15</a>. <p>
+</a><a name="851926">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854284">
+<a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter &#32;8</a><p>
+</a>
+<tr><td><a name="854289">
+<a href="devices.htm#"><em>Inferno Devices</em> in Chapter &#32;2</a><p>
+</a>
+<tr><td><a name="854294">
+<a href="proto9.htm#847231"><em>stat, wstat - inquire or change file attributes</em> in Chapter &#32;3</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd14.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd16.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

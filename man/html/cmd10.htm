@@ -1,0 +1,92 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd11.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853263">
+<center><h1> du - <a disk usage>disk usage</h1></center>
+</a><pre><tt>du [-sant] [<em>file...</em>]
+</tt></pre></p><a name="844964">
+<h2> Description</h2>
+</a><a name="844965">
+The <em></a>du</em> command outputs to standard output the total size of files specified as arguments. Output sums are rounded up to the nearest 1K unit (1024 bytes).<p>
+</a><a name="844966">
+Directories are recursively tallied. If no filenames are provided, the command operates on the current directory.<p>
+</a><a name="844987">
+<h2> Options 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844969">
+<em>-s</em> (default)<p>
+</a><td><a name="844971">
+Output the usage information tallied for each directory.<p>
+</a>
+<tr><td><a name="844973">
+-a<p>
+</a><td><a name="844975">
+Output usage information for each file, not just the directories.<p>
+</a>
+<tr><td><a name="844977">
+-n<p>
+</a><td><a name="854903">
+Output just the filenames, no other information. Warning messages are generated for 'unsafe' filenames (for example, names containing shell special characters or characters that might confuse certain tools). The unsafe characters are:<p>
+</a><pre><tt>" ' \Q $ # ; &amp; | ^ &lt; &gt; ( ) \
+</tt></pre></p>
+<tr><td><a name="844984">
+-t<p>
+</a><td><a name="844986">
+When used with the <em>-n</em> option, outputs the filename, modification time (seconds since the epoch), size (in bytes), and checksum. This option has no effect in the absence of the <em>-n </em>option.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="844988">
+<h2> Notes</h2>
+</a><a name="844989">
+Options <em>-s</em>, <em>-a</em>, and <em>-n</em> are mutually exclusive.<p>
+</a><a name="844990">
+<h2> Caveat</h2>
+</a><a name="844991">
+The checksum value shown by the <em>-t</em> option is always 0.<p>
+</a><a name="845007">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854023">
+<a href="cmd27.htm#853536"><em>sh - command line interface to the Inferno system</em></a> <p>
+</a>
+<tr><td><a name="854029">
+<a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter &#32;8</a> <p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd9.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd11.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

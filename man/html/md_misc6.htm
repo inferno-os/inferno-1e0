@@ -1,0 +1,239 @@
+<html><head><title>Limbo<br>Miscellaneous Modules</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="844527">
+<center><h1> ir - <a infrared:remote control>infrared remote control</h1></center>
+</a><pre><tt>include   "ir.m";
+ir     := load Ir Ir-&gt;PATH;    # for real remotes
+simir  := load Ir Ir-&gt;SIMPATH; # for keyboard simulator
+init:      fn(c, p: chan of int) : int;
+translate: fn(c: int)            : int;
+</tt></pre></p><a name="844539">
+<h2> Description</h2>
+</a><a name="847461">
+Programs running with the <em>Prefab</em> module are controlled by an infrared remote control device. If such a device is not present, the system may simulate it from the keyboard by loading the module in file <em>SIMPATH</em>. The <em>Ir</em> module defines codes for representing the remote control keys. These codes are typically sent over the <em>Context.cir</em> channel, which is managed by <em>Mux</em>. (See <a href="md_draw1.htm#844416"><em>context - graphics environment</em> in Chapter &#32;11</a> and <a href="md_pref.htm#845277"><em>Limbo Prefab Module</em> in Chapter &#32;12</a><p>
+</a><a name="847467">
+<h3> init</h3>
+</a><a name="847469">
+The <em>init</em> function takes the appropriate actions to initialize the device, and then spawns a process to return the <em>c</em> the codes on the <em>irc</em> channel and <em>p </em>the process id on the <em>pid</em> channel. This is done for both real and simulated devices. The <em>init</em> function is typically invoked once, such as by <em>Mux</em>, and the codes are then multiplexed between the applications. Most programs need not call <em>init</em>.<p>
+</a><a name="847471">
+<h3> translate</h3>
+</a><a name="847473">
+The <em>translate</em> function converts the device's raw codes into the constants defined by the module. For example, with the simulated remote control,<em> translate('3') </em>returns <em>Three</em>. The <em>translate</em> function is only necessary for programs that need to manage their own simulation of the remote control. <p>
+</a><a name="847560">
+<h2> Codes 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="847476">
+Code<p>
+</a><td><a name="847478">
+Description of Code<p>
+</a><td><a name="847480">
+<strong>Keyboard</strong> <strong>Equivalent</strong><p>
+</a>
+<tr><td><a name="847482">
+ChanUP, ChanDN<p>
+</a><td><a name="847484">
+The Channel-Up and Channel-Down buttons<p>
+</a><td><a name="847486">
+<strong>r</strong> and <strong>c</strong><p>
+</a>
+<tr><td><a name="847488">
+Enter<p>
+</a><td><a name="847490">
+The Enter button<p>
+</a><td><a name="847492">
+SPACE<p>
+</a>
+<tr><td><a name="847494">
+EOF<p>
+</a><td><a name="847496">
+An end of file from the remote device. After sending an EOF, no more codes will be sent on <em>irc</em><p>
+</a><td><a name="847498">
+None<p>
+</a>
+<tr><td><a name="847500">
+Error<p>
+</a><td><a name="847502">
+An unknown or invalid input from the remote device<p>
+</a><td><a name="847504">
+None<p>
+</a>
+<tr><td><a name="847506">
+FF, Rew<p>
+</a><td><a name="847508">
+Fast-Forward and Rewind buttons<p>
+</a><td><a name="847510">
+<strong>k</strong> and <strong>j</strong><p>
+</a>
+<tr><td><a name="847512">
+Mute<p>
+</a><td><a name="847514">
+The Mute button<p>
+</a><td><a name="847516">
+None<p>
+</a>
+<tr><td><a name="847518">
+Power<p>
+</a><td><a name="847520">
+The Power button<p>
+</a><td><a name="847522">
+<strong>Delete</strong> key<p>
+</a>
+<tr><td><a name="847524">
+Rcl<p>
+</a><td><a name="847526">
+The Recall button. Typical applications do not see this command; instead, the <em>Mux</em> application intercepts the command and reactivates its menu. <p>
+</a><td><a name="847529">
+x<p>
+</a>
+<tr><td><a name="847531">
+Record<p>
+</a><td><a name="847533">
+The Record button<p>
+</a><td><a name="847535">
+None<p>
+</a>
+<tr><td><a name="847537">
+Select<p>
+</a><td><a name="847539">
+The Select button<p>
+</a><td><a name="847541">
+<strong>Return</strong> or <strong>Enter</strong> key<p>
+</a>
+<tr><td><a name="847543">
+Up, Dn<p>
+</a><td><a name="847545">
+The Up and Down buttons<p>
+</a><td><a name="847547">
+<strong>i</strong> and <strong>m</strong><p>
+</a>
+<tr><td><a name="847549">
+VolUP, VolDN<p>
+</a><td><a name="847551">
+The Volume Up and Down buttons<p>
+</a><td><a name="847553">
+<strong>t</strong> and <strong>v</strong><p>
+</a>
+<tr><td><a name="847555">
+Zero, One, Two, etc.<p>
+</a><td><a name="847557">
+The digit buttons, 0 through 9<p>
+</a><td><a name="847559">
+corresponding numeral keys<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="844642">
+<p>
+</a><a name="849352">
+<h2> Examples</h2>
+</a><a name="844643">
+Application programs using the remote control run under <em>mux</em>, which creates a graphics interface for the application. This includes channels to the <em>Mux</em> program and to the <em>Ir</em> device:<em> Context.ctomux </em>and <em>Context.cir</em>. The following example establishes communication with <em>Mux</em> and then reads <em>Ir</em> commands until it sees <em>Enter</em>.<p>
+</a><pre><tt>implement Command;
+
+include "sys.m"; 
+include "draw.m"; 
+include "ir.m"; 
+Command: module 
+{
+  init: fn(ref Draw-&gt;Context; list of string);
+};
+init(ctxt: ref Draw-&gt;Context; argv: list of string); 
+{
+  sys:= load Sys Sys-&gt;PATH;  
+  # Tell mux to start sending input.  
+  ctxt.ctomux &lt;-= Draw-&gt;AMstartinput;  
+   for(;;) {   
+       key:= &lt;-ctxt.cir;   
+        sys-&gt;print("command %d\n", key);   
+         if(key == Ir-&gt;Enter)    
+              break;  
+   }  
+  # Tell mux this thread is going away.  
+  ctxt.ctomux &lt;-= Draw-&gt;AMexit; 
+}
+
+</tt></pre></p><a name="844669">
+Programs such as <em>Mux</em> that drive the remote control directly must load the appropriate module and initialize it. This example uses the absence of a simulator module to infer that a real remote control is available.<p>
+</a><pre><tt>implement Irtest; 
+include "sys.m"; 
+include "draw.m"; 
+include "ir.m"; 
+Irtest: module 
+{  
+   init: fn(ctxt: ref Draw-&gt;Context, argv: list of string); 
+}; 
+init(nil: ref Draw-&gt;Context, nil: list of string) 
+{   
+    sys:= load Sys Sys-&gt;PATH;   
+    # First try the keyboard Ir simulator.   
+    # If that is not present, use Ir directly.   
+    ir:= load Ir Ir-&gt;SIMPATH;   
+    if(ir == nil)     
+        ir = load Ir Ir-&gt;PATH;   
+    if(ir == nil){     
+        sys-&gt;print("Ir module not loaded: %r\n");     
+        return;   
+    }   
+    irc:= chan of int;   
+    pid:= chan of int;   
+
+    if(ir-&gt;init(irc,pid) &lt; 0){     
+      sys-&gt;print("Can't initialize Ir device: %r\n");     
+        return;   
+    }   
+      &lt;- pid;
+      for(;;){     
+              irval:= &lt;-irc;     
+      sys-&gt;print("command %d\n", irval);   
+    } 
+}
+</tt></pre></p><a name="844703">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="849001">
+<a href="md_draw.htm#844325"><em>Draw Module</em> in Chapter &#32;11</a><p>
+</a>
+<tr><td><a name="849006">
+<a href="i_modu.htm#840761"><em>Introduction to Limbo Modules</em> in Chapter &#32;7</a><p>
+</a>
+<tr><td><a name="849011">
+<a href="cmd_env3.htm#844459"><em>limbo - Limbo compiler</em> in Chapter &#32;4</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_misc5.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_misc7.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:49:17 -->
+
+</body>
+</html>

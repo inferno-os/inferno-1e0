@@ -1,0 +1,107 @@
+<html><head><title>Inferno<br>Security Modules and Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec19.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec21.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="846000">
+<center><h1> signer, countersigner - <a set-top box authentication; authenticating: set-top box>daemons for set-top box authentication</h1></center>
+</a><pre><tt>lib/signer
+lib/countersigner
+</tt></pre></p><a name="846006">
+<h2> Description</h2>
+</a><a name="846007">
+The <kbd></a>signer</kbd> and <kbd></a>countersigner</kbd> daemons listen for requests on the service ports <kbd>infsigner</kbd> and <kbd>infcsigner</kbd>, respectively.<p>
+</a><a name="846008">
+<h3> The signer daemon</h3>
+</a><a name="847362">
+The <em>signer</em> daemon constructs an authentication certificate from the local key (in <kbd>/keydb/signerkey</kbd>) and information from the requesting client (including <em>set-top-box-id</em>).<p>
+</a><a name="847363">
+If non-existent, the <em>signer</em> daemons creates and initializes <kbd>/keydb/signerkey </kbd>with an owner name of '<kbd>*</kbd>'. That file can also be created with the <kbd></a>createsignerkey</kbd> command (see <a href="md_sec8.htm#846226"><em>createsignerkey - command to create signer key on authentication server</em></a>).<p>
+</a><a name="847370">
+The <kbd>signer</kbd> daemon 'blinds' the certificate by the technique of XOR-ing it with a random bit mask, then sends the result to the requesting client. The client's user uses that information to establish identity with a human agent on the 'signer'.   The <kbd>signer</kbd> daemon also saves the both the 'blinded' and 'unblinded' result in the input for the verify command (<kbd>/keydb/signed/</kbd><em>set-top-box-id)</em>.<p>
+</a><a name="846015">
+<h2> The countersigner daemon</h2>
+</a><a name="846016">
+The <kbd>countersigner</kbd> daemon sends the contents of <kbd>/keydb/countersigned/</kbd><em>set-top-box-id</em> to the requesting client.<p>
+</a><a name="846030">
+<h2> Files 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="846019">
+/keydb/signerkey<p>
+</a><td><a name="846021">
+Secret key of the 'signer' host.<p>
+</a>
+<tr><td><a name="846023">
+/keydb/signed/set-top-box-id<p>
+</a><td><a name="846025">
+Repository of 'blinded' and clear certificates.<p>
+</a>
+<tr><td><a name="846027">
+/keydb/countersigned/set-top-box-id<p>
+</a><td><a name="846029">
+Repository of 'unblinded' certificates.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="846060">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="852806">
+<a href="md_sec8.htm#846226"><em>createsignerkey - command to create signer key on authentication server</em></a><p>
+</a><a name="852914">
+<p>
+</a><td><a name="852808">
+Initialization of <em>/keydb/signerkey</em>.<p>
+</a>
+<tr><td><a name="852810">
+<a href="md_sec18.htm#846848"><em>register - command to register set-top-box identity with signer</em></a><p>
+</a><a name="852915">
+<p>
+</a><td><a name="852812">
+Client side of set-top-box registration.<p>
+</a>
+<tr><td><a name="852814">
+<a href="daemons3.htm#844491"><em>srv - start server daemons</em></a><p>
+</a><td><a name="852816">
+Launching signer and countersigner daemons.<p>
+</a>
+<tr><td><a name="852818">
+<a href="md_sec21.htm#846169"><em>verify - command to authenticate receiver of blinded certificate</em></a><p>
+</a><td><a name="852820">
+Extract the 'unblinded' certificate from <kbd>/keydb/signed/</kbd><em>set-top-box-id</em> and save in   /keydb/countersigned/<em>set-top-box-id</em>.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="html.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sec19.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sec21.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/19/97 12:49:31 -->
+
+</body>
+</html>

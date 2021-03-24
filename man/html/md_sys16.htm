@@ -1,0 +1,177 @@
+<html><head><title>Limbo<br>System Module</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys15.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys17.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="845329">
+<center><h1> stat, fstat, fwstat, wstat - <a file status, getting and putting; file operations:getting:file status; file operations:putting file status; status:of file, getting/putting>get and put file status</h1></center>
+</a><pre><tt>include "sys.m";
+sys:= load Sys Sys-&gt;PATH;
+fstat:  fn(fd: ref FD)          : (int, Dir);
+fwstat: fn(fd: ref FD;  d: Dir) : int;
+stat:   fn(name: string)        : (int, Dir);
+wstat:  fn(name: string, d: Dir): int;
+</tt></pre></p><a name="845339">
+<h2> Description</h2>
+</a><a name="845340">
+<h3> stat (name, d) and fstat (fd, d) </h3>
+</a><a name="845341">
+Given a file's <em>name</em>, or an open file descriptor <em>fd</em>, these routines return information about the file into the <em>Dir</em> member of the returned tuple. The <em>int</em> member will be zero for success and -1 for failure.<p>
+</a><a name="845342">
+<h3> wstat (name, d) and fwstat (fd, d)</h3>
+</a><a name="851282">
+The wstat and <em>fwstat</em> functions apply the file attributes of <em>d</em> to the file. Only certain attributes can be modified. See the section <a href="md_sys16.htm#845419"><em>Modifying File Attributes</em></a>. Both functions return zero for success and -1 for failure.<p>
+</a><a name="851283">
+<h3> The Dir Abstract Data Type</h3>
+</a><a name="845345">
+File status is managed via the Dir abstract data type:<p>
+</a><pre><tt>Qid: adt 
+{   
+	path:  int;   
+	vers:  int; 
+}; 
+
+Dir: adt 
+{   
+	name:   string;   
+	uid:    string;   
+	gid:    string;   
+	qid:    Qid;   
+	mode:   int;   
+	atime:  int;   
+	mtime:  int;   
+	length: int;   
+	dtype:  int;   
+	dev:    int; 
+};
+</tt></pre></p><a name="845418">
+<h3> File Mode Bits 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845395">
+16r80000000 <p>
+</a><td><a name="845397">
+Directory. The <em>Sys</em> module defines this as <em>CHDIR</em>.<p>
+</a>
+<tr><td><a name="845399">
+8r400<p>
+</a><td><a name="845401">
+Read permission by owner.<p>
+</a>
+<tr><td><a name="845403">
+8r200<p>
+</a><td><a name="845405">
+Write permission by owner.<p>
+</a>
+<tr><td><a name="845407">
+8r100<p>
+</a><td><a name="845409">
+Execute permission (search on directory) by owner<p>
+</a>
+<tr><td><a name="845411">
+8r070<p>
+</a><td><a name="845413">
+Read, write, execute (search) by group.<p>
+</a>
+<tr><td><a name="845415">
+8r007<p>
+</a><td><a name="845417">
+Read, write, execute (search) by others.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h3>
+</a><a name="845419">
+<h3> Modifying File Attributes</h3>
+</a><a name="845433">
+Only some of the fields may be changed by <em>wstat</em> calls. 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="845422">
+name<p>
+</a><td><a name="845424">
+The <em>name</em> can be changed by anyone with write permission in the parent directory.<p>
+</a>
+<tr><td><a name="845426">
+mode and mtime<p>
+</a><td><a name="845428">
+The <em>mode</em> and <em>mtime</em> can be changed by the owner or the group leader of the file's current group.<p>
+</a>
+<tr><td><a name="845430">
+gid<p>
+</a><td><a name="845432">
+The <em>gid</em> can be changed by the owner.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845436">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="850758">
+<a href="md_sys.htm#847453"><em>Limbo System Module</em></a><p>
+</a>
+<tr><td><a name="850760">
+<a href="md_sys5.htm#844780"><em>dirread - read directory</em></a><p>
+</a>
+<tr><td><a name="850762">
+<a href="md_sys9.htm#844990"><em>open, create - open/create a file for reading or writing</em></a><p>
+</a>
+<tr><td><a name="850764">
+<a href="proto9.htm#847231"><em>stat, wstat - inquire or change file attributes</em> in Chapter &#32;3</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="845450">
+<h2> Notes</h2>
+</a><a name="845451">
+The following behaviors apply when Inferno is hosted on Windows-based systems.<p>
+</a><a name="845452">
+<h3> FAT File system (Win95 and Windows-NT)</h3>
+</a><a name="845453">
+The values of <em>uid</em> and <em>gid</em> are <em>Everyone</em>.<p>
+</a><a name="845454">
+Files and directories always have read and execute permission. They cannot be changed. Files without write permission cannot be removed.<p>
+</a><a name="845455">
+<h3> NTFS File system (Windows-NT)</h3>
+</a><a name="845456">
+Permissions for read, write, and execute operate as described above.<p>
+</a><a name="845457">
+The <em>uid</em> attribute is supported.<p>
+</a><a name="845458">
+The <em>gid</em> attribute is interpreted always to mean the special group <em>InfernoGroup</em>, even if the underlying Windows system maintains other groups for the file. Special group <em>Everyone</em> is used to represent 'other' for permissions.<p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="md_sys15.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="md_sys17.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:35 -->
+
+</body>
+</html>

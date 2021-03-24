@@ -1,0 +1,271 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="852883">
+<center><h1> bind, mount, unmount - <a changing: name space; name space:changing>change name space</h1></center>
+</a><pre><tt>bind               [<em>option...</em> ] <em>source</em> <em>target
+</em>mount              [<em>option...</em> ] <em>addr</em> <em>target
+</em>unmount            [<em>source</em> ] <em>target
+</em></tt></pre></p><a name="844512">
+<h2> Description</h2>
+</a><a name="849183">
+The <em></a>bind</em> and <em></a>mount</em> commands modify the file name space of the current process and other processes in the same name space group (see <a href="md_sys10.htm#845070"><em>pctl - process control</em> in Chapter &#32;8</a>). For both calls, <em>target</em> is the name of an existing file or directory in the current name space.<p>
+</a><a name="847126">
+The effects of <em>bind</em> and <em>mount</em> can be undone with the <em>unmount</em> command. If two arguments are given to <em>unmount</em>, the effect is to undo a <em>bind</em> or <em>mount</em> with the same arguments. If only one argument is given, everything bound to or mounted upon <em>target</em> is unmounted.<p>
+</a><a name="847124">
+<h3> bind command</h3>
+</a><a name="844517">
+For <em>bind</em>, <em>source</em> is the name of an existing file or directory in the current name space. After a successful bind, the file name <em>target</em> is an alias for the object originally named by <em>source</em>; if the modification doesn't hide it, <em>source</em> will also still refer to its original file. The evaluation of <em>source</em> (see <a href="cmd27.htm#845662"><em>File Name Expansion</em></a> in <a href="cmd27.htm#853536"><em>sh - command line interface to the Inferno system</em></a>) happens at the time of the <em>bind</em>, not when the binding is later used.<p>
+</a><a name="844524">
+Both <em>target</em> and <em>source</em> must be of the same type: either both directories or both files.<p>
+</a><a name="844525">
+The <em>source</em> argument to <em>bind</em> can also be a two character sequence (<em>#c</em>) representing a <em>kernel device driver</em> (see <a href="md_misc.htm#845885"><em>Limbo Miscellaneous Modules</em> in Chapter &#32;15</a>). For example, the following command binds the console driver to <em>/dev</em>:<p>
+</a>   bind '#c' /dev
+
+<a name="851067">
+<h3> mount command</h3>
+</a><a name="851068">
+<a name="cmd101">The <em>mount</em> command must be used before binding to a remote computer,. In the <em>mount</em> command, <em>source</em> is a network address for the server machine in the form:<p>
+However, before the <em>mount</em> command is given you must setup your computer with the IP device driver to communicate over the network. For example:
+                <em>bind -a ‘#I’ /net</em><p>
+If you wish to have an authenticated connection to the remote computer, you must issue the getauthinfo command (see <a href="md_sec14.htm"><em>login, getauthinfo — get an Authinfo adt from a certificate authority</em>).</a> For example:
+                <em>getauthinfo net!machine</em><p>
+<h3>mount [option] addr target</h3> 
+In the mount command, addr is a network address for the server machine in the form:
+
+</a><a name="854646">
+<em>            net!destination!service</em>.<p>
+</a><a name="854523">
+<h4> net</h4>
+</a><a name="854889">
+The <em>net</em> component defines the network to be used (for example, <em>tcp</em>, <em>udp</em>). The special value <em>net</em> can be supplied to request the most expedient network. Currently, <em>net</em> is synonymous with <em>tcp</em>. <p>
+</a><a name="854890">
+<h4> machine</h4>
+</a><a name="854576">
+The machine component can be any of the following 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854597">
+numeric internet address<p>
+</a><td><a name="854599">
+Used verbatim.<p>
+</a>
+<tr><td><a name="854601">
+hostname<p>
+</a><td><a name="854603">
+Converted to network address, by issuing a <em>lib/cs</em> command prior to the mount command.
+<p>
+</a>
+<tr><td><a name="854605">
+symbolic server name of the form $server<p>
+</a><td><a name="854607">
+Converted to hostname by reference to the connection server database file<kbd> </kbd><em>/services/cs/db</em>. The hostname returned is then converted to an network address. No machine name is converted. Other conversions (for example, '<em>net</em>' and named services) are still done.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="854618">
+<h4> service</h4>
+</a><a name="854623">
+A service name or port number. The default is Styx  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854639">
+numeric port value<p>
+</a><td><a name="854641">
+Used verbatim.<p>
+</a>
+<tr><td><a name="854643">
+Service name<p>
+</a><td><a name="854645">
+Converted to a port number.<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="854519">
+<h2>    Options 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844539">
+-r<p>
+</a><td><a name="854653">
+Replace the <em>target</em> file by the source <em>file</em>. An evaluation of pathname <em>target</em> will be translated to the source file. If they are directories (for <em>mount</em>, this condition is true by definition), <em>target</em> becomes a <em>union</em> directory consisting of one directory (the <em>source</em> directory).<br>This is the default option for both <em>bind</em> and <em>mount</em><br>(Both source and target must be either files or directories)<p>
+</a>
+<tr><td><a name="844547">
+-b <p>
+</a><td><a name="844549">
+Add the <em>source</em> directory to the beginning of the union directory represented by the <em>target</em> directory<br>(Both source and target must be directories).<p>
+</a>
+<tr><td><a name="844555">
+-a<p>
+</a><td><a name="844557">
+Add the <em>source</em> directory to the end of the union directory represented by the <em>target</em> file.<br>(Both source and target must be directories.)<p>
+</a>
+<tr><td><a name="844563">
+-c<p>
+</a><td><a name="844565">
+This can be used in addition to any of the above to permit creation in a union directory. When a source file is created in a union directory, it is placed in the first element of the union that permits creation.<p>
+</a>
+<tr><td><a name="844575">
+-C <em>alg</em><p>
+</a><td><a name="854664">
+For mount only, specify the algorithm, <em>alg</em>, used in authentication. See <a href="devices.htm#"><em>ssl - secure sockets layer device</em> in Chapter &#32;2</a> for the supported algorithms. The default value is <em>none</em><kbd>.</kbd><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a><a name="844586">
+<h2> Caveat</h2>
+</a><a name="844587">
+The single quotes are required around the two character sequence representing a kernel device driver since <em>#</em> is a special character (start-of-comment) to the Inferno shell. The single quotes are needed only when using the shell, not when programming in the Limbo language.<p>
+</a><pre><tt>   sys-&gt;bind("#c", "/dev", flags); </pre></tt> 
+
+
+
+<a name="853699">
+<h2> Examples</h2>
+</a><a name="853700">
+The next few examples explore name space operations with the <em>bind</em> command.<p>
+</a><a name="853701">
+<h3> The bind command: replace</h3>
+</a><a name="853702">
+The syntax of the <em>bind</em> command is with the <em>-r</em> option is:<p>
+</a>    bind -r <em>source</em> <em>target
+</em>
+<a name="854374">
+This has the same results as the <em>bind</em> command without any options. <p>
+</a><a name="854431">
+The <em>source</em> and <em>target</em> arguments are assumed to be existing directories. A simple case of binding one directory to another is illustrated in <a href="cmd1.htm#853743">Figure &#32;5-1</a>. The sample configuration has two sub-trees <em>A</em> and <em>C</em> rooted (for convenience) in the common directory<em> E.</em><p>
+</a><a name="853743">
+<h4> Binding one directory to another<img src="cmda.gif"></h4>
+</a><a name="853744">
+Assuming the current directory is <em>E</em>, the command to bind directory<em> B</em> to<em> D </em>is:<p>
+</a>    bind A/B C/D
+
+<a name="854438">
+<em>    or</em><p>
+</a>    bind -r A/B C/D
+
+<a name="853747">
+Afterwards, an examination of the file tree (for example using the <em>ls</em> command) shows that directory <em>D</em> is a synonym for <em>B, as illustrated in <a href="cmd1.htm#853785">Figure &#32;5-2</a></em>. The name of the target directory is unchanged, but its contents are the same as those in the source directory. Accessing <em>fileB</em> by the path <em>A/B/fileB</em> remains valid.<p>
+</a><a name="853785">
+<h4> Accessing fileb by the path C/D/<img src="cmda1.gif"></h4>
+</a><a name="853786">
+The contents of directory <em>D</em> have been replaced with those of directory <em>B.</em><p>
+</a><a name="853787">
+<h3> The bind command: unions</h3>
+</a><a name="853788">
+When <em>bind</em> command is used with either the <em>-a</em><kbd> </kbd>or <em>-b</em> options the effect is not to replace the target but to create a union of the contents of the <em>source</em> and <em>target</em> at the <em>target</em> directory. (The difference between the options is not of immediate importance and will be discussed below.) Thus,<p>
+</a>    bind -b A/B C/D
+
+<a name="853791">
+results in a union of the contents of two directories, as illustrated in <a href="cmd1.htm#853833">Figure &#32;5-3</a>.<p>
+</a><a name="853833">
+<h4> Union of the contents of directories A/B and C/D <img src="cmda2.gif"></h4>
+</a><a name="853834">
+The <em>bind</em> operation can be repeated to create the union of several directories at <em>D</em>.<p>
+</a><a name="853835">
+The inverse operation to <em>bind</em> is <em>unmount</em>. If called with two arguments, the <kbd>unmount</kbd> command will remove the <em>source</em> directory named in the first argument from the <em>target</em> (union) directory named in the second argument. If only one argument is given, all bindings to the <em>target</em> (union) directory are removed.<p>
+</a><a name="853836">
+The choice of the <em>-a</em> or <em>-b</em> option is important only if the source and target directories have some files with identical names. This feature is explored in the scenarios below.<p>
+</a><a name="853837">
+In the first example, a series of commands creates a set of directories and files corresponding to the previous illustrations. Additionally, a file with a common name (<em>file_com</em>) but different contents is created in directories <em>B</em> and <em>D</em>.<p>
+</a><pre><tt>xxx$ mkdir A A/B C C/D
+xxx$ &gt;A/fileA;
+xxx$ &gt;C/fileC;
+xxx$ &gt;A/B/fileB
+xxx$ &gt;C/D/fileD
+xxx$ echo 'hello, world!' &gt; A/B/file_com
+xxx$ echo 'how are you?'  &gt; C/D/file_com </pre></tt>
+
+<a name="853846">
+As before, a union directory is created at <em>D </em>using bind with the <em>-b </em>option. A directory listing of that directory shows <em>two</em> entries for <em>file_com</em>; however, the pathname <em>C/D/file_com</em> leads to just one file. <p>
+</a><a name="853847">
+Since the source directory was bound 'before' (<em>-b</em>) that of the target, its file supersede those of the target. The <em>cat</em> command shows (by content) that the pathname <em>C/D/file_com</em> is resolved to the file corresponding to pathname <em>A/B/file_com</em>. <p>
+</a><pre><tt>xxx$ bind -b A/B C/D
+xxx$ ls -l C/D
+-rwxrwxrwx U 0 Everyone Everyone 0 Jan 21 16:10  C/D/fileB
+-rwxrwxrwx U 0 Everyone Everyone 0 Jan 21 16:10  C/D/fileD
+-rwxrwxrwx U 0 Everyone Everyone 14 Jan 21 16:10 C/D/file_com
+-rwxrwxrwx U 0 Everyone Everyone 13 Jan 21 16:10 C/D/file_com
+xxx$ cat C/D/file_com
+hello, world! </pre></tt>
+
+<a name="853859">
+When the binding is undone and redone with the <em>-a</em> ('after') option, the <em>cat</em> command shows that file originally in the directory has precedent when pathnames are resolved.<p>
+</a><pre><tt>xxx$ unmount C/D
+xxx$ bind -a A/B C/D
+xxx$ ls -l C/D
+-rwxrwxrwx U 0 Everyone Everyone 0 Jan 21 16:10 C/D/fileB
+-rwxrwxrwx U 0 Everyone Everyone 0 Jan 21 16:10 C/D/fileD
+-rwxrwxrwx U 0 Everyone Everyone 13 Jan 21 16:10 C/D/file_com
+-rwxrwxrwx U 0 Everyone Everyone 14 Jan 21 16:10 C/D/file_com
+xxx$ cat C/D/file_com
+how are you?
+xxx$  </pre></tt>
+
+</tt></pre></p><a name="851769">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="853909">
+<a href="cmd27.htm#853536"><em>sh - command line interface to the Inferno system</em></a><p>
+</a>
+<tr><td><a name="853911">
+<a href="md_sec4.htm#850801"><em>auth, readauthinfo, writeauthinfo - authenticate a connection</em> in Chapter &#32;9</a><p>
+</a>
+<tr><td><a name="853913">
+<a href="md_sys.htm#847453"><em>Limbo System Module</em> in Chapter &#32;8</a><p>
+</a>
+<tr><td><a name="853915">
+<a href="md_sys1.htm#844542"><em>bind, mount, unmount - change file name space</em> in Chapter &#32;8</a><p>
+</a>
+<tr><td><a name="853917">
+<a href="md_sys4.htm#844663"><em>dial, announce, export, listen - make network connections</em></a><p>
+</a>
+<tr><td><a name="853919">
+<a href="md_misc.htm#845885"><em>Limbo Miscellaneous Modules</em> in Chapter &#32;15</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd2.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>

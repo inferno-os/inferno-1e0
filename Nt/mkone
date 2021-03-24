@@ -1,0 +1,81 @@
+!include <win32.mak>
+
+BIN=		$(ROOT_DEVEL)\$(OBJDIR)\bin
+OFILES=		$(OFILES_C) $(OFILES_S) $(OFILES_RC)
+
+all:		$(TARG)
+
+$(TARG):	$(OFILES) $(LIBFILES)
+	$(LD) $(LDFLAGS) -out:$@ $(OFILES) $(LIBS) $(LDSYSLIBS)
+
+$(OFILES_C) \
+empty_c_guard:	$(HFILES)		# don't combine with following %.$O rules
+
+$(OFILES_C) \
+empty_c_guard:
+	$(CC) $(CFLAGS) /Fo$@ $(@F:.obj=.c)
+
+$(OFILES_S) \
+empty_s_guard:
+	$(AS) $(ASFLAGS) /Fo$@ /Tc $(@F:.obj=.s)
+
+$(OFILES_RC) \
+empty_rc_guard:
+	$(RC) $(RCFLAGS) $(@F:.res=.rc) 
+
+# assume y.tab.? files present in source tree
+#y.tab.h y.tab.c:	$(YFILES)
+#	$(YACC) $(YFLAGS) $(YFILES)
+
+install:	all\
+		$(BIN)\
+		$(BIN)\$(TARG)
+
+uninstall:	uninstall-std
+
+uninstall-std:
+	-$(DEL) $(DELFLAGS) $(BIN)\$(TARG)
+
+package:	package-std
+
+package-std:	all \
+		$(PREFIX_PKG)\$(SYSTARG) \
+		$(PREFIX_PKG)\$(SYSTARG)\$(OBJTYPE) \
+		$(PREFIX_PKG)\$(SYSTARG)\$(OBJTYPE)\bin \
+		$(PREFIX_PKG)\$(SYSTARG)\$(OBJTYPE)\bin\$(TARG)
+
+$(BIN)\$(TARG): $(TARG)
+	-$(DEL) $(DELFLAGS) $(BIN)\$(TARG)
+	copy $(TARG) $(BIN)\$(TARG)
+
+$(PREFIX_PKG)\$(SYSTARG)\$(OBJTYPE)\bin\$(TARG): $(TARG)
+	-$(DEL) $(DELFLAGS) $(PREFIX_PKG)\$(SYSTARG)\$(OBJTYPE)\bin\$(TARG)
+	copy $(TARG) $(PREFIX_PKG)\$(SYSTARG)\$(OBJTYPE)\bin\$(TARG)
+
+config:	
+
+nuke:	nuke-std
+
+nuke-std:
+	@rem -del /f/q  core y.debug y.output
+	-@for %%i in ( $(OFILES) ) do $(DEL) $(DELFLAGS) %%i
+	-$(DEL) $(DELFLAGS) $(TARG) 
+	-$(DEL) $(DELFLAGS) *.pdb 
+	-$(DEL) $(DELFLAGS) *.pdb 
+	-$(DEL) $(DELFLAGS) *.ilk
+
+clean:	clean-std
+
+clean-std:
+	@rem -del /q/f  core y.debug y.output
+	-@for %%i in ( $(OFILES) ) do $(DEL) $(DELFLAGS) %%i
+	-$(DEL) $(DELFLAGS) $(TARG) 
+	-$(DEL) $(DELFLAGS) *.pdb 
+	-$(DEL) $(DELFLAGS) *.pdb 
+	-$(DEL) $(DELFLAGS) *.ilk
+
+$(BIN) \
+$(PREFIX_PKG)\$(SYSTARG) \
+$(PREFIX_PKG)\$(SYSTARG)\$(OBJTYPE) \
+$(PREFIX_PKG)\$(SYSTARG)\$(OBJTYPE)\bin :
+	mkdir $@

@@ -1,0 +1,99 @@
+<html><head><title>Inferno<br>Devices</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices7.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a>
+<hr><br>
+ 
+<a name="844978">
+<center><h1> ssl - <a securing sockets layer device; sockets layer device>secure sockets layer device</h1></center>
+</a><pre><tt>bind '#D' /<em>&lt;n&gt;</em>/ssl
+
+/<em>&lt;n&gt;</em>/ssl/data
+/<em>&lt;n&gt;</em>/ssl/ctl
+/<em>&lt;n&gt;</em>/ssl/secretin
+/<em>&lt;n&gt;</em>/ssl/secretout
+</tt></pre></p><a name="844987">
+<h2> Description</h2>
+</a><a name="844989">
+The <em>ssl</em> device implements the link layer of the secure sockets layer defined by Netscape. Each binding of <em>#D</em> into the name space creates a new <em>ssl </em>device. Once associated with a network connection, the <em>ssl</em> device can be thought of as a filter for the connection. The <em>ssl</em> device can send data in the clear, digested or encrypted. In all cases, if an <em>ssl</em> device is associated with both ends of a connection, all messages are delimited. As long as reads always specify buffers that are of equal or greater lengths than the writes at the other end of the connection, one write will correspond to one read.<p>
+</a><a name="844990">
+Writing to <em>/&lt;n&gt;/ssl/ctl </em>controls the <em>ssl</em> device. The following control messages are possible: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844993">
+fd<kbd> </kbd><kbd>n</kbd><p>
+</a><td><a name="844996">
+Associate the network connection on file descriptor <em>n</em> with the <em>ssl</em> device.<p>
+</a>
+<tr><td><a name="844998">
+alg clear<p>
+</a><td><a name="845000">
+Allow data to pass in the clear with only message delimiters added. The device starts in this mode.<p>
+</a>
+<tr><td><a name="845002">
+alg sha<p>
+</a><td><a name="845004">
+Append a <em>sha</em> digest to each buffer written to<kbd> <br></kbd>/&lt;n&gt;/ssl/data. The digest covers the outgoing secret (written to <em>/&lt;n&gt;/ssl/secretout</em>), the message, and a message number which starts at 0 and increments by one each message. Messages read have their appended digests compared to a digest computed using the incoming secret (written to <em>/&lt;n&gt;/ssl/secretin</em>). If the comparison fails, so will the read.<p>
+</a>
+<tr><td><a name="845006">
+alg md5<p>
+</a><td><a name="845008">
+Like <em>sha</em> but using the <em>md5</em> message digest algorithm.<p>
+</a>
+<tr><td><a name="845010">
+alg rc4<p>
+</a><td><a name="845012">
+RC4 encrypt each message written to<em> /&lt;n&gt;/ssl/data</em> with the key written to<em> /&lt;n&gt;/ssl/secretout</em>.<p>
+</a>
+<tr><td><a name="845014">
+Decrypt<p>
+</a><td><a name="845016">
+Incoming messages with the key written to <br><em>/&lt;n&gt;/ssl/secretin</em>.<p>
+</a>
+<tr><td><a name="845018">
+alg descbc<p>
+</a><td><a name="845021">
+Available only by agreement in the US<p>
+</a>
+<tr><td><a name="845023">
+alg desecb<p>
+</a><td><a name="845025">
+Available only by agreement in the US<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="845026">
+Files<em> /&lt;n&gt;/ssl/secretin </em>and <em>/&lt;n&gt;/ssl/secretout</em> must be written before the digesting or encryption is turned on. If only one is written, they are both assumed to be the same.<p>
+</a><a name="845027">
+The mode may be changed at any time during a connection.<p>
+</a><a name="845028">
+<h2> See Also</h2>
+</a><a name="845029">
+B. Schneier, <em>Applied Cryptography</em>, 1996, J. Wiley &amp; Sons, Inc.<p>
+</a><a name="846181">
+<a href="md_sec7.htm#852227"><em>connect, secret - interface to the Secure Sockets Layer device</em> in Chapter &#32;9</a><p>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="devices7.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a>
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:54:10 -->
+
+</body>
+</html>

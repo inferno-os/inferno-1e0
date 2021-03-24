@@ -1,0 +1,132 @@
+<html><head><title>Inferno<br>Command Line Utilities</title></head>
+<body bgcolor=white>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+ 
+<a name="853178">
+<center><h1> chmod - <a changing: file mode, permissions>change file mode (permissions)</h1></center>
+</a><pre><tt>chmod <em>mode</em> <em>file...</em> 
+chmod [augo][+-=][rwx]	<em>file...
+</em></tt></pre></p><a name="844730">
+<h2> Description</h2>
+</a><a name="844731">
+The mode of each named file is changed according to <em>mode,</em> which may be an integer number in octal format or a symbolic change to the existing mode. <p>
+</a><a name="851423">
+A <em>mode</em> can be numerically constructed from the INCLUSIVE OR of the following VALUES: 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="844734">
+0400<p>
+</a><td><a name="844736">
+read by owner<p>
+</a>
+<tr><td><a name="844738">
+0200<p>
+</a><td><a name="844740">
+write by owner<p>
+</a>
+<tr><td><a name="844742">
+0100<p>
+</a><td><a name="844744">
+execute (search in directory) by owner<p>
+</a>
+<tr><td><a name="844746">
+0070<p>
+</a><td><a name="844748">
+read, write, execute (search) by group<p>
+</a>
+<tr><td><a name="844750">
+0007<p>
+</a><td><a name="844752">
+read, write, execute (search) by others<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844753">
+A symbolic <em>mode</em> has the form:<p>
+</a><a name="844754">
+<em>	[who] op permission</em><p>
+</a>
+<a name="844755">
+The <em>who</em> part is a combination of the letters <em>u</em> (for user's permissions), <em>g</em> (group) and <em>o</em> (other). The letter <em>a</em> stands for <em>ugo</em>. If <em>who</em> is omitted, the default is <em>a</em>.<p>
+</a><a name="844756">
+The<em> op</em> field can be:  
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="851432">
++ <p>
+</a><td><a name="851434">
+to add <em>permission</em> to the file's mode <p>
+</a>
+<tr><td><a name="851436">
+-<p>
+</a><td><a name="851438">
+to take away <em>permission</em><p>
+</a>
+<tr><td><a name="851440">
+=<p>
+</a><td><a name="851442">
+to assign <em>permission</em> absolutely <br>(all other bits will be reset)<p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+<p>
+</a><a name="844757">
+The<em> permission</em> field is any combination of the letters r (read), w (write), and x (execute).<p>
+</a><a name="851451">
+<h2> Caveats</h2>
+</a><ul><a name="851452">
+<li>The <em>#r</em> format for expressing integer values is not recognized.<p>
+</a><a name="851458">
+<li>The standard format for octal numbers (<em>8r...</em>) is not recognized.<p>
+</a></ul><a name="851453">
+<h2> Notes</h2>
+</a><a name="851457">
+See <a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter &#32;8</a> for interpretation of permissions on Windows-hosted systems.<p>
+</a><a name="850883">
+<h2> See Also 
+<Table Border="3">
+<caption></caption>
+<tr><td><a name="854248">
+<a href="cmd15.htm#853338"><em>ls - list contents of directory</em></a><p>
+</a>
+<tr><td><a name="854250">
+<a href="md_sys16.htm#845329"><em>stat, fstat, fwstat, wstat - get and put file status</em> in Chapter &#32;8</a><p>
+</a>
+
+</Table>
+
+<Table>
+<tr><td>
+</Table>
+</h2>
+</a>
+<hr><br>
+ 
+<a href="index.htm"><img src="Top.gif" alt="[Top]" align=bottom></a> <a href="cmd3.htm"><img src="Previous.gif" alt="[Prev]" align=bottom></a> <a href="cmd5.htm"><img src="Next.gif" alt="[Next]" align=bottom></a> 
+<hr><br>
+
+
+
+<address>
+<a href="mailto:infernosupport@lucent.com">infernosupport@lucent.com</a>
+</address>
+
+<i>Copyright &#169; 1996,Lucent Technologies, Inc.   All rights
+reserved.</i>
+
+
+<!-- Last updated: 02/08/97 11:48:18 -->
+
+</body>
+</html>
